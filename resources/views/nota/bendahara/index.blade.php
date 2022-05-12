@@ -22,7 +22,7 @@ div.slider {
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Daftar nota</div>
+                <div class="card-header">Daftar nota belanja</div>
 
                 <div class="card-body">
                 
