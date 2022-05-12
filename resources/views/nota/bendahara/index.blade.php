@@ -50,7 +50,7 @@ div.slider {
                         <form action="{{route('bendahara.upload')}}" method="POST" enctype="multipart/form-data">
                             {{csrf_field()}}
                             
-                                <label for="name" class="control-label"><b>Upload data dukung (nota pembelian/kwitansi)</b></label>
+                                <label for="name" class="control-label"><b>Upload data nota pembelian/kwitansi</b></label>
                                 <input type="file" name="file" class="form-control" id="file">
                             
                             <div class="mt-3">
