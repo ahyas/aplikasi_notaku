@@ -1,11 +1,13 @@
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 ## Petunjuk instalasi
-1. Tentukan folder yang akan digunakan
-2. Buka terminal jalankan perintah git clone https://github.com/ahyas/aplikasi_notaku.git
-3. Jika file .env belum ada jalankan cp .env.example .env untuk meng-copy file .env yang baru
-4. Jalankan composer install
-5. Selesai
+1. Buat database dan upload dari file database yang sudah ada.
+2. Tentukan folder yang akan digunakan untuk menaruh project.
+3. Buka terminal jalankan perintah git clone https://github.com/ahyas/aplikasi_notaku.git
+4. Jika file .env belum ada jalankan cp .env.example .env untuk meng-copy file .env yang baru.
+5. Edit informasi didalam .env file untuk database info (nama database, username, password).
+6. Jalankan composer install
+7. Selesai
 
 ## About Laravel
 
