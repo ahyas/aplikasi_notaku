@@ -50,7 +50,7 @@ div.slider {
                         <form action="{{route('bendahara.upload')}}" method="POST" enctype="multipart/form-data">
                             {{csrf_field()}}
                             
-                                <label for="name" class="control-label"><b>Upload data nota pembelian/kwitansi</b></label>
+                                <label for="name" class="control-label"><b>Upload nota pembelian/kwitansi</b></label>
                                 <input type="file" name="file" class="form-control" id="file">
                             
                             <div class="mt-3">
@@ -398,14 +398,14 @@ $(document).ready(function(){
         console.log($(this).data("file_spby"));
         $(".modalLihatSPBY").modal("show");
         var file_spby = $(this).data("file_spby");
-        document.getElementById("file_spby").src="../public/uploads/spby/"+file_spby;
+        document.getElementById("file_spby").src="public/uploads/spby/"+file_spby;
     });
 
     $("body").on("click","#lihat_kwitansi",function(){
         console.log($(this).data("file_kwitansi"));
         $(".modalLihatKwitansi").modal("show");
         var file_kwitansi = $(this).data("file_kwitansi");
-        document.getElementById("file_kwitansi").src="../public/uploads/kwitansi/"+file_kwitansi;
+        document.getElementById("file_kwitansi").src="public/uploads/kwitansi/"+file_kwitansi;
     });
 
     $("body").on("click",".reload",function(){
@@ -479,7 +479,7 @@ $("body").on("click","#upload_kwitansi",function(){
 
 $("body").on("click","#detail_nota",function(){
     let file = $(this).data("file");
-    document.getElementById("data_dukung").src="../public/uploads/"+file;
+    document.getElementById("data_dukung").src="public/uploads/"+file;
     let id_akun=$(this).data("id_akun");
     let id_coa=$(this).data("id_coa");
     let id_nota=$(this).data("id_nota");
