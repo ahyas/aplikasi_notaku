@@ -76,6 +76,12 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("transaksi/drpp/hapus_nota","drppController@hapus_nota")->name("transaksi.drpp.hapus_nota");
     Route::get("transaksi/drpp/simpan_drpp","drppController@simpan_drpp")->name("transaksi.drpp.simpan_drpp");
 
+    Route::get("transaksi/catat_sp2d", "sp2dController@index")->name("transaksi.sp2d.index");
+    Route::post("transaksi/catat_sp2d/read_xml", "sp2dController@read_xml")->name("transaksi.sp2d.read_xml");
+    Route::get("transaksi/catat_sp2d/show_transaksi","sp2dController@show_transaksi")->name("transaksi.sp2d.show_transaksi");
+    Route::get("transaksi/catat_sp2d/show_detail_transaksi", "sp2dController@show_detail_transaksi")->name("transaksi.sp2d.show_detail_transaksi");
+    Route::get("transaksi/catat_sp2d/{no_sp2d}/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
+
 });
 
 

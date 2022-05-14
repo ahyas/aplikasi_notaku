@@ -61,7 +61,7 @@
                     <table id="tb_daftar_coa" class="table display tb_daftar_coa" style="width:100%; ">
                         <thead>
                             <th style="width:200px">Nama COA</th>
-                            <th>Total transaksi</th>
+                            <th>Pengeluaran</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
                             <th width="20px">Action</th>  				
@@ -75,7 +75,7 @@
                             <th>No. SPBy</th>
                             <th>Deskripsi</th>
                             <th>Nominal</th>
-                            <th>Action</th>				
+                            			
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -181,11 +181,6 @@ $(document).ready(function(){
                     {data:"no_spby"},
                     {data:"deskripsi"},
                     {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                    {data:"id",
-                        mRender:function(data, type, full){
-                            return"<button class='btn btn-primary btn-sm' id='nota_pembelian' data-file='"+full["file"]+"'>Nota pembelian</button>";
-                        }
-                    }
                 ],
             });
     });

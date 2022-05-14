@@ -332,9 +332,9 @@ $(document).ready(function(){
   		},
         columns:[
             {
-                "className" :      'details-control',
-                "orderable" :      false,
-                "data"      :           null,
+                "className" :'details-control',
+                "orderable" :false,
+                "data"      :null,
                 "defaultContent": ''
             },
             {data:"tanggal"},
@@ -413,12 +413,6 @@ $(document).ready(function(){
     });
 
     function format ( d ) {
-
-        if(d.no_spby==null){
-            var a = "NULL";
-        }else{
-            var a = "Upload SPBy";
-        }
         // `d` is the original data object for the row
         return '<div class="slider">'+
         '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="">'+
@@ -435,7 +429,7 @@ $(document).ready(function(){
                 '<td></td>'+
             '</tr>'+
             '<tr>'+
-                '<td align="left" colspan="4" style="width:20px"><button class="btn btn-primary btn-sm" id="upload_spby" data-id_nota="'+d.id+'">'+a+'</button><button style="margin-left:10px" class="btn btn-primary btn-sm" id="upload_kwitansi" data-id_nota="'+d.id+'">Upload Kwitansi</button></td>'+
+                '<td align="left" colspan="4" style="width:20px"><button class="btn btn-primary btn-sm" id="upload_spby" data-id_nota="'+d.id+'">Upload SPBy</button><button style="margin-left:10px" class="btn btn-primary btn-sm" id="upload_kwitansi" data-id_nota="'+d.id+'">Upload Kwitansi</button></td>'+
             '</tr>'+       
         '</table>'+
         '</div>';
