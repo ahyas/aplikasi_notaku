@@ -37,7 +37,7 @@
             <div class="card">
                 <div class="card-header">Mencatat detail akun</div>
                 <div class="card-body">
-                    <form action="{{route('transaksi.sp2d.read_xml')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('transaksi.sp2d.read_excel')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input type="text" class="form-control no_sp2d">
                         <label><b>Upoad detail Akun (.xls)</b></label>

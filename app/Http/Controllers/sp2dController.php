@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use File;
 use DataTables;
+use Excel;
 
 class sp2dController extends Controller
 {
@@ -20,6 +21,7 @@ class sp2dController extends Controller
         return DataTables::of($table)->make(true);
     }
 
+    //membaca file sp2d format .xml
     public function read_xml(Request $request){
         $request->validate([
             'file' => 'required|mimes:xml|max:5000',
@@ -44,5 +46,32 @@ class sp2dController extends Controller
     public function detail_sp2d($no_sp2d){
         $table=DB::table("tb_test_detail_transaksi")->get();
         return DataTables::of($table)->make(true);
+    }
+
+    //membaca file detail akun format .xls
+    public function read_excel(Request $request){
+        $this->validate($request, [
+            'file_detail_akun'  => 'required|mimes:xls,xlsx'
+        ]);
+        
+        $path = $request->file('file_detail_akun')->getRealPath();
+      
+        $data = Excel::load($path)->get();
+      
+        if($data->count() > 0){
+            foreach($data->toArray() as $key => $value){
+                foreach($value as $row){
+                    $insert_data[] = array(
+                        'no_sp2d'  => $request["file_detail_akun"],
+                        'akun'   => $row['Akun'],
+                        'jumlah'   => $row['Jumlah'],
+                    );
+                }
+            }
+        }
+
+        DB::table('tb_test_detail_transaksi')->insert($insert_data);
+        return redirect()->back();
+    
     }
 }

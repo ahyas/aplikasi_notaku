@@ -81,7 +81,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("transaksi/catat_sp2d/show_transaksi","sp2dController@show_transaksi")->name("transaksi.sp2d.show_transaksi");
     Route::get("transaksi/catat_sp2d/show_detail_transaksi", "sp2dController@show_detail_transaksi")->name("transaksi.sp2d.show_detail_transaksi");
     Route::get("transaksi/catat_sp2d/{no_sp2d}/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
-
+    Route::post("transaksi/catat_sp2d/read_excel","sp2dController@read_excel")->name("transaksi.sp2d.read_excel");
 });
 
 
