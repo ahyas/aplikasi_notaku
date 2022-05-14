@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <form action="{{route('transaksi.sp2d.read_excel')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <input type="text" class="form-control no_sp2d">
+                        <input type="hidden" class="form-control no_sp2d" name="no_sp2d">
                         <label><b>Upoad detail Akun (.xls)</b></label>
                         <div class="input-group mb-3">
                             
@@ -51,12 +51,10 @@
                     </form>
 
                     <table class="table display table-striped tb_detail_sp2d" style="width:100%;">
-                        <thead>
-                            <th width="10px">No.</th>  				
-                            <th width="150px">Nomor SP2D</th>
-                            <th>Tanggal SP2D</th>
-                            <th style="text-align:right">Nilai(Rp)</th>
-                            <th>Action</th>
+                        <thead>  				
+                            <th width="50px">Akun</th>
+                            <th width="150px">Keterangan</th>
+                            <th>Jumlah</th>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -100,29 +98,22 @@
             $(".tb_detail_sp2d").DataTable().clear().destroy();
 
             let no_sp2d = $(this).data("no_sp2d");
+            console.log(no_sp2d);
             $(".no_sp2d").val(no_sp2d);
        
             $(".tb_detail_sp2d").DataTable({
-                ajax:"{{route('transaksi.sp2d.detail_sp2d',['no_sp2d'=>'"+no_sp2d+"'])}}",
-                serverside:false,
-                scrollY:"300px",
-                oLanguage: {
+                ajax        :"catat_sp2d/"+no_sp2d+"/detail_sp2d",
+                serverside  :false,
+                scrollY     :"300px",
+                searching:false,
+                paging:false,
+                oLanguage   : {
                     sLoadingRecords: '<img src="{{asset('public/loading_animation/ajax-loader.gif')}}">'
                 },
                 columns: [
-                    {data:"id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {data:"no_sp2d"},
-                    {data:"tanggal"},
-                    {data:"nilai", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                    {data:"id", 
-                        render:function(data, type, row){
-                            return"<button class='btn btn-primary btn-sm' data-id-transaksi='"+row["id"]+"'>Detail</button>";
-                        }
-                    }
+                    {data:"akun"},
+                    {data:"nama_akun"},
+                    {data:"jumlah", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 ]
             });
          });
