@@ -47,10 +47,10 @@ class sp2dController extends Controller
 
     public function detail_sp2d($no_sp2d){
         $table=DB::table("tb_test_detail_transaksi")
-        ->select("tb_akun.keterangan as nama_akun","tb_test_detail_transaksi.akun","tb_test_detail_transaksi.jumlah")
+        ->select("tb_akun.keterangan as nama_akun","tb_test_detail_transaksi.akun","tb_test_detail_transaksi.jenis_akun","tb_test_detail_transaksi.jumlah")
         ->leftjoin("tb_akun", "tb_test_detail_transaksi.akun","=","tb_akun.id_akun")
         ->where("no_sp2d",$no_sp2d)
-        ->orderBy("jumlah", "ASC")
+        ->orderBy("jumlah", "DESC")
         ->get();
         return DataTables::of($table)->make(true);
     }
@@ -66,7 +66,7 @@ class sp2dController extends Controller
         Excel::import(new DetailAkunImport($request["no_sp2d"]), $file);
 
         $result = DB::table("tb_test_detail_transaksi")->where("no_sp2d", $request["no_sp2d"])->get();
-        DB::table("tb_test_detail_transaksi")->whereNull("akun")->orWhere("jumlah","<",0)->delete();
+        DB::table("tb_test_detail_transaksi")->whereNull("akun")->delete();
       
         return redirect()->back();
     

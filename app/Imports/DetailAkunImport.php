@@ -24,6 +24,7 @@ class DetailAkunImport implements ToModel, WithHeadingRow
         return new Akun([
             'no_sp2d' => $this->no_sp2d,
             'akun'     => $row['akun'],
+            'jenis_akun' => $row['jenis'],
             'jumlah'    => $row['jumlah'],
         ]);
     }

@@ -12,5 +12,5 @@ class Akun extends Model
      * @var string
      */
     protected $table = 'tb_test_detail_transaksi';
-    protected $fillable = ['no_sp2d','akun','jumlah'];
+    protected $fillable = ['no_sp2d','akun','jenis_akun','jumlah'];
 }

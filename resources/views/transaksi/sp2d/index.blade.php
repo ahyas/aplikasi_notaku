@@ -37,6 +37,7 @@
             <div class="card">
                 <div class="card-header">Mencatat detail akun</div>
                 <div class="card-body">
+                <div id="myDIV">
                     <form action="{{route('transaksi.sp2d.read_excel')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input type="hidden" class="form-control no_sp2d" name="no_sp2d">
@@ -49,17 +50,25 @@
                             </div>
                         </div>
                     </form>
-
+                </div>
                     <table class="table display table-striped tb_detail_sp2d" style="width:100%;">
                         <thead>  				
                             <th width="50px">Akun</th>
-                            <th width="150px">Keterangan</th>
-                            <th>Jumlah</th>
+                            <th >Keterangan</th>
+                            <th >Jenis</th>
+                            <th width="80px" style="text-align:right">Jumlah</th>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" style="text-align:right">Total:</th>
+                                <th style="text-align:right"></th>
+                            </tr>
+                        </tfoot>
+
                     </table>
-                    <button type="button" class="btn btn-primary btn-lg btn-block btn-sm">Simpan</button>
-                    <button type="button" class="btn btn-danger btn-lg btn-block btn-sm">Clear</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block btn-sm" disabled="true" style="margin-top:15px">Simpan</button>
+                    <button type="button" class="btn btn-danger btn-lg btn-block btn-sm" disabled="true">Clear</button>
                 </div>
             </div>
         </div>
@@ -70,6 +79,10 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
+
+        document.getElementById("myDIV").style.display="none";
+        tb_detail();
+
         $(".tb_keranjang_sp2d").DataTable({
             ajax:"{{route('transaksi.sp2d.show_transaksi')}}",
             serverside:false,
@@ -94,29 +107,68 @@
             ]
         });
 
-        $("body").on("click",".detail_sp2d", function(){
-            $(".tb_detail_sp2d").DataTable().clear().destroy();
-
-            let no_sp2d = $(this).data("no_sp2d");
-            console.log(no_sp2d);
-            $(".no_sp2d").val(no_sp2d);
-       
-            $(".tb_detail_sp2d").DataTable({
-                ajax        :"catat_sp2d/"+no_sp2d+"/detail_sp2d",
+        function tb_detail(no_sp2d){
+            var dt = $(".tb_detail_sp2d").DataTable({
+                ajax:{
+                    url:"catat_sp2d/"+no_sp2d+"/detail_sp2d",
+                    type:"GET",
+                },
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, '' ).display;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+        
+                    // Total over all pages
+                    total = api
+                        .column(3)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+        
+                    // Total over this page
+                    pageTotal = api
+                        .column(3, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+        
+                    // Update footer
+                    $(api.column(3).footer()).html(numFormat(total));
+                },
                 serverside  :false,
-                scrollY     :"300px",
-                searching:false,
-                paging:false,
+                searching :false,
+                paging :false,
+                scrollY:"300px",
+                ordering:false,
                 oLanguage   : {
                     sLoadingRecords: '<img src="{{asset('public/loading_animation/ajax-loader.gif')}}">'
                 },
                 columns: [
                     {data:"akun"},
                     {data:"nama_akun"},
+                    {data:"jenis_akun"},
                     {data:"jumlah", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 ]
             });
-         });
+        }
+
+        $("body").on("click",".detail_sp2d", function(){
+            document.getElementById("myDIV").style.display="block";
+
+            $(".tb_detail_sp2d").DataTable().clear().destroy();
+
+            let no_sp2d = $(this).data("no_sp2d");
+            console.log(no_sp2d);
+            $(".no_sp2d").val(no_sp2d);
+            
+            tb_detail(no_sp2d);
+            
+         });        
 
     });
 </script>
