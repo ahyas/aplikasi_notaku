@@ -7,9 +7,9 @@
             <div class="card">
                 <div class="card-header">Mencatat SP2D</div>
                 <div class="card-body">
-                    <form action="{{route('transaksi.sp2d.read_xml')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('transaksi.sp2d.upload_daftar_sp2d')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <label><b>Upoad SP2D (.xml)</b></label>
+                        <label><b>Upoad SP2D (.xls)</b></label>
                         <div class="input-group mb-3">
                             
                         <input type="file" name="file_daftar_sp2d" class="form-control" id="file" placeholder="Recipient's username">
@@ -40,7 +40,7 @@
                
                 <div id="myDIV">
                 
-                    <form action="{{route('transaksi.sp2d.read_excel')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('transaksi.sp2d.upload_daftar_akun')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input type="text" class="form-control no_sp2d" name="no_sp2d" id="no_sp2d" readonly>
                         

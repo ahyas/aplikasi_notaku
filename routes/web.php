@@ -77,11 +77,11 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("transaksi/drpp/simpan_drpp","drppController@simpan_drpp")->name("transaksi.drpp.simpan_drpp");
 
     Route::get("transaksi/catat_sp2d", "sp2dController@index")->name("transaksi.sp2d.index");
-    Route::post("transaksi/catat_sp2d/read_xml", "sp2dController@read_xml")->name("transaksi.sp2d.read_xml");
+    Route::post("transaksi/catat_sp2d/upload_daftar_sp2d", "sp2dController@upload_daftar_sp2d")->name("transaksi.sp2d.upload_daftar_sp2d");
     Route::get("transaksi/catat_sp2d/show_transaksi","sp2dController@show_transaksi")->name("transaksi.sp2d.show_transaksi");
     Route::get("transaksi/catat_sp2d/show_detail_transaksi", "sp2dController@show_detail_transaksi")->name("transaksi.sp2d.show_detail_transaksi");
     Route::get("transaksi/catat_sp2d/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
-    Route::post("transaksi/catat_sp2d/read_excel","sp2dController@read_excel")->name("transaksi.sp2d.read_excel");
+    Route::post("transaksi/catat_sp2d/upload_daftar_akun","sp2dController@upload_daftar_akun")->name("transaksi.sp2d.upload_daftar_akun");
     Route::get("transaksi/catat_sp2d/clear","sp2dController@clear")->name("transaksi.sp2d.clear");
     Route::get("transaksi/catat_sp2d/simpan","sp2dController@simpan")->name("transaksi.sp2d.simpan");
     Route::get("transaksi/catat_sp2d/edit","sp2dController@edit")->name("transaksi.sp2d.edit");

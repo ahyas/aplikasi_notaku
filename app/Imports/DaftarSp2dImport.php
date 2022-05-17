@@ -21,7 +21,7 @@ class DaftarSp2dImport implements ToModel, WithHeadingRow
     {
         //mencegah duplikat data saat menginput ke database
         Sp2d::insertOrIgnore([
-            'no_sp2d'       => $row['Nomor SP2D'],
+            'no_sp2d'       => str_replace(' ', '', $row['Nomor SP2D']), //remove spaces
             'tanggal'       => $row['Tanggal SP2D'],
             'nilai'         => $row['Nilai SP2D'],
             'jenis_spm'     => $row['Jenis SPM'],

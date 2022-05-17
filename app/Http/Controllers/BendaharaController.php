@@ -48,7 +48,7 @@ class BendaharaController extends Controller
             "created_at"=>$timestamp,
             "updated_at"=>$timestamp,
         ]);
-        return back()->with('success','You have successfully upload file.')->with('file',$fileName);
+        return back()->with('success','File nota '.$fileName.' berhasil di upload');
     }
 
     public function upload_spby(Request $request){
@@ -68,7 +68,7 @@ class BendaharaController extends Controller
             "file_spby"=>$fileName,
         ]);
 
-        return back()->with('success','Dokumen SPBy berhasil diupload.')->with('file',$fileName);
+        return back()->with('success','File SPBy '.$fileName.' berhasil diupload.');
     }
 
     public function upload_kwitansi(Request $request){
@@ -87,7 +87,7 @@ class BendaharaController extends Controller
             "file_kwitansi"=>$fileName,
         ]);
         
-        return back()->with('success','Dokumen kwitansi berhasil diupload.')->with('file',$fileName);
+        return back()->with('success','File kwitansi '.$fileName.' berhasil diupload.')->with('file',$fileName);
     }
 
     public function getCOA($id_akun){

@@ -29,8 +29,10 @@
                 <div id="template"></div>
                     <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
                         <thead>  
-                            <th>No. SPBy</th>				
-                            <th>Deskripsi</th>
+                            <th style="width:100px">No. SPBy</th>
+                            <th style="width:50px">Akun</th>      
+                            <th style="width:250"></th>                      				
+                            <th style="width:300px">Deskripsi</th>
                             <th>Nilai</th>
                             <th>Action</th>
                         </thead>
@@ -122,6 +124,8 @@ $(document).ready(function(){
             paging:false,
             columns:[
                 {data:"no_spby"},
+                {data:"id_akun"},
+                {data:"nama_akun"},
                 {data:"deskripsi"},
                 {data:"nominal", render: $.fn.DataTable.render.number(',', '.', 2, ''), className:"dt-body-right"},
                 {data:"id",

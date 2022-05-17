@@ -25,7 +25,7 @@ class sp2dController extends Controller
     }
 
     //membaca file sp2d format .xls
-    public function read_xml(Request $request){
+    public function upload_daftar_sp2d(Request $request){
         $file = $request->file('file_daftar_sp2d');
         Excel::import(new DaftarSp2dImport, $file);
        // menghapus data kosong yang tidak dibutuhkan
@@ -48,7 +48,7 @@ class sp2dController extends Controller
     }
 
     //membaca file detail akun format .xls
-    public function read_excel(Request $request){
+    public function upload_daftar_akun(Request $request){
         $this->validate($request, [
             'file_detail_akun'  => 'required|mimes:xls,xlsx'
         ]);
@@ -76,7 +76,7 @@ class sp2dController extends Controller
         ->update([
             "status"=>1
         ]);
-        return response()->json($no_sp2d);
+        return response()->json();
     }
 
     public function edit(Request $request){

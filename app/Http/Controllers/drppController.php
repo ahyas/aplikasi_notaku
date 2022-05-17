@@ -34,7 +34,7 @@ class drppController extends Controller
 
         $table=DB::table("tb_nota")
         ->where("no_drpp",$no_drpp)
-        ->select("tb_nota.id","tb_nota.no_spby","tb_nota.id_akun","tb_nota.id_akun","tb_coa.keterangan AS coa","tb_nota.deskripsi","tb_nota.nominal")
+        ->select("tb_nota.id","tb_nota.no_spby","tb_nota.id_akun","tb_coa.keterangan AS coa","tb_nota.deskripsi","tb_nota.nominal")
         ->leftJoin("tb_coa","tb_nota.id_coa","=","tb_coa.id_coa")
         ->get();
 
