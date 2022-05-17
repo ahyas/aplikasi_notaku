@@ -22,10 +22,10 @@ class DetailAkunImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Akun([
-            'no_sp2d' => $this->no_sp2d,
-            'akun'     => $row['akun'],
-            'jenis_akun' => $row['jenis'],
-            'jumlah'    => $row['jumlah'],
+            'no_sp2d'       => $this->no_sp2d,
+            'akun'          => $row['akun'],
+            'jenis_akun'    => $row['jenis'],
+            'jumlah'        => $row['jumlah'],
         ]);
     }
 

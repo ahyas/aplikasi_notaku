@@ -80,8 +80,13 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post("transaksi/catat_sp2d/read_xml", "sp2dController@read_xml")->name("transaksi.sp2d.read_xml");
     Route::get("transaksi/catat_sp2d/show_transaksi","sp2dController@show_transaksi")->name("transaksi.sp2d.show_transaksi");
     Route::get("transaksi/catat_sp2d/show_detail_transaksi", "sp2dController@show_detail_transaksi")->name("transaksi.sp2d.show_detail_transaksi");
-    Route::get("transaksi/catat_sp2d/{no_sp2d}/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
+    Route::get("transaksi/catat_sp2d/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
     Route::post("transaksi/catat_sp2d/read_excel","sp2dController@read_excel")->name("transaksi.sp2d.read_excel");
+    Route::get("transaksi/catat_sp2d/clear","sp2dController@clear")->name("transaksi.sp2d.clear");
+    Route::get("transaksi/catat_sp2d/simpan","sp2dController@simpan")->name("transaksi.sp2d.simpan");
+    Route::get("transaksi/catat_sp2d/edit","sp2dController@edit")->name("transaksi.sp2d.edit");
+    Route::post("transaksi/catat_sp2d/update", "sp2dController@update")->name("transaksi.sp2d.update");
+    Route::get("transaksi/catat_sp2d/{no_sp2d}/delete","sp2dController@delete");
 });
 
 

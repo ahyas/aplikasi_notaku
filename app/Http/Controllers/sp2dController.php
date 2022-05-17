@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\DetailAkunImport;
+use App\Imports\DaftarSp2dImport;
 use App\Akun;
 use DB;
 use File;
@@ -23,35 +24,26 @@ class sp2dController extends Controller
         return DataTables::of($table)->make(true);
     }
 
-    //membaca file sp2d format .xml
+    //membaca file sp2d format .xls
     public function read_xml(Request $request){
-        $request->validate([
-            'file' => 'required|mimes:xml|max:5000',
-        ]);
-        $fileName = time().'.'.$request->file->extension();
-        $request->file->move(public_path('uploads/sp2d'), $fileName);
-
-        $xmlString = file_get_contents(public_path('uploads/sp2d/'.$fileName));
-        $xmlObject = simplexml_load_string($xmlString);
-        
-        foreach ($xmlObject as $row) {
-            DB::unprepared("INSERT INTO tb_test_transaksi (no_sp2d, tanggal, nilai)
-            SELECT * FROM (SELECT '$row->no_sp2d', '$row->tanggal_sp2d', '$row->nilai_sp2d') AS tmp
-            WHERE NOT EXISTS (
-                SELECT no_sp2d FROM tb_test_transaksi WHERE no_sp2d = $row->no_sp2d
-            ) LIMIT 1;");
-        }
-
+        $file = $request->file('file_daftar_sp2d');
+        Excel::import(new DaftarSp2dImport, $file);
+       // menghapus data kosong yang tidak dibutuhkan
+        DB::table("tb_test_transaksi")->whereNull("jenis_spm")->delete();
+        //menghapus data jenis spm GUP
+        DB::table("tb_test_transaksi")->where("jenis_spm","GUP")->orWhere("jenis_spm","UP")->delete();
         return redirect()->back();
     }
 
-    public function detail_sp2d($no_sp2d){
+    public function detail_sp2d(Request $request){
         $table=DB::table("tb_test_detail_transaksi")
-        ->select("tb_akun.keterangan as nama_akun","tb_test_detail_transaksi.akun","tb_test_detail_transaksi.jenis_akun","tb_test_detail_transaksi.jumlah")
+        ->select("tb_test_detail_transaksi.id","tb_test_detail_transaksi.no_sp2d","tb_akun.keterangan as nama_akun","tb_test_detail_transaksi.akun","tb_test_detail_transaksi.jenis_akun","tb_test_detail_transaksi.jumlah","tb_potongan.keterangan as nama_potongan")
         ->leftjoin("tb_akun", "tb_test_detail_transaksi.akun","=","tb_akun.id_akun")
-        ->where("no_sp2d",$no_sp2d)
-        ->orderBy("jumlah", "DESC")
+        ->leftjoin("tb_potongan", "tb_test_detail_transaksi.akun","=","tb_potongan.akun")
+        ->where("tb_test_detail_transaksi.no_sp2d", $request->no_sp2d)
+        ->orderBy("tb_test_detail_transaksi.jumlah", "DESC")
         ->get();
+
         return DataTables::of($table)->make(true);
     }
 
@@ -70,5 +62,57 @@ class sp2dController extends Controller
       
         return redirect()->back();
     
+    }
+
+    public function clear(Request $request){
+        DB::table("tb_test_detail_transaksi")->where("no_sp2d",$request->no_sp2d)->delete();
+        return response()->json();
+    }
+
+    public function simpan(Request $request){
+        $no_sp2d = $request["no_sp2d"];
+        DB::table("tb_test_transaksi")
+        ->where("no_sp2d", $no_sp2d)
+        ->update([
+            "status"=>1
+        ]);
+        return response()->json($no_sp2d);
+    }
+
+    public function edit(Request $request){
+        $table=DB::table("tb_test_detail_transaksi")
+        ->where("id", $request->id_detail_transaksi)
+        ->first();
+
+        $parent_akun = substr($request->parent_akun, 0, 6);
+
+        $daftar_akun=DB::table("tb_akun")
+        ->where("id_akun", "like", $parent_akun."%")
+        ->get();
+
+        return response()->json(["table"=>$table,"daftar_akun"=>$daftar_akun,"parent_akun"=>$parent_akun]);
+    }
+
+    public function update(Request $request){
+        DB::table("tb_test_detail_transaksi")
+        ->where("id", $request->id_detail_transaksi)
+        ->update([
+            "akun"=>$request->id_akun
+        ]);
+
+        return response()->json();
+    }
+
+    public function delete($no_sp2d){
+        DB::table("tb_test_detail_transaksi")
+        ->where("no_sp2d",$no_sp2d)
+        ->delete();
+
+        DB::table("tb_test_transaksi")
+        ->where("no_sp2d",$no_sp2d)
+        ->delete();
+
+        return response()->json();
+
     }
 }
