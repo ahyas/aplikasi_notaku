@@ -69,6 +69,10 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("laporan/gup/list_gup","LaporanGUPController@list_gup")->name("laporan_gup.list_gup"); 
     Route::get("laporan/gup/list_nota","LaporanGUPController@list_nota")->name("laporan_gup.list_nota");
 
+    Route::get("laporan/sp2d", "LaporanSP2DController@index")->name("laporan_sp2d.index");
+    Route::get("laporan/sp2d/show_daftar_sp2d", "LaporanSP2DController@show_daftar_sp2d")->name("laporan_sp2d.show_daftar_sp2d");
+    Route::get("laporan/sp2d/detail_sp2d","LaporanSP2DController@show_daftar_akun")->name("laporan_sp2d.detail_sp2d");
+
     Route::get("transaksi/drpp","drppController@index")->name("transaksi.drpp.index");
     Route::get("transaksi/drpp/show_list","drppController@show_list")->name("transaksi.drpp.show_list");
     Route::get("transaksi/drpp/daftar_nota","drppController@daftar_nota")->name("transaksi.drpp.daftar_nota");

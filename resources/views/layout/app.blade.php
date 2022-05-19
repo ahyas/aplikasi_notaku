@@ -70,7 +70,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#fafafa; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
                                 <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan.rekap_akun')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Rekap per akun</a>
                                 <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan_gup.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar GUP</a>
-                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan_gup.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar SP2D</a>
+                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan_sp2d.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar SP2D</a>
 
                             </div>
                             

@@ -7,32 +7,13 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Daftar Transaksi Akun</div>
-
                 <div class="card-body">
-                
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success alert-block">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>{{ $message }}</strong>
-                </div>
-                @endif
-        
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>Whoops!</strong> There were some problems with your input.
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                     <table id="tb_akun" class="table display tb_akun" style="width:100%; ">
-                        <thead>  				
+                        <thead>
+                            <th style="width:10px">No.</th>  				
                             <th style="font-weight:bold">ID Akun</th>
                             <th>Akun</th>
+                            <th>jenis akun</th>
                             <th>Total transaksi</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
@@ -75,7 +56,6 @@
                             <th>No. SPBy</th>
                             <th>Deskripsi</th>
                             <th>Nominal</th>
-                            			
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -119,8 +99,14 @@ $(document).ready(function(){
         paginate:false,
         processing:false,
         columns:[
+            {data:"id_akun",
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
             {data:"id_akun"},
             {data:"nama_akun"},
+            {data:"keterangan_akun"},
             {data:"total_nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"pagu_akun", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"realisasi_akun", className: 'dt-body-left', render: $.fn.DataTable.render.number(',', '.', 2, ''),
@@ -129,15 +115,19 @@ $(document).ready(function(){
                 }
             },
             {data:"id_akun",
-                mRender:function(data){
-                    return"<button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="+data+">Detail</button>";
+                mRender:function(data, type, full){
+                    if(full["jenis_akun"]==2 || full["jenis_akun"]==3 || full["jenis_akun"]==4){
+                        return"<button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="+data+">Detail</button>";
+                    }else{
+                        return"<button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="+data+" disabled>Detail</button>";
+                    }
                 }
             }
         ]
     });
 
     $("body").on("click","#detail_akun",function(){
-        console.log($(this).data("id_akun"));
+       
         let id_akun = $(this).data("id_akun");
             $(".modalDetail").modal("show");
             $("#tb_daftar_subcoa").DataTable().clear().destroy();

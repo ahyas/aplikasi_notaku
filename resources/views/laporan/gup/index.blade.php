@@ -30,6 +30,7 @@
                     <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
                         <thead>  
                             <th style="width:100px">No. SPBy</th>
+                            <th style="width:80px">Tanggal</th>                                                        
                             <th style="width:50px">Akun</th>      
                             <th style="width:250"></th>                      				
                             <th style="width:300px">Deskripsi</th>
@@ -41,7 +42,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -105,7 +105,7 @@ $(document).ready(function(){
         columns     :[
             {data:"no_drpp"},
             {data:"tgl"},
-            {data:"total", render: $.fn.DataTable.render.number(',', '.', 2, '')},
+            {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"no_drpp",
                 mRender:function(data){
                     return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button>";
@@ -124,13 +124,14 @@ $(document).ready(function(){
             paging:false,
             columns:[
                 {data:"no_spby"},
+                {data:"tanggal"},
                 {data:"id_akun"},
                 {data:"nama_akun"},
                 {data:"deskripsi"},
                 {data:"nominal", render: $.fn.DataTable.render.number(',', '.', 2, ''), className:"dt-body-right"},
                 {data:"id",
                     mRender:function(data, type, full){
-                        return"<button class='btn btn-primary btn-sm' id='nota_pembelian' data-id_nota='"+data+"' data-file='"+full["file"]+"'>Nota pembelian</button>";
+                        return"<button class='btn btn-primary btn-sm' id='nota_pembelian' data-id_nota='"+data+"' data-file='"+full["file"]+"'>Nota</button>";
                     }
                 }
             ]            

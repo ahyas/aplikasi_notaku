@@ -23,7 +23,7 @@ class LaporanGUPController extends Controller
     public function list_nota(Request $request){
         $table=DB::table("tb_nota")
         ->where("tb_nota.no_drpp",$request['no_drpp'])
-        ->select("tb_nota.file","tb_nota.no_spby", "tb_nota.id_akun","tb_nota.deskripsi","tb_nota.nominal","tb_nota.id","tb_akun.keterangan AS nama_akun")
+        ->select(DB::raw("DATE_FORMAT(tb_nota.updated_at, '%d-%m-%Y') as tanggal"),"tb_nota.file","tb_nota.no_spby", "tb_nota.id_akun","tb_nota.deskripsi","tb_nota.nominal","tb_nota.id","tb_akun.keterangan AS nama_akun")
         ->leftJoin("tb_akun", "tb_nota.id_akun","=","tb_akun.id_akun")
         ->get();
 
