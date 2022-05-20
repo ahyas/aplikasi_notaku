@@ -8,6 +8,7 @@
             <div class="card">
                 <div class="card-header">Daftar Transaksi Akun</div>
                 <div class="card-body">
+                    <button class="btn btn-primary btn-sm cetak_laporan">Print</button>
                     <table id="tb_akun" class="table display tb_akun" style="width:100%; ">
                         <thead>
                             <th style="width:10px">No.</th>  				
@@ -91,8 +92,10 @@
 @push('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
+    $("body").on("click",".cetak_laporan",function(){
+        window.open("rekap_akun/print");
+    });
     
-
     $("#tb_akun").DataTable({
         ajax:"{{route('laporan.rekap_akun.show_data')}}",
         serverside:true,

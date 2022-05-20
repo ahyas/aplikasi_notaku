@@ -60,6 +60,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post("mapping/akun/update_akun","MappingController@update_akun")->name("mapping.akun.update_akun");
 
     Route::get("laporan/rekap_akun","LaporanController@index")->name("laporan.rekap_akun");
+    Route::get("laporan/rekap_akun/print","LaporanController@print")->name("laporan.rekap_akun.print");
     Route::get("laporan/rekap_akun/show_data","LaporanController@show_data")->name("laporan.rekap_akun.show_data");
     Route::get("laporan/rekap_akun/{id_akun}/daftar_coa","LaporanController@daftar_coa")->name("laporan.rekap_akun.daftar_coa");
     Route::get("laporan/rekap_akun/{id_akun}/transaksi_coa","LaporanController@transaksi_coa")->name("laporan.rekap_akun.transaksi_coa");

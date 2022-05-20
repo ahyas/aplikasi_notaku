@@ -78,6 +78,7 @@
         $(".tb_daftar_sp2d").DataTable({
             ajax:"{{route('laporan_sp2d.show_daftar_sp2d')}}",
             serverside:false,
+            scrollY:"500px",
             columns:[
                 {data:"no_sp2d",
                         render: function (data, type, row, meta) {

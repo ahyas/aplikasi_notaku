@@ -13,6 +13,7 @@ class LaporanController extends Controller
         
         return view("laporan/rekap_akun/index");
     }
+
     public function show_data(){
         $tb_transaksi_nota=DB::table("tb_nota")
         ->select("tb_jenis_akun.keterangan as keterangan_akun", "tb_akun.jenis_akun","tb_akun.pagu AS pagu_akun","tb_akun.id_akun AS id_akun","tb_akun.keterangan AS nama_akun", DB::raw("SUM(tb_nota.nominal) as total_nominal"), DB::raw("((SUM(tb_nota.nominal)/tb_akun.pagu)*100) AS realisasi_akun"))
@@ -24,6 +25,7 @@ class LaporanController extends Controller
         //menggabungkan 2 tabel menjadi satu
         $tb_transaksi_akun = DB::table("tb_test_detail_transaksi")
         ->select("tb_jenis_akun.keterangan as keterangan_akun","tb_akun.pagu as jenis_akun", "tb_akun.pagu as pagu_akun","tb_akun.id_akun AS id_akun", "tb_akun.keterangan as nama_akun", DB::raw("SUM(tb_test_detail_transaksi.jumlah) as total_nominal"), DB::raw("SUM(tb_test_detail_transaksi.jumlah/tb_akun.pagu) as realisasi_akun"))
+        ->join("tb_test_transaksi","tb_test_detail_transaksi.no_sp2d","=","tb_test_transaksi.no_sp2d")
         ->join("tb_akun","tb_test_detail_transaksi.akun","=","tb_akun.id_akun")
         ->join("tb_jenis_akun","tb_akun.jenis_akun","=","tb_jenis_akun.id")
         ->groupBy("tb_test_detail_transaksi.akun")
@@ -31,6 +33,33 @@ class LaporanController extends Controller
         ->get();
 
         return DataTables::of($tb_transaksi_akun)->make(true);
+    }
+
+    public function print(){
+        $tb_transaksi_nota=DB::table("tb_nota")
+        ->select(DB::raw('SUBSTR(tb_nota.created_at, 5,1) as num_bulan'),"tb_jenis_akun.keterangan as keterangan_akun", "tb_akun.jenis_akun","tb_akun.pagu AS pagu_akun","tb_akun.id_akun AS id_akun","tb_akun.keterangan AS nama_akun", DB::raw("SUM(tb_nota.nominal) as total_nominal"), DB::raw("((SUM(tb_nota.nominal)/tb_akun.pagu)*100) AS realisasi_akun"))
+        ->whereNotNull("tb_nota.no_drpp")
+        ->join("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
+        ->join("tb_jenis_akun","tb_akun.jenis_akun","=","tb_jenis_akun.id")
+        ->groupBy("tb_akun.jenis_akun","tb_akun.pagu","tb_nota.id_akun", "tb_akun.id_akun","tb_akun.keterangan");
+
+        //menggabungkan 2 tabel menjadi satu
+        $tb_transaksi_akun = DB::table("tb_test_detail_transaksi")
+        ->select(DB::raw('SUBSTR(tb_test_transaksi.tanggal, 5,1) as num_bulan'),"tb_jenis_akun.keterangan as keterangan_akun","tb_akun.pagu as jenis_akun", "tb_akun.pagu as pagu_akun","tb_akun.id_akun AS id_akun", "tb_akun.keterangan as nama_akun", DB::raw("SUM(tb_test_detail_transaksi.jumlah) as total_nominal"), DB::raw("SUM(tb_test_detail_transaksi.jumlah/tb_akun.pagu) as realisasi_akun"))
+        ->join("tb_test_transaksi","tb_test_detail_transaksi.no_sp2d","=","tb_test_transaksi.no_sp2d")
+        ->join("tb_akun","tb_test_detail_transaksi.akun","=","tb_akun.id_akun")
+        ->join("tb_jenis_akun","tb_akun.jenis_akun","=","tb_jenis_akun.id")
+        ->groupBy("tb_test_detail_transaksi.akun")
+        ->union($tb_transaksi_nota)
+        ->get();
+
+        $jenis_akun = DB::table("tb_jenis_akun")->get();
+
+        $daftar_akun = DB::table("tb_akun")->get();
+
+        $daftar_coa = DB::table("tb_coa")->get();
+
+        return view("laporan/rekap_akun/print", compact("tb_transaksi_akun","daftar_akun","jenis_akun","daftar_coa"));
     }
 
     public function daftar_coa(Request $request){
