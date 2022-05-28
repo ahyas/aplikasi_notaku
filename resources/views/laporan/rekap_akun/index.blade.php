@@ -55,10 +55,17 @@
                     <table id="tb_daftar_subcoa" class="table display tb_daftar_subcoa" style="width:100%; ">
                         <thead>
                             <th>No. SPBy</th>
+                            <th width="70px">Tanggal</th>
                             <th>Deskripsi</th>
                             <th>Nominal</th>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" style="text-align:right">Total:</th>
+                                <th style="text-align:right"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -130,8 +137,10 @@ $(document).ready(function(){
     });
 
     $("body").on("click","#detail_akun",function(){
-       
+      
         let id_akun = $(this).data("id_akun");
+        console.log(id_akun);
+
             $(".modalDetail").modal("show");
             $("#tb_daftar_subcoa").DataTable().clear().destroy();
             $("#tb_daftar_coa").DataTable().clear().destroy();
@@ -160,18 +169,35 @@ $(document).ready(function(){
     });
 
     $("body").on("click","#detail_coa",function(){
-        let id_coa = $(this).data("id_coa");
-        console.log(id_coa);
+        let id_akun = $(this).data("id_akun");
+        console.log(id_akun);
             $("#tb_daftar_subcoa").DataTable().clear().destroy();
            var tb_subcoa =  $("#tb_daftar_subcoa").DataTable({
-                ajax:{url:"{{route('laporan.rekap_akun.detail_coa')}}", type:"GET", data:{id_coa:id_coa}},
+                ajax:{url:"{{route('laporan.rekap_akun.detail_coa')}}", type:"GET", data:{id_akun:id_akun}},
                 ordering:false,
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+        
+                    // Total over all pages
+                    total = api.column(3).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    
+                    // Update footer
+                    $(api.column(3).footer()).html(numFormat(total));
+                },
                 paging:false,
                 searching:false,
                 serverSide:false,
                 processing:false,
                 columns:[
                     {data:"no_spby"},
+                    {data:"tanggal"},
                     {data:"deskripsi"},
                     {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 ],
