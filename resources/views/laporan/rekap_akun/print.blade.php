@@ -3,6 +3,10 @@
         text-align:right; 
         background-color:#fff1b0;
     }
+
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
 </style>
 <h2 style="text-align:center">LAPORAN REALISASI PENYERAPAN ANGGARAN DIPA SATUAN KERJA</h2>
 <h2 style="text-align:center; line-height:0">TAHUN 2022</h2>
@@ -16,7 +20,7 @@
 <tr>
     <td colspan="4"></td>
     <?php for($a=1; $a<=12; $a++){?>
-        <td style="width:100px"><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></td>
+        <td style="width:100px; text-align:center"><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></td>
     <?php } ?>
     
 </tr>
@@ -40,7 +44,7 @@
                     <?php for($a=1; $a<=12; $a++){?>
                        
                         <?php $sum_total_nominal2=0; ?>
-                        <td style="text-align:right; background:#d9d9d9">
+                        <td style="text-align:right; background:#d9d9d9; padding-right:5px;">
                             @foreach($tb_transaksi_akun2 as $baris_tb_transaksi_akun2)
                                 @if(($baris_tb_transaksi_akun2->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun2->num_bulan == $a))
                                     <?php $sum_total_nominal2 += $baris_tb_transaksi_akun2->total_nominal; ?>
@@ -51,7 +55,7 @@
                             <b><?php echo number_format($sum_total_nominal2, 0); ?></b>
                         </td>
                     <?php } ?>
-                    <td class="bg" align="right">
+                    <td class="bg" align="right" style="padding-right:5px">
                    
                        <?php $x+=12; ?>
                        <?php $b=0; ?>
@@ -81,7 +85,7 @@
                     <?php for($a=1; $a<=12; $a++){?>
                         
                         <?php $sum_total_nominal=0; ?>
-                        <td style="text-align:right; background:#d9d9d9">
+                        <td style="text-align:right; background:#d9d9d9; padding-right:5px;">
                             @foreach($tb_transaksi_akun as $baris_tb_transaksi_akun)
                                 @if(($baris_tb_transaksi_akun->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun->num_bulan == $a))
                                     <?php $sum_total_nominal += $baris_tb_transaksi_akun->total_nominal; ?>   
@@ -91,7 +95,7 @@
                             <b><?php echo number_format($sum_total_nominal, 0); ?></b>
                         </td>
                     <?php } ?>
-                    <td class="bg" align="right">
+                    <td class="bg" align="right" style="padding-right:5px;">
                     
                         
                        <?php $n+=12; ?>
@@ -115,7 +119,7 @@
                         <td colspan="4" style="color:blue"><p style="text-indent: 40px;"><i>- {{$row_daftar_coa->keterangan}}</i></p></td>
                         <?php for($s=1; $s<=12; $s++){?>
                             <?php $nominal_transaksi_akun = 0; ?>
-                            <td style="text-align:right;">
+                            <td style="text-align:right; padding-right:5px;">
                                 @foreach($tb_transaksi_akun as $row_tb_transaksi_akun)
                                     @if(($row_tb_transaksi_akun->num_bulan == $s) && ($row_tb_transaksi_akun->id_coa == $row_daftar_coa->id_coa))
                                         <?php $nominal_transaksi_akun += $row_tb_transaksi_akun->total_nominal; ?> 
@@ -145,13 +149,24 @@
                 @for($z=$foot; $z<=($jml_isi+$foot); $z+=12)
                     @foreach($total_transaksi_akun as $key => $value)
                         @if($key == $z)
-                            <?php $d+=$value; ?>
+                            <?php 
+                            
+                            $d+=$value; 
+
+                            ?>
                         @endif
                     @endforeach
                 @endfor
+                <?php $total_realisasi_all[] = $d; ?>
                 <b><?php echo number_format($d, 0); ?></b>
         </td>
     <?php } ?>
-    <td class="bg"></td>
+    <td class="bg">
+        <?php $t = 0; ?>
+        @foreach($total_realisasi_all as $row)
+            <?php $t+=$row; ?>
+        @endforeach
+        <b><?php echo number_format($t, 0); ?></b>
+    </td>
 </tr>
 </table>
