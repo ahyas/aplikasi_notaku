@@ -92,6 +92,10 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("transaksi/catat_sp2d/edit","sp2dController@edit")->name("transaksi.sp2d.edit");
     Route::post("transaksi/catat_sp2d/update", "sp2dController@update")->name("transaksi.sp2d.update");
     Route::get("transaksi/catat_sp2d/{no_sp2d}/delete","sp2dController@delete");
+
+    //Start test route
+    Route::get("test","TestController@index")->name("test.index");
+    //End test route
 });
 
 

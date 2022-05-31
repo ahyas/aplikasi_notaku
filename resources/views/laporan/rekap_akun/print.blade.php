@@ -20,10 +20,11 @@
 <tr>
     <td colspan="4"></td>
     <?php for($a=1; $a<=12; $a++){?>
-        <td style="width:100px; text-align:center"><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></td>
+        <td style="width:100px; text-align:center"><b><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></b></td>
     <?php } ?>
     
 </tr>
+<?php  $n=133; ?>
 @foreach($jenis_akun as $jenis_akun)
 <tr>
     <td colspan="4"><?php echo $jenis_akun->id." ".strtoupper($jenis_akun->keterangan); ?></td>
@@ -32,7 +33,7 @@
     <?php } ?>
     <td class="bg"></td>
 </tr>
-<?php $x=-12; $n=133; ?>
+<?php $x=-12; ?>
     @foreach($daftar_akun as $row_daftar_akun)
         @if($row_daftar_akun->jenis_akun == $jenis_akun->id)
             <!--Bila jenis akun adalah gaji dantunjangan-->
@@ -48,7 +49,6 @@
                             @foreach($tb_transaksi_akun2 as $baris_tb_transaksi_akun2)
                                 @if(($baris_tb_transaksi_akun2->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun2->num_bulan == $a))
                                     <?php $sum_total_nominal2 += $baris_tb_transaksi_akun2->total_nominal; ?>
-                                   
                                 @endif
                             @endforeach
                             <?php $total_transaksi_akun[] = $sum_total_nominal2; ?>
@@ -63,7 +63,7 @@
                         
                             @foreach($total_transaksi_akun as $key => $value)
                                 @if($key == $t)
-                                <?php $b+=$value; ?>
+                                    <?php $b+=$value; ?>
                                 @endif 
                             @endforeach
                            
@@ -86,7 +86,7 @@
                         
                         <?php $sum_total_nominal=0; ?>
                         <td style="text-align:right; background:#d9d9d9; padding-right:5px;">
-                            @foreach($tb_transaksi_akun as $baris_tb_transaksi_akun)
+                            @foreach($tb_transaksi_akun as $key => $baris_tb_transaksi_akun)
                                 @if(($baris_tb_transaksi_akun->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun->num_bulan == $a))
                                     <?php $sum_total_nominal += $baris_tb_transaksi_akun->total_nominal; ?>   
                                 @endif
@@ -96,19 +96,17 @@
                         </td>
                     <?php } ?>
                     <td class="bg" align="right" style="padding-right:5px;">
-                    
-                        
-                       <?php $n+=12; ?>
-                       <?php $b=0; ?>
-                          @for($f = $n; $f <= ($n+11); $f++)
+                        <?php $n+=12; ?>
+                        <?php $b=0; ?>
+                          @for($f = $n-1; $f <= ($n+11); $f++)
                             @foreach($total_transaksi_akun as $key => $value)
                                 @if($key == $f)
                                     <?php $b+=$value; ?>
+
                                 @endif
                             @endforeach
                           @endfor
                           <?php echo number_format($b, 0); ?>
-                       
                     </td>
                 </tr>
             @endif
