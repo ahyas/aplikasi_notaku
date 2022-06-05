@@ -13,8 +13,52 @@ class MappingController extends Controller
         return view("mapping/index");
     }
 
-    public function getDaftarAkun(){
-        $table=DB::table("tb_akun")->get();
+    public function getProgram(){
+        $table = DB::table("tb_program")->get();
+
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getkegiatan(Request $request){
+        $table = DB::table("tb_kegiatan")
+        ->where("id_program", $request->id_program)
+        ->get();
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getDaftarKRO(Request $request){
+        $table = DB::table("tb_kro")
+        ->where("id_kegiatan", $request->id_kegiatan)
+        ->get();
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getDaftarRO(Request $request){
+        $table = DB::table("tb_ro")
+        ->where("id_kro", $request->id_kro)
+        ->get();
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getDaftarKomponen(Request $request){
+        $table = DB::table("tb_komponen")
+        ->where("id_ro", $request->id_ro)
+        ->get();
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getDaftarSubKomponen(Request $request){
+        $table = DB::table("tb_sub_komponen")
+        ->where("id_komponen", $request->id_komponen)
+        ->get();
+        return DataTables::of($table)->make(true);
+    }
+
+    public function getDaftarAkun(Request $request){
+        $table=DB::table("tb_akun")
+        ->where("id_sub_komponen", $request->id_sub_komponen)
+        ->get();
+
         return DataTables::of($table)->make(true);
     }
 

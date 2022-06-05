@@ -45,6 +45,12 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("bendahara/{id_nota}/delete","BendaharaController@delete");
 
     Route::get("mapping","MappingController@index")->name("mapping.index");
+    Route::get("mapping/get_program","MappingController@getProgram")->name("mapping.get_daftar_program");
+    Route::get("mapping/get_kegiatan","MappingController@getKegiatan")->name("mapping.get_daftar_kegiatan");
+    Route::get("mapping/get_kro","MappingController@getDaftarKRO")->name("mapping.get_daftar_kro");
+    Route::get("mapping/get_ro","MappingController@getDaftarRO")->name("mapping.get_daftar_ro");
+    Route::get("mapping/get_komponen","MappingController@getDaftarKomponen")->name("mapping.get_daftar_komponen");
+    Route::get("mapping/get_sub_komponen","MappingController@getDaftarSubKomponen")->name("mapping.get_daftar_sub_komponen");
     Route::get("mapping/get_akun","MappingController@getDaftarAkun")->name("mapping.get_daftar_akun");
     Route::get("mapping/coa/{id_akun}/daftar_coa","MappingController@getDaftarCOA");
     Route::post("mapping/coa/save","MappingController@saveCOA")->name("mapping.coa.save");

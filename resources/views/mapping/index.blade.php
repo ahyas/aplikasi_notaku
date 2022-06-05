@@ -1,15 +1,150 @@
 @extends('layout.app')
 
 @section('content')
+<style type="text/css">
+    
+</style>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
+    <div class="row justify-content-center">
+        <div class="col-8">
             <div class="card">
-                <div class="card-header">Akun</div>
+                <div class="card-header">Program</div>
                 <div class="card-body">
-                    <button class="btn btn-success btn-sm template_baru">Baru</button>
-                    <br>
-                    <table id="tb_akun" class="table display tb_akun" style="width:100%; font-size:13px">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_program" class="table display tb_program" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">Kegiatan</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_kegiatan" class="table display tb_kegiatan" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">KRO</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_kro" class="table display tb_kro" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">RO</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_ro" class="table display tb_ro" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">Komponen</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_komponen" class="table display tb_komponen" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">Sub Komponen</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_sub_komponen" class="table display tb_sub_komponen" style="width:100%;">
+                        <thead>     						
+                            <th>Kode</th>
+                            <th>Keterangan</th>
+                            <th>Pagu</th>
+                            <th>Akun</th>
+                        </thead>
+						<tbody></tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">Akun/Detail</div>
+                <div class="card-body">
+                    <button class="btn btn-success btn-sm" style="margin-bottom:15px">Baru</button>
+                    
+                    <table id="tb_akun" class="table display tb_akun" style="width:100%;">
                         <thead>     						
                             <th>ID Akun</th>
                             <th>Keterangan</th>
@@ -21,14 +156,18 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-4">
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
             <div class="card">
                 <div class="card-header">COA</div>
                 <div class="card-body">
-                <button class="btn btn-success btn-sm coa_baru" id="coa_baru">Baru</button>
+                <button class="btn btn-success btn-sm coa_baru" id="coa_baru" style="margin-bottom:15px">Baru</button>
                 <div id="template"></div>
-                <table id="tb_coa" class="table display tb_coa" style="width:100%; font-size:13px">
+                <table id="tb_coa" class="table display tb_coa" style="width:100%;">
                     <thead>  
                        	<th>ID</th>				
                         <th>Keterangan</th>
@@ -40,14 +179,18 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-4">
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
             <div class="card">
                 <div class="card-header">Sub COA</div>
                 <div class="card-body">
-                <button class="btn btn-success btn-sm subcoa_baru" id="subcoa_baru">Baru</button>
+                <button class="btn btn-success btn-sm subcoa_baru" id="subcoa_baru" style="margin-bottom:15px">Baru</button>
                     <div id="subcoa"></div>
-                    <table id="tb_subcoa" class="table display tb_subcoa" style="width:100%; font-size:13px">
+                    <table id="tb_subcoa" class="table display tb_subcoa" style="width:100%;">
                         <thead>
                             <th>ID</th>
                             <th>Keterangan</th>
@@ -116,11 +259,11 @@
             <div class="modal-body">
                 <form id="coaForm" name="daftarcoaForm" class="form-horizontal">
 					{{csrf_field()}} {{method_field('POST')}}
-                    <input type="text" id="id_akun2" name="id_akun2">
-                    <input type="text" id="id_coa" name="id_coa">
+                    <input type="hidden" id="id_akun2" name="id_akun2">
+                    <input type="hidden" id="id_coa" name="id_coa">
 
 					<div class="form-group">
-						<label for="name" class="col-sm-3 control-label"><b>Keterangan : </b></label>
+						<label for="name" class="col-sm-4 control-label"><b>Keterangan : </b></label>
 						<div class="col-sm-12">
 							<input type="text" class="form-control" name="nama_coa" id="nama_coa">
 						</div>
@@ -181,33 +324,227 @@
 @push('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#tb_akun").DataTable({
-        ajax:"{{route('mapping.get_daftar_akun')}}",
-        serverside:false,
+
+    $(".tb_program").DataTable({
+        ajax:"{{route('mapping.get_daftar_program')}}",
+        serverSide:false,
+        searching:false,
+        paging:false,
         columns:[
-            {data:"id_akun"},
+            {data:"kode"},
             {data:"keterangan"},
             {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
             {data:"id",
                 mRender:function(data, type, full){
-                    return"<button class='btn btn-primary btn-sm' id='edit_akun' data-id_akun='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_akun' data-id_akun='"+full["id_akun"]+"'>Detail</button> <button id='delete_akun' class='btn btn-danger btn-sm' data-id_akun='"+full["id"]+"'>Delete</button>";
+                    return"<button class='btn btn-primary btn-sm' id='edit_program' data-id_program='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_program' data-id_program='"+full["id"]+"'>Detail</button> <button id='delete_program' class='btn btn-danger btn-sm' data-id_program='"+full["id"]+"'>Delete</button>";
                 }
             }
         ]
     });
-});
+
+    $("body").on("click","#detail_program", function(){
+        let id_program = $(this).data("id_program");
+
+        $(".tb_kegiatan").DataTable().clear().destroy();
+        $(".tb_kro").DataTable().clear().destroy();
+        $(".tb_ro").DataTable().clear().destroy();
+        $(".tb_komponen").DataTable().clear().destroy();
+        $("#tb_sub_komponen").DataTable().clear().destroy();
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $(".tb_kegiatan").DataTable({
+            ajax:{
+                url:"{{route('mapping.get_daftar_kegiatan')}}",
+                type:"GET",
+                data : {id_program : id_program}
+            },
+            serverSide:false,
+            searching:false,
+            paging:false,
+            columns:[
+                {data:"kode"},
+                {data:"keterangan"},
+                {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_kegiatan' data-id_kegiatan='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_kegiatan' data-id_kegiatan='"+full["id"]+"'>Detail</button> <button id='delete_kegiatan' class='btn btn-danger btn-sm' data-id_kegiatan='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+
+    });
+
+    $("body").on("click","#detail_kegiatan",function(){
+        let id_kegiatan = $(this).data("id_kegiatan");
+
+        $(".tb_kro").DataTable().clear().destroy();
+        $(".tb_ro").DataTable().clear().destroy();
+        $(".tb_komponen").DataTable().clear().destroy();
+        $("#tb_sub_komponen").DataTable().clear().destroy();
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $(".tb_kro").DataTable({
+            ajax:{
+                url:"{{route('mapping.get_daftar_kro')}}",
+                type:"GET",
+                data:{id_kegiatan:id_kegiatan}
+            },
+            serverSide:false,
+            searching:false,
+            paging:false,
+            columns:[
+                {data:"kode"},
+                {data:"keterangan"},
+                {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_kro' data-id_komponen='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_kro' data-id_kro='"+full["id"]+"'>Detail</button> <button id='delete_komponen' class='btn btn-danger btn-sm' data-id_kro='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+    });
+
+    $("body").on("click","#detail_kro",function(){
+        let id_kro = $(this).data("id_kro");
+        
+        $(".tb_ro").DataTable().clear().destroy();
+        $(".tb_komponen").DataTable().clear().destroy();
+        $("#tb_sub_komponen").DataTable().clear().destroy();
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $(".tb_ro").DataTable({
+            ajax:{
+                url:"{{route('mapping.get_daftar_ro')}}",
+                type:"GET",
+                data:{id_kro:id_kro},
+            },
+            serverSide:false,
+            searching:false,
+            paging:false,
+            columns:[
+                {data:"kode"},
+                {data:"keterangan"},
+                {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_ro' data-id_komponen='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_ro' data-id_ro='"+full["id"]+"'>Detail</button> <button id='delete_komponen' class='btn btn-danger btn-sm' data-id_ro='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+    });
+
+    $("body").on("click","#detail_ro", function(){
+        let id_ro = $(this).data("id_ro");
+       
+        $(".tb_komponen").DataTable().clear().destroy();
+        $("#tb_sub_komponen").DataTable().clear().destroy();
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $(".tb_komponen").DataTable({
+            ajax:{
+                url:"{{route('mapping.get_daftar_komponen')}}",
+                type:"GET",
+                data:{id_ro:id_ro}
+            },
+            serverSide:false,
+            searching:false,
+            paging:false,
+            columns:[
+                {data:"kode"},
+                {data:"keterangan"},
+                {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_komponen' data-id_komponen='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_komponen' data-id_komponen='"+full["id"]+"'>Detail</button> <button id='delete_komponen' class='btn btn-danger btn-sm' data-id_komponen='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+    });
+
+    $("body").on("click","#detail_komponen",function(){
+
+        let id_komponen = $(this).data("id_komponen");
+        $("#tb_sub_komponen").DataTable().clear().destroy();
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $("#tb_sub_komponen").DataTable({
+            ajax:{
+                url :"{{route('mapping.get_daftar_sub_komponen')}}",
+                type :"GET",
+                data : {id_komponen : id_komponen}
+            },
+            serverside:false,
+            searching:false,
+            paging:false,
+            columns:[
+                {data:"kode"},
+                {data:"keterangan"},
+                {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_coa' data-id_coa='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_sub_komponen' data-id_sub_komponen='"+full["id"]+"'>Detail</button> <button id='delete_sub_komponen' class='btn btn-danger btn-sm' data-id_sub_komponen='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+
+    });
+
+    $("body").on("click","#detail_sub_komponen",function(){
+        let id_sub_komponen = $(this).data("id_sub_komponen");
+
+        $("#tb_akun").DataTable().clear().destroy();
+        $("#tb_coa").DataTable().clear().destroy();
+        $("#tb_subcoa").DataTable().clear().destroy();
+
+        $("#tb_akun").DataTable({
+            ajax:{
+                url:"{{route('mapping.get_daftar_akun')}}",
+                type:"GET",
+                data:{id_sub_komponen:id_sub_komponen},
+            },
+            serverside:false,
+            searching:false,
+            paging:false,   
+            columns:[
+                {data:"id_akun"},
+                {data:"keterangan"},
+                {data:"pagu",className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
+                {data:"id",
+                    mRender:function(data, type, full){
+                        return"<button class='btn btn-primary btn-sm' id='edit_akun' data-id_akun='"+full["id"]+"'>Edit</button> <button class='btn btn-success btn-sm' id='detail_akun' data-id_akun='"+full["id_akun"]+"'>Detail</button> <button id='delete_akun' class='btn btn-danger btn-sm' data-id_akun='"+full["id"]+"'>Delete</button>";
+                    }
+                }
+            ]
+        });
+    });
 
 $("body").on("click","#detail_akun",function(){
     $("#tb_coa").DataTable().clear().destroy();
     $("#tb_subcoa").DataTable().clear().destroy();
 
-    console.log($(this).data("id_akun"));
     let id_akun = $(this).data("id_akun");
     
     $("#id_akun2").val(id_akun);
     $("#tb_coa").DataTable({
         ajax:"mapping/coa/"+id_akun+"/daftar_coa",
         serverside:false,
+        searching:false,
+        paging:false,
         columns:[
             {data:"id_coa"},
             {data:"keterangan"},
@@ -230,6 +567,8 @@ $("body").on("click","#detail_coa",function(){
     $("#tb_subcoa").DataTable({
         ajax:"mapping/subcoa/"+id_coa+"/daftar_subcoa",
         serverside:false,
+        searching:false,
+        paging:false,
         columns:[
             {data:"id_subcoa"},
             {data:"keterangan"},
@@ -418,5 +757,6 @@ $("#btnAkunUpdate").click(function(e){
     });
 });
 
+});
 </script>
 @endpush

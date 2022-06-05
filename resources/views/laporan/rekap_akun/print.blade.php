@@ -25,22 +25,45 @@
     
 </tr>
 <?php  $n=133; ?>
-@foreach($jenis_akun as $jenis_akun)
+@foreach($tb_komponen as $tb_komponen)
 <tr>
-    <td colspan="4"><?php echo $jenis_akun->id." ".strtoupper($jenis_akun->keterangan); ?></td>
+    <td colspan="4" style="height:25px"></td>
+    <td colspan="12"></td>
+    <td class="bg"></td>
+</tr>
+<tr style="background-color:#99ed93">
+    <td colspan="4"><b><?php echo $tb_komponen->id." ".strtoupper($tb_komponen->keterangan); ?></b></td>
     <?php for($a=1; $a<=12; $a++){?>
         <td></td>
     <?php } ?>
     <td class="bg"></td>
 </tr>
+
+@foreach($tb_sub_komponen as $row_tb_sub_komponen)
+
+    @if($row_tb_sub_komponen->id_komponen == $tb_komponen->id )
+        <tr style="background-color:#7ae4ff">
+            <td colspan="4">
+            
+                <i>{{$row_tb_sub_komponen->kode}} - {{$row_tb_sub_komponen->keterangan}}</i><br>
+            
+            </td>
+            <?php for($a=1; $a<=12; $a++){?>
+                <td></td>
+            <?php } ?>
+            <td class="bg"></td>
+        </tr>
+
 <?php $x=-12; ?>
     @foreach($daftar_akun as $row_daftar_akun)
-        @if($row_daftar_akun->jenis_akun == $jenis_akun->id)
+
+        @if($row_daftar_akun->id_sub_komponen == $row_tb_sub_komponen->id)
+
+        @if($row_daftar_akun->id_komponen == $tb_komponen->id)
             <!--Bila jenis akun adalah gaji dantunjangan-->
-            @if($row_daftar_akun->jenis_akun == 1)
+            @if($row_daftar_akun->id_komponen == 1)
                 <tr>
-                    <td style="background-color:#d9d9d9">{{$row_daftar_akun->id_akun}}</td>
-                    <td colspan="3" style="background-color:#d9d9d9">{{$row_daftar_akun->keterangan}}</td>
+                    <td colspan="4" style="background-color:#d9d9d9; padding-left:25px">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
                     
                     <?php for($a=1; $a<=12; $a++){?>
                        
@@ -73,14 +96,9 @@
                 </tr>
             <!--Bila jenis akun bukan gaji dan tunjangan-->
             @else
+                
                 <tr>
-                    <td colspan="4" style="height:25px"></td>
-                    <td colspan="12"></td>
-                    <td class="bg"></td>
-                </tr>
-                <tr>
-                    <td style="background-color:#d9d9d9">{{$row_daftar_akun->id_akun}}</td>
-                    <td colspan="3" style="background-color:#d9d9d9">{{$row_daftar_akun->keterangan}}</td>
+                    <td colspan="4" style="background-color:#d9d9d9; padding-left:25px">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
                     
                     <?php for($a=1; $a<=12; $a++){?>
                         
@@ -112,9 +130,9 @@
             @endif
             
             @foreach($daftar_coa as $row_daftar_coa)
-                @if(($row_daftar_coa->id_akun == $row_daftar_akun->id_akun) && ($jenis_akun->id <> 1))
+                @if(($row_daftar_coa->id_akun == $row_daftar_akun->id_akun) && ($tb_komponen->id <> 1))
                     <tr>
-                        <td colspan="4" style="color:blue"><p style="text-indent: 40px;"><i>- {{$row_daftar_coa->keterangan}}</i></p></td>
+                        <td colspan="4" style="color:blue"><p style="padding-left:50px"><i>- {{$row_daftar_coa->keterangan}}</i></p></td>
                         <?php for($s=1; $s<=12; $s++){?>
                             <?php $nominal_transaksi_akun = 0; ?>
                             <td style="text-align:right; padding-right:5px;">
@@ -131,9 +149,21 @@
                     </tr>
                 @endif
             @endforeach
+            <tr>
+                <td colspan="4" style="height:25px"></td>
+                <td colspan="12"></td>
+                <td class="bg"></td>
+            </tr>
         @endif
+
+        @endif
+
     @endforeach
     <?php $x++; ?>
+
+    @endif
+    @endforeach
+
 @endforeach
 <tr>
     <td height="50px" colspan="4" style="text-align: center; background-color:#fff1b0">
