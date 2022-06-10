@@ -12,10 +12,10 @@
                     <table id="tb_akun" class="table display tb_akun" style="width:100%; ">
                         <thead>
                             <th style="width:10px">No.</th>  				
-                            <th style="font-weight:bold">ID Akun</th>
+                            <th style="width:60px">ID Akun</th>
                             <th>Akun</th>
                             <th>jenis akun</th>
-                            <th>Total transaksi</th>
+                            <th style="width:150px;">Total transaksi</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
                             <th>Action</th>

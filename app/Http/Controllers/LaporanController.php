@@ -20,7 +20,7 @@ class LaporanController extends Controller
         ->whereNotNull("tb_nota.no_drpp")
         ->join("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
         ->join("tb_komponen","tb_akun.id_komponen","=","tb_komponen.id")
-        ->groupBy("tb_akun.id_komponen","tb_akun.pagu","tb_nota.id_akun", "tb_akun.id_akun","tb_akun.keterangan");
+        ->groupBy("tb_nota.id_akun");
 
         //menggabungkan 2 tabel menjadi satu
         $tb_transaksi_akun = DB::table("tb_test_detail_transaksi")
@@ -58,7 +58,7 @@ class LaporanController extends Controller
 
         //mengambil transaksi nota
         $tb_transaksi_akun=DB::table("tb_nota")
-        ->select(DB::raw('SUBSTR(tb_nota.created_at, 7,1) as num_bulan'),"tb_komponen.keterangan as keterangan_akun","tb_komponen.id as id_jenis_akun", "tb_akun.id_komponen","tb_akun.id_akun AS id_akun", "tb_nota.nominal as total_nominal","tb_nota.id_coa")
+        ->select(DB::raw('SUBSTR(tb_nota.updated_at, 7,1) as num_bulan'),"tb_komponen.keterangan as keterangan_akun","tb_komponen.id as id_jenis_akun", "tb_akun.id_komponen","tb_akun.id_akun AS id_akun", "tb_nota.nominal as total_nominal","tb_nota.id_coa")
         ->whereNotNull("tb_nota.no_drpp")
         ->join("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
         ->join("tb_komponen","tb_akun.id_komponen","=","tb_komponen.id")
