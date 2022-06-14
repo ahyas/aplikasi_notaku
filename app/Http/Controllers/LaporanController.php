@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 use File;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -73,7 +74,9 @@ class LaporanController extends Controller
 
         $daftar_coa = DB::table("tb_coa")->get();
 
-        return view("laporan/rekap_akun/print", compact("tb_transaksi_akun","tb_transaksi_akun2","daftar_akun","tb_komponen","daftar_coa","tb_sub_komponen"));
+        $pdf=PDF::loadView('laporan/rekap_akun/print', compact("tb_transaksi_akun","tb_transaksi_akun2","daftar_akun","tb_komponen","daftar_coa","tb_sub_komponen"));
+
+        return $pdf->setPaper('legal', 'landscape')->stream('lapporan.pdf');
     }
 
     public function daftar_coa($id_akun){

@@ -6,12 +6,13 @@
 
     body{
         font-family: Arial, Helvetica, sans-serif;
+        font-size:11px;
     }
 </style>
 <h2 style="text-align:center">LAPORAN REALISASI PENYERAPAN ANGGARAN DIPA SATUAN KERJA</h2>
 <h2 style="text-align:center; line-height:0">TAHUN 2022</h2>
 
-<table border="1" style="border-collapse:collapse; border-color:#d9d9d9">
+<table border="0.5" style="border-collapse:collapse; border-color:#dedede; width:100%; table-layout:fixed;">
 <tr>
     <th colspan="4" rowspan="2">Kode satker, Program, Keg. Output, Kode akun dan uraian</th>
     <th rowspan="2">DIPA Awal</th>
@@ -197,6 +198,7 @@
                                 @endif
                             @endforeach
                           @endfor
+                          
                           <b><?php echo number_format($b, 0); ?></b>
                     </td>
                     <!--End perhitungan total realisasi akun setahun-->
@@ -207,7 +209,7 @@
             @foreach($daftar_coa as $row_daftar_coa)
                 @if(($row_daftar_coa->id_akun == $row_daftar_akun->id_akun) && ($tb_komponen->id <> 1))
                     <tr>
-                        <td colspan="4" style="color:blue"><p style="padding-left:50px"><i>- {{$row_daftar_coa->keterangan}}</i></p></td>
+                        <td colspan="4" style="color:blue; padding-left:50px"><i>- {{$row_daftar_coa->keterangan}}</i></td>
                         <td style="text-align:right"><?php echo number_format($row_daftar_coa->pagu, 0); ?></td>
                         <?php for($s=1; $s<=12; $s++){?>
                             <?php $nominal_transaksi_akun = 0; ?>
