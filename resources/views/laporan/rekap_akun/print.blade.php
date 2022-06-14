@@ -6,7 +6,7 @@
 
     body{
         font-family: Arial, Helvetica, sans-serif;
-        font-size:11px;
+        font-size:10.5px;
     }
 </style>
 <h2 style="text-align:center">LAPORAN REALISASI PENYERAPAN ANGGARAN DIPA SATUAN KERJA</h2>
@@ -21,7 +21,7 @@
 </tr>
 <tr>
     <?php for($a=1; $a<=12; $a++){?>
-        <td style="width:100px; text-align:center"><b><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></b></td>
+        <td style="text-align:center"><b><?php echo date('F', mktime(0, 0, 0, $a, 10)); ?></b></td>
     <?php } ?>
 </tr>
 <?php  $n=133; $num=0;?>
@@ -39,7 +39,7 @@
     <?php } ?>
     <td class="bg"></td>
 </tr>
-<?php $x=-12; $y=-12;  ?>
+<?php $x=-12; $y=-12; $cc=0;?> 
 @foreach($tb_sub_komponen as $row_tb_sub_komponen)
 
     @if($row_tb_sub_komponen->id_komponen == $tb_komponen->id )
@@ -54,7 +54,7 @@
             <td colspan="4">
                 <i>{{$row_tb_sub_komponen->kode}} - {{$row_tb_sub_komponen->keterangan}}</i><br>
             </td>
-            <td style="text-align:right"><b><?php echo number_format($row_tb_sub_komponen->pagu, 0) ?></b></td>
+            <td style="text-align:right;"><b><?php echo number_format($row_tb_sub_komponen->pagu, 0) ?></b></td>
             <?php for($a=1; $a<=12; $a++){?>
                 
                 <td style="text-align:right; padding-right:5px;">
@@ -97,7 +97,7 @@
                 </td>
             <?php } ?>
 
-                <td class="bg">
+                <td align="right">
                    <?php 
                    $num+=1;                  
                    $jj=0;
@@ -115,7 +115,7 @@
                 </td>
         </tr>
 
-<?php $sum_total_dipa_awal = 0; ?>
+<?php $sum_total_dipa_awal = 0; ?> 
     @foreach($daftar_akun as $row_daftar_akun)
 
         @if($row_daftar_akun->id_sub_komponen == $row_tb_sub_komponen->id)
@@ -125,8 +125,8 @@
             
             @if($row_daftar_akun->id_komponen == 1)
                 <tr>
-                    <td colspan="4" style="background-color:#d9d9d9; padding-left:25px;">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
-                    <td style="background-color:#d9d9d9; text-align:right"><b>
+                    <td colspan="4" style="background-color:#d9d9d9; padding-left:15px;">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
+                    <td style="background-color:#d9d9d9; text-align:right; padding-right:5px;"><b>
                         <?php echo number_format($row_daftar_akun->pagu,0) ?></b>
                         
                         <?php $total_dipa_awal[] = $row_daftar_akun->pagu; ?>
@@ -144,7 +144,7 @@
                             <b><?php echo number_format($sum_total_nominal2, 0); ?></b>
                         </td>
                     <?php } ?>
-                    <td class="bg" align="right" style="padding-right:5px">
+                    <td align="right" style="padding-right:5px; background-color:#d9d9d9;">
                    
                        <?php $x+=12; ?>
                        <?php $b=0; ?>
@@ -164,7 +164,7 @@
             @else
                 
                 <tr>
-                    <td colspan="4" style="background-color:#d9d9d9; padding-left:25px">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
+                    <td colspan="4" style="background-color:#d9d9d9; padding-left:15px">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
                     <td style="background-color:#d9d9d9; text-align:right">
                         <b><?php echo number_format($row_daftar_akun->pagu, 0); ?></b>
                         <?php $total_dipa_awal[] = $row_daftar_akun->pagu; ?>
@@ -187,7 +187,7 @@
                     <!--End perhitungan realisasi akun per bulan-->
                     
                     <!--Start perhitungan total realisasi akun setahun-->
-                    <td class="bg" align="right" style="padding-right:5px;">
+                    <td align="right" style="background-color:#d9d9d9;">
                         <?php $n+=12; ?>
                         <?php $b=0; ?>
                           @for($f = $n-1; $f <= ($n+11); $f++)
@@ -209,7 +209,7 @@
             @foreach($daftar_coa as $row_daftar_coa)
                 @if(($row_daftar_coa->id_akun == $row_daftar_akun->id_akun) && ($tb_komponen->id <> 1))
                     <tr>
-                        <td colspan="4" style="color:blue; padding-left:50px"><i>- {{$row_daftar_coa->keterangan}}</i></td>
+                        <td colspan="4" style="color:blue; padding-left:25px"><i>- {{$row_daftar_coa->keterangan}}</i></td>
                         <td style="text-align:right"><?php echo number_format($row_daftar_coa->pagu, 0); ?></td>
                         <?php for($s=1; $s<=12; $s++){?>
                             <?php $nominal_transaksi_akun = 0; ?>
@@ -218,12 +218,25 @@
                                     @if(($row_tb_transaksi_akun->num_bulan == $s) && ($row_tb_transaksi_akun->id_coa == $row_daftar_coa->id_coa))
                                         <?php $nominal_transaksi_akun += $row_tb_transaksi_akun->total_nominal; ?> 
                                         <!-- <i>{{$row_tb_transaksi_akun->total_nominal}}<i>-->
+                                        
                                     @endif
                                 @endforeach
+                                <?php $grandtotal_transaksi_akun[] = $nominal_transaksi_akun; ?>
                             <?php echo number_format($nominal_transaksi_akun, 0); ?>
                             </td>
                         <?php } ?>
-                        <td class="bg"></td>
+                        <td class="bg">
+                        <?php $h=0; ?>
+                        @foreach($tb_transaksi_akun as $row_grandtotal_coa)
+                            @if($row_grandtotal_coa->id_coa == $row_daftar_coa->id_coa)
+                                <?php $h+=$row_grandtotal_coa->total_nominal; ?>
+                            @endif
+                        @endforeach
+                        
+                        <b><?php echo number_format($h,0); ?></b>  
+                          
+                          
+                        </td>
                     </tr>
                 @endif
             @endforeach
