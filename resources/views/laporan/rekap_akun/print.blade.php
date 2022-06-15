@@ -17,7 +17,8 @@
     <th colspan="4" rowspan="2">Kode satker, Program, Keg. Output, Kode akun dan uraian</th>
     <th rowspan="2">DIPA Awal</th>
     <th colspan="12">Bulan</th>
-    <th rowspan="2" class="bg">Realisasi</th>
+    <th rowspan="2" class="bg" align="center">Realisasi</th>
+    <th rowspan="2" class="bg" align="center">Saldo</th>
 </tr>
 <tr>
     <?php for($a=1; $a<=12; $a++){?>
@@ -29,7 +30,7 @@
 <tr>
     <td colspan="4" style="height:25px"></td>
     <td></td>
-    <td colspan="13"></td>
+    <td colspan="14"></td>
 </tr>
 <tr style="background-color:#99ed93">
     <td colspan="4"><b><?php echo $tb_komponen->id." ".strtoupper($tb_komponen->keterangan); ?></b></td>
@@ -37,6 +38,7 @@
     <?php for($a=1; $a<=12; $a++){?>
         <td></td>
     <?php } ?>
+    <td class="bg"></td>
     <td class="bg"></td>
 </tr>
 <?php $x=-12; $y=-12; $cc=0;?> 
@@ -47,6 +49,7 @@
             <td colspan="4" style="height:25px"></td>
             <td></td>
             <td colspan="12"></td>
+            <td class="bg"></td>
             <td class="bg"></td>
         </tr>
 
@@ -113,6 +116,10 @@
                     @endfor
                     <b><?php echo number_format($jj,0); ?></b>
                 </td>
+                <td align="right">
+                    <?php $saldo = $row_tb_sub_komponen->pagu - $jj; ?>
+                    <b><?php echo number_format($saldo, 0); ?></b>
+                </td>
         </tr>
 
 <?php $sum_total_dipa_awal = 0; ?> 
@@ -159,6 +166,10 @@
                         @endfor
                         <b><?php echo number_format($b,0); ?></b>
                     </td>
+                    <td align="right" style="padding-right:5px; background-color:#d9d9d9;">
+                        <?php $saldo_akun = $row_daftar_akun->pagu - $b; ?>
+                        <b><?php echo number_format($saldo_akun, 0); ?></b>
+                    </td>
                 </tr>
             <!--Bila jenis akun bukan gaji dan tunjangan-->
             @else
@@ -202,6 +213,10 @@
                           <b><?php echo number_format($b, 0); ?></b>
                     </td>
                     <!--End perhitungan total realisasi akun setahun-->
+                    <td align="right" style="background-color:#d9d9d9;">
+                        <?php $saldo_akun2 = $row_daftar_akun->pagu - $b; ?>
+                        <b><?php echo number_format($saldo_akun2, 0); ?></b>
+                    </td>
                 </tr>
                 
             @endif
@@ -237,6 +252,10 @@
                           
                           
                         </td>
+                        <td class="bg">
+                            <?php $saldo_coa = $row_daftar_coa->pagu - $h; ?>
+                            <b><?php echo number_format($saldo_coa, 0); ?></b>
+                        </td>
                     </tr>
                 @endif
             @endforeach
@@ -254,7 +273,7 @@
 @endforeach
 <?php $num++; ?>
 <tr>
-    <td height="50px" colspan="4" style="text-align: center; background-color:#fff1b0">
+    <td height="30px" colspan="4" style="text-align: center; background-color:#fff1b0">
         <?php $jml_isi = count($total_transaksi_akun)-12; ?>
         <b>Realisasi per bulan</b>
     </td>
@@ -290,6 +309,10 @@
             <?php $t+=$row; ?>
         @endforeach
         <b><?php echo number_format($t, 0); ?></b>
+    </td>
+    <td class="bg">
+        <?php $saldo_pagu_global = $gg - $t; ?></b>
+        <b><?php echo number_format($saldo_pagu_global, 0);  ?></b>
     </td>
 </tr>
 </table>
