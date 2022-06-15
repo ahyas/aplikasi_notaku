@@ -6,7 +6,7 @@
 
     body{
         font-family: Arial, Helvetica, sans-serif;
-        font-size:10.5px;
+        font-size:10px;
     }
 </style>
 <h2 style="text-align:center">LAPORAN REALISASI PENYERAPAN ANGGARAN DIPA SATUAN KERJA</h2>
@@ -19,6 +19,7 @@
     <th colspan="12">Bulan</th>
     <th rowspan="2" class="bg" align="center">Realisasi</th>
     <th rowspan="2" class="bg" align="center">Saldo</th>
+    <th rowspan="2" class="bg" align="center">( % )</th>
 </tr>
 <tr>
     <?php for($a=1; $a<=12; $a++){?>
@@ -30,16 +31,17 @@
 <tr>
     <td colspan="4" style="height:25px"></td>
     <td></td>
-    <td colspan="14"></td>
+    <td colspan="15"></td>
 </tr>
 <tr style="background-color:#99ed93">
     <td colspan="4"><b><?php echo $tb_komponen->id." ".strtoupper($tb_komponen->keterangan); ?></b></td>
-    <td></td>
+    <td><b><?php echo number_format($tb_komponen->pagu,0 ); ?></b></td>
     <?php for($a=1; $a<=12; $a++){?>
         <td></td>
     <?php } ?>
-    <td class="bg"></td>
-    <td class="bg"></td>
+    <td></td>
+    <td></td>
+    <td></td>
 </tr>
 <?php $x=-12; $y=-12; $cc=0;?> 
 @foreach($tb_sub_komponen as $row_tb_sub_komponen)
@@ -48,9 +50,8 @@
         <tr>
             <td colspan="4" style="height:25px"></td>
             <td></td>
-            <td colspan="12"></td>
-            <td class="bg"></td>
-            <td class="bg"></td>
+            <td colspan="15"></td>
+            
         </tr>
 
         <tr style="background-color:#7ae4ff">
@@ -60,7 +61,7 @@
             <td style="text-align:right;"><b><?php echo number_format($row_tb_sub_komponen->pagu, 0) ?></b></td>
             <?php for($a=1; $a<=12; $a++){?>
                 
-                <td style="text-align:right; padding-right:5px;">
+                <td style="text-align:right;">
                 <?php $ty=0; $dy=0;?>
                 @foreach($daftar_akun as $row_daftar_akun)
                 <?php $sum_total_nominal=0; ?> <?php $sum_total_nominal2=0; ?>
@@ -120,6 +121,10 @@
                     <?php $saldo = $row_tb_sub_komponen->pagu - $jj; ?>
                     <b><?php echo number_format($saldo, 0); ?></b>
                 </td>
+                <td align="right">
+                    <?php $prosentase_sub_komponen = ($jj / $row_tb_sub_komponen->pagu) * 100;  ?>
+                    <b><?php echo number_format($prosentase_sub_komponen,2);?> %</b>
+                </td>
         </tr>
 
 <?php $sum_total_dipa_awal = 0; ?> 
@@ -133,7 +138,7 @@
             @if($row_daftar_akun->id_komponen == 1)
                 <tr>
                     <td colspan="4" style="background-color:#d9d9d9; padding-left:15px;">{{$row_daftar_akun->id_akun}} - {{$row_daftar_akun->keterangan}}</td>
-                    <td style="background-color:#d9d9d9; text-align:right; padding-right:5px;"><b>
+                    <td style="background-color:#d9d9d9; text-align:right;"><b>
                         <?php echo number_format($row_daftar_akun->pagu,0) ?></b>
                         
                         <?php $total_dipa_awal[] = $row_daftar_akun->pagu; ?>
@@ -141,7 +146,7 @@
                     <?php for($a=1; $a<=12; $a++){?>
                        
                         <?php $sum_total_nominal2=0; ?>
-                        <td style="text-align:right; background:#d9d9d9; padding-right:5px;">
+                        <td style="text-align:right; background:#d9d9d9;">
                             @foreach($tb_transaksi_akun2 as $baris_tb_transaksi_akun2)
                                 @if(($baris_tb_transaksi_akun2->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun2->num_bulan == $a))
                                     <?php $sum_total_nominal2 += $baris_tb_transaksi_akun2->total_nominal; ?>
@@ -151,7 +156,7 @@
                             <b><?php echo number_format($sum_total_nominal2, 0); ?></b>
                         </td>
                     <?php } ?>
-                    <td align="right" style="padding-right:5px; background-color:#d9d9d9;">
+                    <td align="right" style=" background-color:#d9d9d9;">
                    
                        <?php $x+=12; ?>
                        <?php $b=0; ?>
@@ -166,9 +171,13 @@
                         @endfor
                         <b><?php echo number_format($b,0); ?></b>
                     </td>
-                    <td align="right" style="padding-right:5px; background-color:#d9d9d9;">
+                    <td align="right" style=" background-color:#d9d9d9;">
                         <?php $saldo_akun = $row_daftar_akun->pagu - $b; ?>
                         <b><?php echo number_format($saldo_akun, 0); ?></b>
+                    </td>
+                    <td align="right" style=" background-color:#d9d9d9;">
+                        <?php $prosentase_akun = ($b / $row_daftar_akun->pagu)*100; ?>
+                        <?php echo number_format($prosentase_akun,2); ?> %
                     </td>
                 </tr>
             <!--Bila jenis akun bukan gaji dan tunjangan-->
@@ -184,7 +193,7 @@
                     <!--Start perhitungan realisasi akun per bulan-->
                     <?php for($a=1; $a<=12; $a++){?>    
                         <?php $sum_total_nominal=0; ?>
-                        <td style="text-align:right; background:#d9d9d9; padding-right:5px;">
+                        <td style="text-align:right; background:#d9d9d9;">
                             @foreach($tb_transaksi_akun as $key => $baris_tb_transaksi_akun)
                                 @if(($baris_tb_transaksi_akun->id_akun == $row_daftar_akun->id_akun) && ($baris_tb_transaksi_akun->num_bulan == $a))
                                     <?php $sum_total_nominal += $baris_tb_transaksi_akun->total_nominal; ?>   
@@ -217,6 +226,10 @@
                         <?php $saldo_akun2 = $row_daftar_akun->pagu - $b; ?>
                         <b><?php echo number_format($saldo_akun2, 0); ?></b>
                     </td>
+                    <td align="right" style="background-color:#d9d9d9;">
+                        <?php $prosentase_akun2 = ($b / $row_daftar_akun->pagu) * 100; ?>
+                        <?php echo number_format($prosentase_akun2, 2); ?> %
+                    </td>
                 </tr>
                 
             @endif
@@ -228,7 +241,7 @@
                         <td style="text-align:right"><?php echo number_format($row_daftar_coa->pagu, 0); ?></td>
                         <?php for($s=1; $s<=12; $s++){?>
                             <?php $nominal_transaksi_akun = 0; ?>
-                            <td style="text-align:right; padding-right:5px;">
+                            <td style="text-align:right;">
                                 @foreach($tb_transaksi_akun as $row_tb_transaksi_akun)
                                     @if(($row_tb_transaksi_akun->num_bulan == $s) && ($row_tb_transaksi_akun->id_coa == $row_daftar_coa->id_coa))
                                         <?php $nominal_transaksi_akun += $row_tb_transaksi_akun->total_nominal; ?> 
@@ -255,6 +268,10 @@
                         <td class="bg">
                             <?php $saldo_coa = $row_daftar_coa->pagu - $h; ?>
                             <b><?php echo number_format($saldo_coa, 0); ?></b>
+                        </td>
+                        <td class="bg">
+                            <?php $prosentase_coa = ($h/$row_daftar_coa->pagu)*100; ?>
+                            <?php echo number_format($prosentase_coa, 2); ?> %
                         </td>
                     </tr>
                 @endif
@@ -313,6 +330,10 @@
     <td class="bg">
         <?php $saldo_pagu_global = $gg - $t; ?></b>
         <b><?php echo number_format($saldo_pagu_global, 0);  ?></b>
+    </td>
+    <td class="bg">
+        <?php $prosentase_global = ($t/$gg) * 100; ?>
+        <?php echo number_format($prosentase_global, 2);  ?> %
     </td>
 </tr>
 </table>
