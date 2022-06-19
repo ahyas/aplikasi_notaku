@@ -11,10 +11,15 @@ use DB;
 use File;
 use DataTables;
 
-class sp2dController extends Controller
+class LSController extends Controller
 {
+
     public function index(){
-        return view("transaksi/sp2d/index");
+        return view("dashboard/index");
+    }
+
+    public function catat_sp2d(){
+        return view("transaksi/ls/index");
     }
 
     public function show_transaksi(){

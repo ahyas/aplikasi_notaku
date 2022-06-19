@@ -21,28 +21,59 @@ Route::get('/',function(){
     return view('login');
 })->name("home");
 
-Route::post("dashboard/cari_nomor", "DashboardController@cari")->name("dashboard.cari");
 Route::group(['middleware'=>'auth'], function(){
+    Route::get("home","DashboardController@index");
     Route::post('logout', 'AuthController@logout')->name('logout');    
     
-    Route::get("ppk","PpkController@index")->name("ppk.dashboard");
-    Route::post("ppk/upload","PpkController@upload")->name("ppk.upload");
-    Route::get("ppk/show_data","PpkController@ShowData")->name("ppk.show_data");
-    Route::get("ppk/{id_akun}/coa","PpkController@getCOA");
-    Route::get("ppk/get_akun","PpkController@getDetailCOA")->name("ppk.getDetailCOA");
-    Route::post("ppk/update","PpkController@update")->name("ppk.update");
-    Route::get("ppk/{id_nota}/delete","PpkController@delete");
-    Route::get("ppk/{id_coa}/sub_coa","PpkController@getSubCOA")->name("ppk.getSubCOA");
+    Route::get("verifikator","VerifikatorController@index")->name("verifikator.dashboard");
+    Route::get("verifikator/verifikasi_nota", "VerifikatorController@verifikasi_nota")->name("verifikator.verifikasi_nota");
+    Route::post("verifikator/upload","VerifikatorController@upload")->name("verifikator.upload");
+    Route::get("verifikator/show_data","VerifikatorController@ShowData")->name("verifikator.show_data");
+    Route::get("verifikator/{id_akun}/coa","VerifikatorController@getCOA");
+    Route::get("verifikator/get_akun","VerifikatorController@getDetailCOA")->name("verifikator.getDetailCOA");
+    Route::post("verifikator/update","VerifikatorController@update")->name("verifikator.update");
+    Route::get("verifikator/{id_nota}/delete","VerifikatorController@delete");
+    Route::get("verifikator/{id_coa}/sub_coa","VerifikatorController@getSubCOA")->name("verifikator.getSubCOA");
     
-    Route::get("bendahara","BendaharaController@index")->name("bendahara.dashboard");
-    Route::post("bendahara/upload","BendaharaController@upload")->name("bendahara.upload");
-    Route::post("bendahara/upload_spby","BendaharaController@upload_spby")->name("bendahara.upload_spby");
-    Route::post("bendahara/upload_kwitansi","BendaharaController@upload_kwitansi")->name("bendahara.upload_kwitansi");
-    Route::get("bendahara/show_data","BendaharaController@ShowData")->name("bendahara.show_data");
-    Route::get("bendahara/{id_akun}/coa","BendaharaController@getCOA");
-    Route::get("bendahara/get_akun","BendaharaController@getDetailAkun")->name("bendahara.getDetailAkun");
-    Route::post("bendahara/update","BendaharaController@update")->name("bendahara.update");
-    Route::get("bendahara/{id_nota}/delete","BendaharaController@delete");
+    Route::get("transaksi/nota","NotaController@index")->name("nota.dashboard");
+    Route::get("transaksi/nota/catat_nota","NotaController@catat_nota")->name("transaksi.nota.catat_nota");
+    Route::post("transaksi/nota/upload","NotaController@upload")->name("transaksi.nota.upload");
+    Route::get("transaksi/nota/show_data","NotaController@ShowData")->name("transaksi.nota.show_data");
+    Route::get("transaksi/nota/{id_akun}/coa","NotaController@getCOA");
+    Route::get("transaksi/nota/get_akun","NotaController@getDetailAkun")->name("transaksi.nota.getDetailAkun");
+    Route::post("transaksi/nota/update","NotaController@update")->name("transaksi.nota.update");
+    Route::get("transaksi/nota/{id_nota}/delete","NotaController@delete");
+
+    Route::get("transaksi/verifikasi_drpp","VerifikasiDRPP@index")->name("verifikasi_drpp.index");
+    Route::get("transaksi/verifikasi_drpp/list_gup","VerifikasiDRPP@list_gup")->name("verifikasi_drpp.list_gup"); 
+    Route::get("transaksi/verifikasi_drpp/list_nota","VerifikasiDRPP@list_nota")->name("verifikasi_drpp.list_nota");
+    Route::get("transaksi/verifikasi_drpp/setuju_drpp","VerifikasiDRPP@setuju_drpp")->name("verifikasi_drpp.setuju_drpp");
+
+    Route::get("transaksi/drpp","drppController@index")->name("transaksi.drpp.index");
+    Route::get("transaksi/drpp/show_list","drppController@show_list")->name("transaksi.drpp.show_list");
+    Route::get("transaksi/drpp/daftar_nota","drppController@daftar_nota")->name("transaksi.drpp.daftar_nota");
+    Route::get("transaksi/drpp/input_nota","drppController@input_nota")->name("transaksi.drpp.input_nota");
+    Route::get("transaksi/drpp/hapus_nota","drppController@hapus_nota")->name("transaksi.drpp.hapus_nota");
+    Route::get("transaksi/drpp/simpan_drpp","drppController@simpan_drpp")->name("transaksi.drpp.simpan_drpp");
+
+    Route::get("ls","LSController@index")->name("ls.dashboard");
+    Route::get("ls/catat_sp2d", "LSController@catat_sp2d")->name("ls.catat_sp2d");
+    Route::post("ls/catat_sp2d/upload_daftar_sp2d", "LSController@upload_daftar_sp2d")->name("ls.upload_daftar_sp2d");
+    Route::get("ls/catat_sp2d/show_transaksi","LSController@show_transaksi")->name("ls.show_transaksi");
+    Route::get("ls/catat_sp2d/show_detail_transaksi", "LSController@show_detail_transaksi")->name("ls.show_detail_transaksi");
+    Route::get("ls/catat_sp2d/detail_sp2d","LSController@detail_sp2d")->name("ls.detail_sp2d");
+    Route::post("ls/catat_sp2d/upload_daftar_akun","LSController@upload_daftar_akun")->name("ls.upload_daftar_akun");
+    Route::get("ls/catat_sp2d/clear","LSController@clear")->name("ls.clear");
+    Route::get("ls/catat_sp2d/simpan","LSController@simpan")->name("ls.simpan");
+    Route::get("ls/catat_sp2d/edit","LSController@edit")->name("ls.edit");
+    Route::post("ls/catat_sp2d/update", "LSController@update")->name("ls.update");
+    Route::get("ls/catat_sp2d/{no_sp2d}/delete","LSController@delete");
+
+    Route::get("upload", "UploadController@index")->name("upload.upload_data_dukung");
+    Route::get("upload/list_gup", "UploadController@list_gup")->name("upload.list_gup");
+    Route::get("upload/list_nota", "UploadController@list_nota")->name("upload.list_nota");
+    Route::post("upload/upload_spby","UploadController@upload_spby")->name("upload.upload_spby");
+    Route::post("upload/upload_kwitansi","UploadController@upload_kwitansi")->name("upload.upload_kwitansi");
 
     Route::get("mapping","MappingController@index")->name("mapping.index");
     Route::get("mapping/get_program","MappingController@getProgram")->name("mapping.get_daftar_program");
@@ -79,25 +110,6 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("laporan/sp2d", "LaporanSP2DController@index")->name("laporan_sp2d.index");
     Route::get("laporan/sp2d/show_daftar_sp2d", "LaporanSP2DController@show_daftar_sp2d")->name("laporan_sp2d.show_daftar_sp2d");
     Route::get("laporan/sp2d/detail_sp2d","LaporanSP2DController@show_daftar_akun")->name("laporan_sp2d.detail_sp2d");
-
-    Route::get("transaksi/drpp","drppController@index")->name("transaksi.drpp.index");
-    Route::get("transaksi/drpp/show_list","drppController@show_list")->name("transaksi.drpp.show_list");
-    Route::get("transaksi/drpp/daftar_nota","drppController@daftar_nota")->name("transaksi.drpp.daftar_nota");
-    Route::get("transaksi/drpp/input_nota","drppController@input_nota")->name("transaksi.drpp.input_nota");
-    Route::get("transaksi/drpp/hapus_nota","drppController@hapus_nota")->name("transaksi.drpp.hapus_nota");
-    Route::get("transaksi/drpp/simpan_drpp","drppController@simpan_drpp")->name("transaksi.drpp.simpan_drpp");
-
-    Route::get("transaksi/catat_sp2d", "sp2dController@index")->name("transaksi.sp2d.index");
-    Route::post("transaksi/catat_sp2d/upload_daftar_sp2d", "sp2dController@upload_daftar_sp2d")->name("transaksi.sp2d.upload_daftar_sp2d");
-    Route::get("transaksi/catat_sp2d/show_transaksi","sp2dController@show_transaksi")->name("transaksi.sp2d.show_transaksi");
-    Route::get("transaksi/catat_sp2d/show_detail_transaksi", "sp2dController@show_detail_transaksi")->name("transaksi.sp2d.show_detail_transaksi");
-    Route::get("transaksi/catat_sp2d/detail_sp2d","sp2dController@detail_sp2d")->name("transaksi.sp2d.detail_sp2d");
-    Route::post("transaksi/catat_sp2d/upload_daftar_akun","sp2dController@upload_daftar_akun")->name("transaksi.sp2d.upload_daftar_akun");
-    Route::get("transaksi/catat_sp2d/clear","sp2dController@clear")->name("transaksi.sp2d.clear");
-    Route::get("transaksi/catat_sp2d/simpan","sp2dController@simpan")->name("transaksi.sp2d.simpan");
-    Route::get("transaksi/catat_sp2d/edit","sp2dController@edit")->name("transaksi.sp2d.edit");
-    Route::post("transaksi/catat_sp2d/update", "sp2dController@update")->name("transaksi.sp2d.update");
-    Route::get("transaksi/catat_sp2d/{no_sp2d}/delete","sp2dController@delete");
 
     //Start test route
     Route::get("test","TestController@index")->name("test.index");

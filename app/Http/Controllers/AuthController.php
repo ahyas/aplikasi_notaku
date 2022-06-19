@@ -53,17 +53,18 @@ class AuthController extends Controller
             //return redirect()->route('dashboard.index');
             $level = Auth::user()->level; 
             switch ($level) {
-                //login sebagai PPK
-              case '2':
-                return redirect()->route('ppk.dashboard');
+                //login sebagai verifikator
+                case '2':
+                    return redirect()->route('verifikator.dashboard');
+                    break;
+                //login sebagai operator LS
+                case '3':
+                    return redirect()->route('ls.dashboard');
+                    break; 
+                //login sebagai operator DRPP
+                default:
+                    return redirect()->route('nota.dashboard');
                 break;
-                //login sebagai bendahara
-              case '3':
-                return redirect()->route('bendahara.dashboard');
-                break; 
-              default:
-                return '/home'; 
-              break;
             }
  
         } else { // false

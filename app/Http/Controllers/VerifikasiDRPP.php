@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 
-class LaporanGUPController extends Controller
+class VerifikasiDRPP extends Controller
 {
     public function index(){
-        return view("laporan/gup/index");
-    }    
+        return view("transaksi/drpp/verifikasi_drpp/index");
+    }
 
     public function list_gup(){
         $table=DB::table("tb_drpp")
-        ->where("status",7)
+        ->where("status",6)
         ->select("no_drpp","tgl","jumlah AS total")
         ->get();
         
@@ -35,4 +35,16 @@ class LaporanGUPController extends Controller
 
         return DataTables::of($table)->make(true);
     }
+
+    public function setuju_drpp(Request $request){
+
+        $table = DB::table("tb_drpp")
+        ->where("no_drpp", $request["no_drpp"])
+        ->update([
+            "status"=>7
+        ]);
+
+        return response()->json($table);
+    }
+    
 }

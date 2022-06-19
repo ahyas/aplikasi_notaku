@@ -29,21 +29,17 @@
         .modal-xl {
             max-width: 85% !important;
         }
+
+        
 	</style>
 </head>
 <body>
 
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-                @if(Auth::user()->level==2)
-                <a class="navbar-brand" href="{{ url('/ppk') }}">
+                <a class="navbar-brand" href="#">
                     <b>Notaku</b>
                 </a>                
-                @else
-                <a class="navbar-brand" href="{{ url('/bendahara') }}">
-                    <b>Notaku</b>
-                </a>
-                @endif
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -52,43 +48,93 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                    @if(Auth::user()->level==2)
+                    <a class="nav-link" href="{{route('verifikator.dashboard')}}" id="navbarDropdown" role="button">
+                        Home
+                    </a>                
+                    @elseif(Auth::user()->level==4)
+                    <a class="nav-link" href="{{route('nota.dashboard')}}" id="navbarDropdown" role="button">
+                        Home
+                    </a>
+                    @else
+                    <a class="nav-link" href="{{route('ls.dashboard')}}" id="navbarDropdown" role="button">
+                        Home
+                    </a>
+                    @endif
+
+                    @if(Auth::user()->level==3)
                         <li class="nav-item dropdown">
-                            <a style="color:#0a4293; font-size:14px; font-weight:600;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Menu
                             </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#fafafa; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
-                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('mapping.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mapping akun dan anggaran</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a style="color:#0a4293; font-size:14px; font-weight:600;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Laporan
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#fafafa; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
-                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan.rekap_akun')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Laporan Realisasi Belanja Per Akun</a>
-                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan_gup.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Laporan Realisasi Belanja GUP</a>
-                                <a style="color:#0a4293; font-size:14px;"  class="dropdown-item" href="{{route('laporan_sp2d.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Laporan Realisasi Belanja LS</a>
-
-                            </div>
                             
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                                <a class="dropdown-item" href="{{route('mapping.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mapping akun dan anggaran</a>
+                            </div>
                         </li>
-                        @if(Auth::user()->level==3)
+                    @endif
                         <li class="nav-item dropdown">
-                            <a style="color:#0a4293; font-size:14px; font-weight:600;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Transaksi
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#fafafa; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
-                                <a style="color:#0a4293; font-size:14px;" class="dropdown-item" href="{{route('transaksi.drpp.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Catat DRPP</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                <a style="color:#0a4293; font-size:14px;" class="dropdown-item" href="{{route('transaksi.sp2d.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Catat SP2D</a>
+                            @if(Auth::user()->level==4)
+                                <a class="dropdown-item" href="{{route('transaksi.nota.catat_nota')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mencatat Nota pembelian</a>
+
+                                <a class="dropdown-item" href="{{route('transaksi.drpp.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mencatat DRPP</a>
+                            @endif
+
+                            @if(Auth::user()->level==3)
+                                <a class="dropdown-item" href="{{route('ls.catat_sp2d')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mencatat SP2D</a>
+                            @endif
+
+                            @if(Auth::user()->level==2)
+                                <a class="dropdown-item" href="{{route('verifikator.verifikasi_nota')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi nota pembelian</a>
+
+                                <a class="dropdown-item" ><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi LS</a>
+
+                                <a class="dropdown-item" href="{{route('verifikasi_drpp.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi DRPP</a>
+                            @endif
+
                             </div>
                             
                         </li>
+                        
+                        @if(Auth::user()->level==3)
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Upload
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a  class="dropdown-item" href="{{route('upload.upload_data_dukung')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Upload data dukung</a>
+
+                            </div>
+                        </li>
                         @endif
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Laporan
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a  class="dropdown-item" href="{{route('laporan.rekap_akun')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar Belanja Per Akun</a>
+
+                                @if(Auth::user()->level==4 || Auth::user()->level==2)
+                                <a  class="dropdown-item" href="{{route('laporan_gup.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar Belanja GUP</a>
+                                @endif
+
+                                @if(Auth::user()->level==3)
+                                <a  class="dropdown-item" href="{{route('laporan_sp2d.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/>  Daftar Belanja LS</a>
+                                @endif
+
+                            </div>
+                            
+                        </li>
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->

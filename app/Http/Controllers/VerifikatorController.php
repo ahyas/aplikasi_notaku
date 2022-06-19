@@ -7,11 +7,15 @@ use DataTables;
 use DB;
 use File;
 
-class PpkController extends Controller
+class VerifikatorController extends Controller
 {
     //
 
     public function index(){
+        return view("dashboard/index");
+    }
+
+    public function verifikasi_nota(){
         $table=DB::table("tb_akun")->select("id_akun","keterangan AS akun")->get();
         $total=DB::table("tb_nota")
         ->whereNull("no_drpp")
@@ -21,7 +25,7 @@ class PpkController extends Controller
         $total_saldo = 30000000-$total;
 
         $prosentase_capaian_gup=number_format(($total/30000000)*100, 2, '.', '');
-        return view("nota/ppk/index", compact("table","total","prosentase_capaian_gup","total_saldo"));
+        return view("transaksi/nota/verifikator/index", compact("table","total","prosentase_capaian_gup","total_saldo"));
     }
 
     public function ShowData(){

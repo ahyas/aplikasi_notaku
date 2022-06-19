@@ -4,6 +4,7 @@
 <div class="container-fluid">
     <div class="row">
     <div class="col-8">
+        <h5 style="font-weight:bold">Daftar belanja LS</h5>
             <div class="card">
                 <div class="card-header">Daftar SP2D</div>
                 <div class="card-body">

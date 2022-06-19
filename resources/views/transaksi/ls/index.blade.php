@@ -4,10 +4,11 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
+        <h5 style="font-weight:bold">Mencatat SP2D</h5>
             <div class="card">
-                <div class="card-header">Mencatat SP2D</div>
+                <div class="card-header">Daftar SP2D</div>
                 <div class="card-body">
-                    <form action="{{route('transaksi.sp2d.upload_daftar_sp2d')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('ls.upload_daftar_sp2d')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <label><b>Upoad SP2D (.xls)</b></label>
                         <div class="input-group mb-3">
@@ -40,7 +41,7 @@
                
                 <div id="myDIV">
                 
-                    <form action="{{route('transaksi.sp2d.upload_daftar_akun')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('ls.upload_daftar_akun')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input type="text" class="form-control no_sp2d" name="no_sp2d" id="no_sp2d" readonly>
                         
@@ -145,7 +146,7 @@
         }
         //menampilkan daftar sp2d
         $(".tb_keranjang_sp2d").DataTable({
-            ajax:"{{route('transaksi.sp2d.show_transaksi')}}",
+            ajax:"{{route('ls.show_transaksi')}}",
             serverside:false,
             scrollY:"300px",
             paging:false,
@@ -191,7 +192,7 @@
             $(".tb_detail_sp2d").DataTable({
                 ajax:
                 {
-                    url     : "{{route('transaksi.sp2d.detail_sp2d')}}",
+                    url     : "{{route('ls.detail_sp2d')}}",
                     type    : "GET",
                     data    : {no_sp2d:no_sp2d}
                 },
@@ -273,7 +274,7 @@
             let parent_akun = $(this).data("parent_akun");
             let nama_akun = $(this).data("nama_akun");
             $.ajax({
-                url:"{{route('transaksi.sp2d.edit')}}",
+                url:"{{route('ls.edit')}}",
                 type:"GET",
                 data:{id_detail_transaksi:id_detail_transaksi, parent_akun:parent_akun},
                 success:function(data){
@@ -308,7 +309,7 @@
             e.preventDefault();
             
             $.ajax({
-                url:"{{route('transaksi.sp2d.update')}}",
+                url:"{{route('ls.update')}}",
                 type:"POST",
                 data:$("#formEditAkun").serialize(),
                 success:function(data){
@@ -336,7 +337,7 @@
             
             if(confirm("Anda yakin ingin manghapus data ini?")){
                 $.ajax({
-                    url:"{{route('transaksi.sp2d.clear')}}",
+                    url:"{{route('ls.clear')}}",
                     type:"GET",
                     data:{no_sp2d:no_sp2d},
                     success:function(data){
@@ -358,7 +359,7 @@
             if(is_null==0){
                 if(confirm("Anda yakin ingin menyimpan data ini?")){
                     $.ajax({
-                        url:"{{route('transaksi.sp2d.simpan')}}",
+                        url:"{{route('ls.simpan')}}",
                         type:"GET",
                         data:{no_sp2d:no_sp2d},
                         success:function(data){

@@ -5,11 +5,10 @@
 <div class="container-fluid">
     <div class="row justify-content-center"">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Daftar belanja GUP</h5>
+        <h5 style="font-weight:bold">Verifikasi DRPP</h5>
             <div class="card">
-                <div class="card-header">DRPP</div>
+                <div class="card-header">Daftar DRPP</div>
                 <div class="card-body">
-                    
                     <table id="tb_gup" class="table display tb_gup" style="width:100%; ">
                         <thead>     						
                             <th>No. DRPP</th>
@@ -24,17 +23,16 @@
         </div>
     </div>
     <br>
-    <div class="row justify-content-center"">
+    <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Daftar nota</div>
                 <div class="card-body">
-                <div id="template"></div>
+                <button class="btn btn-primary btn-sm" id="setuju_drpp" disabled="true" style="margin-bottom:20px">Setuju</button>
+                <input type="hidden" class="no_drpp" />
                     <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
                         <thead>  
-                            <th style="width:100px">Tanggal</th>  
-                            <th style="width:100px">No. Kwitansi</th>
-                            <th style="width:100px">No. SPBy</th>                                                                                   
+                            <th style="width:100px">Tanggal</th>                                                                                 
                             <th style="width:50px">Akun</th>      
                             <th style="width:250"></th>
                             <th style="width:250">COA</th>                                                  				
@@ -97,53 +95,13 @@
   </div>
 </div>
 
-<div class="modal fade modalLihatSPBY" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal_title">Lihat dokumen SPBy</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col" style="height:800px">
-                    <embed src= "" id="file_spby" width= "100%" height= "100%" style="border:1px grey solid">
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade modalLihatKwitansi" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal_title">Lihat dokumen Kwitansi</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col" style="height:800px">
-                    <embed src= "" id="file_kwitansi" width= "100%" height= "100%" style="border:1px grey solid">
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
     $(".tb_gup").DataTable({
-        ajax        :"{{route('laporan_gup.list_gup')}}",
+        ajax        :"{{route('verifikasi_drpp.list_gup')}}",
         searching   :false,
         serverside  :false,
         scrollY:"200px",
@@ -162,33 +120,17 @@ $(document).ready(function(){
 
     $("body").on("click",".detail",function(){
         let no_drpp = $(this).data("no_drpp");
-        console.log(no_drpp);
+        $(".no_drpp").val(no_drpp);
+
+        document.getElementById("setuju_drpp").disabled = false;
         $(".tb_nota").DataTable().clear().destroy();
         $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
+            ajax    :{url:"{{route('verifikasi_drpp.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
             serverside:false,
             paging:false,
             scrollY:"400px",
             columns:[
                 {data:"tanggal", width: "80px"},
-                {data:"no_kwitansi", width:"100px",
-                    mRender:function(data, type, full){
-                        if(full["file_kwitansi"]=="0"){
-                            return"<span>"+data+"</span>";
-                        }else{
-                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
-                        }
-                    }
-                },
-                {data:"no_spby",
-                    mRender:function(data, type, full){
-                        if(full["file_spby"]=="0"){
-                            return"<span>"+data+"</span>";
-                        }else{
-                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
-                        }
-                    }
-                },
                 {data:"id_akun"},
                 {data:"nama_akun"},
                 {data:"detail_coa"},
@@ -203,18 +145,20 @@ $(document).ready(function(){
         });
     });
 
-    $("body").on("click","#lihat_spby",function(){
-        console.log($(this).data("file_spby"));
-        $(".modalLihatSPBY").modal("show");
-        var file_spby = $(this).data("file_spby");
-        document.getElementById("file_spby").src="public/uploads/spby/"+file_spby;
-    });
-
-    $("body").on("click","#lihat_kwitansi",function(){
-        console.log($(this).data("file_kwitansi"));
-        $(".modalLihatKwitansi").modal("show");
-        var file_kwitansi = $(this).data("file_kwitansi");
-        document.getElementById("file_kwitansi").src="public/uploads/kwitansi/"+file_kwitansi;
+    $("body").on("click","#setuju_drpp", function(){
+        let no_drpp = $(".no_drpp").val();
+        if(confirm("Anda yakin ingin menyetujui DRPP ini?")){
+            $.ajax({
+                url:"{{route('verifikasi_drpp.setuju_drpp')}}",
+                type:"GET",
+                data:{no_drpp:no_drpp},
+                success:function(data){
+                    document.getElementById("setuju_drpp").disabled = true;
+                    $(".tb_nota").DataTable().clear().destroy();
+                    $(".tb_gup").DataTable().ajax.reload();
+                }
+            });
+        }
     });
 
     $("body").on("click","#nota_pembelian",function(){

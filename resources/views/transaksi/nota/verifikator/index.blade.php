@@ -3,13 +3,13 @@
 @section('content')
 <style type="text/css">
 td.details-control {
-    background: url('public/icons/pluss.png') no-repeat center center;
+    background: url('../public/icons/pluss.png') no-repeat center center;
     cursor: pointer;
     vertical-align: top;
 }
 
 tr.shown td.details-control {
-    background: url('public/icons/minuss.jpg') no-repeat center center;
+    background: url('../public/icons/minuss.jpg') no-repeat center center;
     vertical-align: top;
 }
 
@@ -21,16 +21,11 @@ div.slider {
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
+        <h5 style="font-weight:bold">Verifikasi nota pembelian</h5>
             <div class="card">
                 <div class="card-header">Daftar nota</div>
 
                 <div class="card-body">
-
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <a href="#" class="btn btn-success btn-sm stretched-link reload" style="float:right; margin-left:10px">Reload</a><a href="#" class="btn btn-primary btn-sm stretched-link open_rkk" style="float:right">Rincian Kertas Kerja</a><br>
-                    </div>
-                </div>
                     
                     @if ($message = Session::get('success'))
                     <div class="alert alert-success alert-block">
@@ -72,20 +67,20 @@ div.slider {
                         </div>
                     </div>                          
                     
-                        <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
-                            <thead>  				
-                                <th></th>
-                                <th style="width:80px">Tanggal</th>
-                                <th>No. Kwitansi</th>
-                                <th>No. SPBy</th>
-                                <th>Deskripsi</th>
-                                <th>Nominal</th>
-                                <th width="70px">Jenis</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                    <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
+                        <thead>  				
+                            <th style="width:80px">Tanggal</th>
+                            <th>Akun</th>
+                            <th></th>
+                            <th>COA</th>
+                            <th>Deskripsi</th>
+                            <th>Nominal</th>
+                            <th width="70px">Jenis</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -185,46 +180,6 @@ div.slider {
     </div>
   </div>
 </div>
-
-<div class="modal fade modalLihatSPBY" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal_title">Lihat dokumen SPBy</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col" style="height:800px">
-                    <embed src= "" id="file_spby" width= "100%" height= "100%" style="border:1px grey solid">
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade modalLihatKwitansi" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal_title">Lihat dokumen Kwitansi</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col" style="height:800px">
-                    <embed src= "" id="file_kwitansi" width= "100%" height= "100%" style="border:1px grey solid">
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
 @endif
 @endsection
 
@@ -238,7 +193,7 @@ $(document).ready(function(){
     });
 
     var tb_nota = $(".tb_nota").DataTable({
-        ajax: "{{route('ppk.show_data')}}",
+        ajax: "{{route('verifikator.show_data')}}",
         serverside:false,
         ordering:false,
         searching: true,
@@ -247,32 +202,43 @@ $(document).ready(function(){
             sLoadingRecords: '<img src="{{asset('public/loading_animation/ajax-loader.gif')}}">'
   		},
         columns:[
-            {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
             {data:"tanggal"},
-            {data:"no_kwitansi",
-                mRender:function(data, type, full){
-                    if(full["file_kwitansi"]=="0"){
-                        return"<span>"+data+"</span>";
+            {data:"id_akun",
+                mRender:function(data){
+                    if(data == 0 || data == null){
+                        return'<span class="badge bg-danger" style="color:white">NULL</span>';
                     }else{
-                        return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
+                        return data;
                     }
                 }
             },
-            {data:"no_spby",
-                mRender:function(data, type, full){
-                    if(full["file_spby"]=="0"){
-                        return"<span>"+data+"</span>";
+            {data:"detail_akun",
+                mRender:function(data){
+                    if(data == 0 || data == null){
+                        return'<span class="badge bg-danger" style="color:white">NULL</span>';
                     }else{
-                        return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
+                        return data;
                     }
                 }
             },
-            {data:"deskripsi"},
+            {data:"detail_coa",
+                mRender:function(data){
+                    if(data == 0 || data == null){
+                        return'<span class="badge bg-danger" style="color:white">NULL</span>';
+                    }else{
+                        return data;
+                    }
+                }
+            },
+            {data:"deskripsi",
+                mRender:function(data){
+                    if(data == 0 || data == null){
+                        return'<span class="badge bg-danger" style="color:white">NULL</span>';
+                    }else{
+                        return data;
+                    }
+                }
+            },
             {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"cara_bayar",
                 mRender:function(data){
@@ -304,64 +270,7 @@ $(document).ready(function(){
         ]
     });
 
-    $("body").on("click","#lihat_spby",function(){
-        console.log($(this).data("file_spby"));
-        $(".modalLihatSPBY").modal("show");
-        var file_spby = $(this).data("file_spby");
-        document.getElementById("file_spby").src="../public/uploads/spby/"+file_spby;
-    });
 
-    $("body").on("click","#lihat_kwitansi",function(){
-        console.log($(this).data("file_kwitansi"));
-        $(".modalLihatKwitansi").modal("show");
-        var file_kwitansi = $(this).data("file_kwitansi");
-        document.getElementById("file_kwitansi").src="../public/uploads/kwitansi/"+file_kwitansi;
-    });
-
-    $("body").on("click",".reload",function(){
-        $(".tb_nota").DataTable().ajax.reload(null, false);
-    });
-
-    function format ( d ) {
-        // `d` is the original data object for the row
-        return '<div class="slider">'+
-        '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="">'+
-            '<tr>'+
-                '<td align="left" style="width:20px"><b>ID Akun</b></td>'+
-                '<td style="width:5px"><b>Detail Akun</b></td>'+
-                '<td align="left"><b>Detail COA</b></td>'+
-                '<td></td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td align="left">'+d.id_akun+'</td>'+
-                '<td>'+d.detail_akun+'</td>'+
-                '<td align="left">'+d.detail_coa+'</td>'+
-                '<td></td>'+
-            '</tr>'+                       
-        '</table>'+
-        '</div>';
-    }
-
-    $('.tb_nota tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = tb_nota.row( tr );
-    
-            if ( row.child.isShown() ) {
-                // This row is already open - close it
-                // This row is already open - close it
-                $('div.slider', row.child()).slideUp( function () {
-                    row.child.hide();
-                    tr.removeClass('shown');
-                } );
-            }
-            else {
-                // Open this row
-                row.child( format(row.data()), 'no-padding' ).show();
-                tr.addClass('shown');
-    
-                $('div.slider', row.child()).slideDown();
-            }
-        });
     });
 
 $("body").on("click","#detail_nota",function(){
@@ -433,7 +342,7 @@ $("body").on("click","#detail_nota",function(){
     g.options.length=0;
 
     $.ajax({
-        url:"{{route('ppk.getDetailCOA')}}",
+        url:"{{route('verifikator.getDetailCOA')}}",
         type:"GET",
         data:{id_akun:id_akun, id_coa:id_coa},
         success:function(data){
@@ -482,7 +391,7 @@ $("#akun").on("click",function(){
         g.options.length=0;
         
         $.ajax({
-            url:"ppk/"+id_akun+"/coa",
+            url:id_akun+"/coa",
             type:"GET",
             data:{id_akun:id_akun},
             success:function(data){
@@ -523,7 +432,7 @@ $("#detail_coa").on("click",function(){
         f.options.length=0;
         //mengisi dengan list yang baru
         $.ajax({
-            url:"ppk/"+id_coa+"/sub_coa",
+            url:id_coa+"/sub_coa",
             type:"GET",
             data:{id_coa:id_coa},
             success:function(data){
@@ -568,7 +477,7 @@ $("#update").on("click",function(e){
         alert("Isikan nominal");
     }else{
         $.ajax({
-            url:"{{route('ppk.update')}}",
+            url:"{{route('verifikator.update')}}",
             type:"POST",
             data:$("#formAkun").serialize(),
             success:function(data){

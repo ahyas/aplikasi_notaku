@@ -17,9 +17,9 @@
     <th colspan="4" rowspan="2">Kode satker, Program, Keg. Output, Kode akun dan uraian</th>
     <th rowspan="2">DIPA Awal</th>
     <th colspan="12">Bulan</th>
-    <th rowspan="2" class="bg" align="center">Realisasi</th>
-    <th rowspan="2" class="bg" align="center">Saldo</th>
-    <th rowspan="2" class="bg" align="center">( % )</th>
+    <th rowspan="2" class="bg" style="text-align:center">Realisasi</th>
+    <th rowspan="2" class="bg" style="text-align:center">Saldo</th>
+    <th rowspan="2" class="bg" style="text-align:center">( % )</th>
 </tr>
 <tr>
     <?php for($a=1; $a<=12; $a++){?>
