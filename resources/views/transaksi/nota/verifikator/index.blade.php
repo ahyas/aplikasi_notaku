@@ -21,7 +21,7 @@ div.slider {
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Verifikasi nota pembelian</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Verifikasi nota pembelian</h5>
             <div class="card">
                 <div class="card-header">Daftar nota</div>
 
@@ -203,7 +203,7 @@ $(document).ready(function(){
   		},
         columns:[
             {data:"tanggal"},
-            {data:"id_akun",
+            {data:"id_akun", width:"40px",
                 mRender:function(data){
                     if(data == 0 || data == null){
                         return'<span class="badge bg-danger" style="color:white">NULL</span>';

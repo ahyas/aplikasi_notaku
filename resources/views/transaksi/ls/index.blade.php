@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Mencatat SP2D</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Mencatat SP2D</h5>
             <div class="card">
                 <div class="card-header">Daftar SP2D</div>
                 <div class="card-body">

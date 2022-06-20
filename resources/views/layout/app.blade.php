@@ -30,13 +30,12 @@
             max-width: 85% !important;
         }
 
-        
 	</style>
 </head>
 <body>
 
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-secondary">
                 <a class="navbar-brand" href="#">
                     <b>Notaku</b>
                 </a>                
@@ -127,7 +126,7 @@
                                 <a  class="dropdown-item" href="{{route('laporan_gup.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar Belanja GUP</a>
                                 @endif
 
-                                @if(Auth::user()->level==3)
+                                @if(Auth::user()->level==3 || Auth::user()->level==2)
                                 <a  class="dropdown-item" href="{{route('laporan_sp2d.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/>  Daftar Belanja LS</a>
                                 @endif
 

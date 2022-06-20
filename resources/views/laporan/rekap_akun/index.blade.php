@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Daftar belanja per akun</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Daftar belanja per akun</h5>
             <div class="card">
                 <div class="card-header">Daftar Transaksi Akun</div>
                 <div class="card-body">

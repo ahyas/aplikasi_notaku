@@ -3,10 +3,14 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
+        <div class="col-12">
+            <h5 style="font-weight:bold; margin-top:50px">Daftar belanja LS</h5>
+        </div>
+    </div>
+    <div class="row">
     <div class="col-8">
-        <h5 style="font-weight:bold">Daftar belanja LS</h5>
             <div class="card">
-                <div class="card-header">Daftar SP2D</div>
+                <div class="card-header">Daftar belanja LS</div>
                 <div class="card-body">
                     <table id="tb_daftar_sp2d" class="table display tb_daftar_sp2d" style="width:100%; ">
                         <thead>    

@@ -21,7 +21,7 @@ div.slider {
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Mencatat nota pembelian</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Mencatat nota pembelian</h5>
             <div class="card">
                 <div class="card-header">Daftar nota pembelian</div>
 

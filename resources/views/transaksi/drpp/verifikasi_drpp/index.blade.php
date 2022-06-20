@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="row justify-content-center"">
+    <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Verifikasi DRPP</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Verifikasi DRPP</h5>
             <div class="card">
                 <div class="card-header">Daftar DRPP</div>
                 <div class="card-body">

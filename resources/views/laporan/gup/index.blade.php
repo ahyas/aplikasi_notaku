@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="row justify-content-center"">
+    <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold">Daftar belanja GUP</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Daftar belanja GUP</h5>
             <div class="card">
                 <div class="card-header">DRPP</div>
                 <div class="card-body">
@@ -173,19 +173,27 @@ $(document).ready(function(){
                 {data:"tanggal", width: "80px"},
                 {data:"no_kwitansi", width:"100px",
                     mRender:function(data, type, full){
-                        if(full["file_kwitansi"]=="0"){
-                            return"<span>"+data+"</span>";
+                        if(full["no_kwitansi"]=="0" || full["no_kwitansi"]==null){
+                            return"<span class='badge bg-danger' style='color:white'>NULL</span>";
                         }else{
-                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
+                            if(full["file_kwitansi"]=="0" || full["file_kwitansi"]==null){
+                                return"<span>"+data+"</span>";    
+                            }else{
+                                return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
+                            }
                         }
                     }
                 },
                 {data:"no_spby",
                     mRender:function(data, type, full){
-                        if(full["file_spby"]=="0"){
-                            return"<span>"+data+"</span>";
+                        if(full["no_spby"]=="0" || full["no_spby"]==null){
+                            return"<span class='badge bg-danger' style='color:white'>NULL</span>";
                         }else{
-                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
+                            if(full["file_spby"]=="0" || full["file_spby"]==null){
+                                return"<span>"+data+"</span>";    
+                            }else{
+                                return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
+                            }
                         }
                     }
                 },

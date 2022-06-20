@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-8">
-        <h5 style="font-weight:bold">Mapping akun dan anggaran</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Mapping akun dan anggaran</h5>
             <div class="card">
                 <div class="card-header">Program</div>
                 <div class="card-body">

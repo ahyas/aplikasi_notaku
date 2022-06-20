@@ -36,6 +36,7 @@ class UploadController extends Controller
     public function list_gup(){
         $table=DB::table("tb_drpp")
         ->select("no_drpp","tgl","jumlah AS total")
+        ->where("status",7)
         ->get();
         
         return DataTables::of($table)->make(true);
