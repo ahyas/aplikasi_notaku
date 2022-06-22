@@ -14,7 +14,7 @@ class LaporanSP2DController extends Controller
 
     public function show_daftar_sp2d(){
         $table = DB::table("tb_test_transaksi")
-        ->where("status",1)
+        ->where("status",10)
         ->get();
         return DataTables::of($table)->make(true);
     }

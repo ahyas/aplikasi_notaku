@@ -1,24 +1,14 @@
 @extends('layout/app')
 
 @section('content')
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
-        <h5 style="font-weight:bold; margin-top:50px">Mencatat SP2D</h5>
+        <h5 style="font-weight:bold; margin-top:50px">Verifikasi LS</h5>
             <div class="card">
                 <div class="card-header">Daftar SP2D</div>
                 <div class="card-body">
-                    <form action="{{route('ls.upload_daftar_sp2d')}}" method="POST" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <label><b>Upoad SP2D (.xls)</b></label>
-                        <div class="input-group mb-3">
-                            
-                        <input type="file" name="file_daftar_sp2d" class="form-control" id="file" placeholder="Recipient's username">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline-primary" value="create">Upload</button>
-                            </div>
-                        </div>
-                    </form>
 
                     <table class="table display table-striped tb_keranjang_sp2d" style="width:100%;">
                         <thead>
@@ -38,24 +28,7 @@
             <div class="card">
                 <div class="card-header">Detail akun</div>
                 <div class="card-body">
-               
-                <div id="myDIV">
-                
-                    <form action="{{route('ls.upload_daftar_akun')}}" method="POST" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <input type="text" class="form-control no_sp2d" name="no_sp2d" id="no_sp2d" readonly>
-                        
-                        <label><b>Upoad detail Akun (.xls)</b></label>
-                        <div class="input-group mb-3">
-                            
-                        <input type="file" name="file_detail_akun" class="form-control">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-primary" id="upload_akun" value="create">Upload</button>
-                        </div>
-
-                        </div>
-                    </form>
-                </div>
+                <input type="hidden" class="form-control no_sp2d" name="no_sp2d" id="no_sp2d" readonly>
                     <table class="table display table-striped tb_detail_sp2d" id="tb_detail_sp2d" style="width:100%;">
                         <thead>  	
                             <th width="10px">No.</th>			
@@ -63,19 +36,18 @@
                             <th >Keterangan</th>
                             <th >Jenis</th>
                             <th width="80px" style="text-align:right">Jumlah</th>
-                            
+                            <th width="50px">Action</th>
                         </thead>
                         <tbody class="our-table"></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="3" style="text-align:right">Total:</th>
+                                <th colspan="4" style="text-align:right">Total:</th>
                                 <th width="50px" style="text-align:right"></th>
                                 <th width="50px" style="text-align:right"></th>
                             </tr>
                         </tfoot>
                     </table>
                     <button type="button" class="btn btn-primary btn-lg btn-block btn-sm" id="simpan" disabled="true" style="margin-top:15px">Simpan</button>
-                    <button type="button" class="btn btn-danger btn-lg btn-block btn-sm" id="clear" disabled="true">Clear</button>
                 </div>
             </div>
         </div>
@@ -83,7 +55,7 @@
 </div>
 
 <!--Start form COA-->
-<div class="modal modal-fade" id="modalAkun"  style="overflow: hidden;">
+<div class="modal fade" id="modalAkun"  style="overflow: hidden;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -126,27 +98,15 @@
     </div>
 </div>
 <!--End form COA-->
+
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-        //menyimpan no sp2d sementara di session sehingga saat halaman di refresh tidak hilang
-        let field = document.getElementById("no_sp2d"); 
-        if (sessionStorage.getItem("autosave")) {
-            // Restore a content of the input
-            field.value = sessionStorage.getItem("autosave");
-            document.getElementById("myDIV").style.display="block";
-            tb_detail(field.value);
-            
-        }else{
-            document.getElementById("myDIV").style.display="none";
-            tb_detail();
-            
-        }
         //menampilkan daftar sp2d
         $(".tb_keranjang_sp2d").DataTable({
-            ajax:"{{route('ls.show_transaksi')}}",
+            ajax:"{{route('verifikasi_ls.show_transaksi')}}",
             serverside:false,
             scrollY:"300px",
             paging:false,
@@ -161,30 +121,15 @@
                 },
                 {data:"no_sp2d"},
                 {data:"tanggal", width:"100px"},
-                {data:"jenis_spm", width:"100px"},
+                {data:"jenis_spm"},
                 {data:"deskripsi"},
                 {data:"nilai", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 {data:"no_sp2d", 
                     render:function(data){
-                        return"<button class='btn btn-primary btn-sm detail_sp2d' data-no_sp2d='"+data+"'>Detail</button> <button class='btn btn-danger btn-sm delete_sp2d' data-no_sp2d='"+data+"'>Delete</button>";
+                        return"<button class='btn btn-primary btn-sm detail_sp2d' data-no_sp2d='"+data+"'>Detail</button>";
                     }
                 }
             ]
-        });
-
-        $("body").on("click",".delete_sp2d",function(){
-            
-            let no_sp2d = parseInt($(this).data("no_sp2d"));
-            if(confirm("Anda yakin ingin menghapus data ini?")){
-                $.ajax({
-                    url :"catat_sp2d/"+no_sp2d+"/delete",
-                    type:"GET",
-                    success:function(data){
-                        $(".tb_keranjang_sp2d").DataTable().ajax.reload();
-                        $(".tb_detail_sp2d").DataTable().ajax.reload();
-                    }
-                });
-            }
         });
 
         function tb_detail(no_sp2d){
@@ -192,7 +137,7 @@
             $(".tb_detail_sp2d").DataTable({
                 ajax:
                 {
-                    url     : "{{route('ls.detail_sp2d')}}",
+                    url     : "{{route('verifikasi_ls.detail_sp2d')}}",
                     type    : "GET",
                     data    : {no_sp2d:no_sp2d}
                 },
@@ -219,10 +164,8 @@
 
                     if(count==0){
                         document.getElementById("simpan").disabled=true;
-                        document.getElementById("clear").disabled=true;
                     }else{
                         document.getElementById("simpan").disabled=false;
-                        document.getElementById("clear").disabled=false;
                     }
                 },
                 serverside  :false,
@@ -255,7 +198,16 @@
                         }
                     },
                     {data:"jenis_akun"},
-                    {data:"jumlah", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')}
+                    {data:"jumlah", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                    {data:"id", 
+                        render:function(data, type, full){
+                            if(full["jenis_akun"]=="BELANJA"){
+                                return"<button class='btn btn-success btn-sm' id='edit_akun' data-parent_akun='"+full["akun"]+"' data-id_detail_transaksi='"+data+"' data-nama_akun='"+full["nama_akun"]+"'>Edit</button>";
+                            }else{
+                                return"<button class='btn btn-success btn-sm' id='edit_akun' data-parent_akun='"+full["akun"]+"' data-id_detail_transaksi='"+data+"' data-nama_akun='"+full["nama_akun"]+"' disabled>Edit</button>";
+                            }
+                        }
+                    }
                 ]
             });
         }
@@ -300,7 +252,7 @@
             e.preventDefault();
             
             $.ajax({
-                url:"{{route('ls.update')}}",
+                url:"{{route('verifikasi_ls.update')}}",
                 type:"POST",
                 data:$("#formEditAkun").serialize(),
                 success:function(data){
@@ -311,54 +263,39 @@
         });
         //menampilkan detail sp2d
         $("body").on("click",".detail_sp2d", function(){
-            document.getElementById("myDIV").style.display="block";
 
             let no_sp2d = $(this).data("no_sp2d");
-            //mencegah perubahan nilai setelah refresh halaman
-            sessionStorage.setItem("autosave", no_sp2d);
 
             $(".no_sp2d").val(no_sp2d);
             console.log(no_sp2d);
             tb_detail(no_sp2d);
             
          });        
-         //membersihkan daftar rincian akun
-         $("body").on("click","#clear",function(){
-            let no_sp2d = $("#no_sp2d").val();
-            
-            if(confirm("Anda yakin ingin manghapus data ini?")){
-                $.ajax({
-                    url:"{{route('ls.clear')}}",
-                    type:"GET",
-                    data:{no_sp2d:no_sp2d},
-                    success:function(data){
-                        
-                        $(".tb_detail_sp2d").DataTable().ajax.reload();
-                        document.getElementById("simpan").disabled=true;
-                        document.getElementById("clear").disabled=true;
-                    }
-                });
-            }
-         });
+        
          //menyimpan daftar rincian akun
          $("body").on("click","#simpan",function(){
             let no_sp2d = $("#no_sp2d").val();
-            
+            //check apakah masih terdapat data null
+            let is_null = $( ".our-table td:nth-child(3):contains('null')").length;
+            console.log(is_null);
+            if(is_null == 1){
+                alert("Lengkapi data!")
+            }else{
                 if(confirm("Anda yakin ingin menyimpan data ini?")){
                     $.ajax({
-                        url:"{{route('ls.simpan')}}",
+                        url:"{{route('verifikasi_ls.simpan')}}",
                         type:"GET",
                         data:{no_sp2d:no_sp2d},
                         success:function(data){
                             console.log("return "+data);
                             $(".tb_keranjang_sp2d").DataTable().ajax.reload(null, false);
                             tb_detail();
-                            document.getElementById("myDIV").style.display="none";
+                            $(".no_sp2d").val("");
                             document.getElementById("simpan").disabled=true;
-                            document.getElementById("clear").disabled=true;
                         }
                     });
                 }
+            }
         });
 
     });

@@ -30,6 +30,54 @@
             max-width: 85% !important;
         }
 
+        @media (min-width: 768px) {
+  .animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+}
+
+        @keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    -webkit-transform: transform;
+    -webkit-opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    -webkit-opacity: 1;
+  }
+
+  0% {
+    -webkit-transform: translateY(1rem);
+    -webkit-opacity: 0;
+  }
+}
+
+.slideIn {
+  -webkit-animation-name: slideIn;
+  animation-name: slideIn;
+}
+
 	</style>
 </head>
 <body>
@@ -67,7 +115,7 @@
                             Menu
                             </a>
                             
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                            <div class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown" >
                                 <a class="dropdown-item" href="{{route('mapping.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mapping akun dan anggaran</a>
                             </div>
                         </li>
@@ -77,7 +125,7 @@
                             Transaksi
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown">
 
                             @if(Auth::user()->level==4)
                                 <a class="dropdown-item" href="{{route('transaksi.nota.catat_nota')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Mencatat Nota pembelian</a>
@@ -92,7 +140,7 @@
                             @if(Auth::user()->level==2)
                                 <a class="dropdown-item" href="{{route('verifikator.verifikasi_nota')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi nota pembelian</a>
 
-                                <a class="dropdown-item" ><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi LS</a>
+                                <a class="dropdown-item" href="{{route('verifikasi_ls.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi LS</a>
 
                                 <a class="dropdown-item" href="{{route('verifikasi_drpp.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi DRPP</a>
                             @endif
@@ -107,7 +155,7 @@
                             Upload
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown">
                                 <a  class="dropdown-item" href="{{route('upload.upload_data_dukung')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Upload data dukung</a>
 
                             </div>
@@ -119,7 +167,7 @@
                             Laporan
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown">
                                 <a  class="dropdown-item" href="{{route('laporan.rekap_akun')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Daftar Belanja Per Akun</a>
 
                                 @if(Auth::user()->level==4 || Auth::user()->level==2)
@@ -154,7 +202,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -181,6 +229,8 @@
         <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="//cdn.datatables.net/plug-ins/1.11.5/api/sum().js"></script>
         @stack('scripts')
 </body>

@@ -49,6 +49,12 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("transaksi/verifikasi_drpp/list_nota","VerifikasiDRPP@list_nota")->name("verifikasi_drpp.list_nota");
     Route::get("transaksi/verifikasi_drpp/setuju_drpp","VerifikasiDRPP@setuju_drpp")->name("verifikasi_drpp.setuju_drpp");
 
+    Route::get("transaksi/verifikasi_ls","VerifikasiLS@index")->name("verifikasi_ls.index");
+    Route::get("transaksi/verifikasi_ls/show_transaksi","VerifikasiLS@show_transaksi")->name("verifikasi_ls.show_transaksi");
+    Route::get("transaksi/verifikasi_ls/detail_sp2d","VerifikasiLS@detail_sp2d")->name("verifikasi_ls.detail_sp2d");
+    Route::post("transaksi/verifikasi_ls/update", "VerifikasiLS@update")->name("verifikasi_ls.update");
+    Route::get("transaksi/verifikasi_ls/simpan","VerifikasiLS@simpan")->name("verifikasi_ls.simpan");
+
     Route::get("transaksi/drpp","drppController@index")->name("transaksi.drpp.index");
     Route::get("transaksi/drpp/show_list","drppController@show_list")->name("transaksi.drpp.show_list");
     Route::get("transaksi/drpp/daftar_nota","drppController@daftar_nota")->name("transaksi.drpp.daftar_nota");

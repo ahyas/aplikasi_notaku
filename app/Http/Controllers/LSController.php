@@ -24,7 +24,7 @@ class LSController extends Controller
 
     public function show_transaksi(){
         $table=DB::table("tb_test_transaksi")
-        ->where("status",0)
+        ->where("status",8)
         ->get();
         return DataTables::of($table)->make(true);
     }
@@ -79,7 +79,7 @@ class LSController extends Controller
         DB::table("tb_test_transaksi")
         ->where("no_sp2d", $no_sp2d)
         ->update([
-            "status"=>1
+            "status"=>9
         ]);
         return response()->json();
     }

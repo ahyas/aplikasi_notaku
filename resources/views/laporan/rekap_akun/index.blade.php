@@ -9,19 +9,56 @@
             <div class="card">
                 <div class="card-header">Daftar Transaksi Akun</div>
                 <div class="card-body">
-                    <button class="btn btn-primary btn-sm cetak_laporan">Print</button>
-                    <table id="tb_akun" class="table display tb_akun" style="width:100%; ">
+                    <button class="btn btn-primary btn-sm cetak_laporan" style="margin-bottom:20px">Print</button>
+                    <table id="tb_akun" class="table table-striped tb_akun" style="width:100%; ">
                         <thead>
                             <th style="width:10px">No.</th>  				
                             <th style="width:60px">ID Akun</th>
                             <th>Akun</th>
                             <th>jenis akun</th>
-                            <th style="width:150px;">Total transaksi</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
                             <th>Action</th>
                         </thead>
-                            <tbody></tbody>
+                        <tbody>
+                        <?php $no = 0; ?>
+                           @foreach($tb_akun as $row)
+                                <tr>
+                                    <td><?php echo $no+=1; ?></td>
+                                    <td>{{$row->id_akun}}</td>
+                                    <td>{{$row->keterangan}}</td>   
+                                    <td>{{$row->nama_komponen}}</td>
+                                    <td style="text-align:right"><?php echo number_format($row->pagu,2); ?></td>
+                                    <td style="text-align:right">
+                                    @if($row->id_komponen == 1)
+                                        <?php $realisasi_ls = 0; ?>
+                                        @foreach($tb_ls as $row_ls)
+                                            @if($row_ls->akun == $row->id_akun)
+                                                <?php $realisasi_ls+=$row_ls->jumlah; ?>
+                                            @endif
+                                        @endforeach
+                                        <b><?php echo number_format($realisasi_ls, 2); ?></b>
+                                    @else
+                                    <?php $realisasi_nota = 0; ?>
+                                        @foreach($tb_nota as $row_nota)
+                                            @if($row_nota->id_akun == $row->id_akun)
+                                                <?php $realisasi_nota+=$row_nota->nominal; ?>
+                                            @endif
+                                        @endforeach
+                                        <b><?php echo number_format($realisasi_nota, 2); ?></b>
+                                    @endif
+                                    </td>
+                                    <td>
+                                    @if($row->id_komponen == 1)
+                                        <button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="{{$row->id_akun}}" disabled>Detail</button>
+                                    @else
+                                        <button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="{{$row->id_akun}}">Detail</button>
+                                    @endif
+                                    </td>
+                                </tr>
+                           @endforeach
+                        <?php $no++; ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -44,7 +81,6 @@
                     <table id="tb_daftar_coa" class="table display tb_daftar_coa" style="width:100%; ">
                         <thead>
                             <th style="width:200px">Nama COA</th>
-                            <th>Pengeluaran</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
                             <th width="20px">Action</th>  				
@@ -99,82 +135,45 @@
 
 @push('scripts')
 <script type="text/javascript">
-$(document).ready(function(){
-    $("body").on("click",".cetak_laporan",function(){
-        window.open("rekap_akun/print");
-    });
-    
-    $("#tb_akun").DataTable({
-        ajax:"{{route('laporan.rekap_akun.show_data')}}",
-        serverside:true,
-        paginate:false,
-        processing:false,
-        columns:[
-            {data:"id_akun",
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                }
-            },
-            {data:"id_akun"},
-            {data:"nama_akun"},
-            {data:"keterangan_akun"},
-            {data:"total_nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-            {data:"pagu_akun", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-            {data:"realisasi_akun", className: 'dt-body-left', render: $.fn.DataTable.render.number(',', '.', 2, ''),
-                mRender:function(data){
-                    return data+" % <br><div class='progress' style='background-color:red;'><div class='progress-bar' role='progressbar' style='width: "+data+"%;' aria-valuemin='0' aria-valuemax='100'></div></div>";
-                }
-            },
-            {data:"id_akun",
-                mRender:function(data, type, full){
-                    if(full["jenis_akun"]==2 || full["jenis_akun"]==3 || full["jenis_akun"]==4){
-                        return"<button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="+data+">Detail</button>";
-                    }else{
-                        return"<button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="+data+" disabled>Detail</button>";
-                    }
-                }
-            }
-        ]
-    });
+$("body").on("click",".cetak_laporan",function(){
+window.open("rekap_akun/print");
+});
 
-    $("body").on("click","#detail_akun",function(){
+$("body").on("click","#detail_akun",function(){
       
-        let id_akun = $(this).data("id_akun");
-        console.log(id_akun);
+      let id_akun = $(this).data("id_akun");
+      console.log(id_akun);
 
-            $(".modalDetail").modal("show");
-            $("#tb_daftar_subcoa").DataTable().clear().destroy();
-            $("#tb_daftar_coa").DataTable().clear().destroy();
-            var table = $("#tb_daftar_coa").DataTable({
-                ajax:"rekap_akun/"+id_akun+"/daftar_coa",
-                paginate:false,
-                searching:false,
-                serverside:false,
-                processing:false,
-                columns:[
-                    {data:"nama_coa"},
-                    {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                    {data:"pagu_kegiatan", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                    {data:"realisasi_kegiatan", className: 'dt-body-left',
-                        mRender:function(data){
-                            return data+"%<br><div class='progress' style='background-color:red;'><div class='progress-bar' role='progressbar' style='width: "+data+"%;' aria-valuemin='0' aria-valuemax='100'></div></div>";
-                        }
-                    },
-                    {data:"id_akun", className: 'dt-body-right',
-                        mRender:function(data,type,full){
-                            return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
-                        }
-                    },
-                ]
-            });
-    });
+          $(".modalDetail").modal("show");
+          $("#tb_daftar_subcoa").DataTable().clear().destroy();
+          $("#tb_daftar_coa").DataTable().clear().destroy();
+          var table = $("#tb_daftar_coa").DataTable({
+              ajax:"rekap_akun/"+id_akun+"/daftar_coa",
+              paginate:false,
+              searching:false,
+              serverside:false,
+              processing:false,
+              columns:[
+                  {data:"keterangan"},
+                  {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                  {data:"realisasi", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                  {data:"id_akun", className: 'dt-body-right',
+                      mRender:function(data,type,full){
+                          return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
+                      }
+                  },
+              ]
+          });
+  });
 
-    $("body").on("click","#detail_coa",function(){
+  $("body").on("click","#detail_coa",function(){
         let id_akun = $(this).data("id_akun");
-        console.log(id_akun);
+        let id_coa = $(this).data("id_coa");
+        console.log(id_akun+" "+id_coa)
+
             $("#tb_daftar_subcoa").DataTable().clear().destroy();
-           var tb_subcoa =  $("#tb_daftar_subcoa").DataTable({
-                ajax:{url:"{{route('laporan.rekap_akun.detail_coa')}}", type:"GET", data:{id_akun:id_akun}},
+            var tb_subcoa =  $("#tb_daftar_subcoa").DataTable({
+                ajax:{url:"{{route('laporan.rekap_akun.detail_coa')}}", type:"GET", data:{id_akun:id_akun, id_coa:id_coa}},
                 ordering:false,
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
@@ -204,14 +203,5 @@ $(document).ready(function(){
                 ],
             });
     });
-
-    $("body").on("click","#nota_pembelian", function(){
-        let file = $(this).data("file");
-        document.getElementById("data_dukung").src="../public/uploads/"+file;
-        $(".modalPreview").modal("show");
-    });
-
-});
-
 </script>
 @endpush()
