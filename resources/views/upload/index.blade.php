@@ -20,8 +20,8 @@ div.slider {
 @if(Auth::user()->level==3)
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-10" style="margin-bottom:20px; margin-top:40px">
-        <h5 style="font-weight:bold">Upload data dukung</h5>
+        <div class="col-10" style="margin-bottom:20px;">
+        <h5 style="font-weight:bold; margin-top:50px">Upload data dukung</h5>
             <div class="card">
                 <div class="card-header">Daftar DRPP</div>
                 <div class="card-body">

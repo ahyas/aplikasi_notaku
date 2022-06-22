@@ -288,7 +288,7 @@ $(document).ready(function(){
                     }else if(data==2){
                         return"<b>non tunai</b>";
                     }else{
-                        return"<b>N/A</b>";
+                        return"<span class='badge badge-danger'><b>N/A</b></span>";
                     }
                 }
             },

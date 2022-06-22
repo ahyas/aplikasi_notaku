@@ -230,7 +230,6 @@
         <!-- Bootstrap JavaScript -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="//cdn.datatables.net/plug-ins/1.11.5/api/sum().js"></script>
         @stack('scripts')
 </body>
