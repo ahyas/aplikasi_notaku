@@ -104,7 +104,7 @@ $(document).ready(function(){
         ajax        :"{{route('verifikasi_drpp.list_gup')}}",
         searching   :false,
         serverside  :false,
-        scrollY:"200px",
+        scrollY     :"200px",
         paging      :false,
         columns     :[
             {data:"no_drpp"},

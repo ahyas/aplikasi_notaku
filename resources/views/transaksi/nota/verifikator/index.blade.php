@@ -114,6 +114,7 @@ div.slider {
                                 <option value="{{$row->id_akun}}">{{$row->id_akun}} - {{$row->akun}}</option>
                                 @endforeach
                             </select>
+                            <small class="form-text" style="color:blue">Saldo akun : <span id="saldo_akun" style="font-weight:bold; float:right"></span></small>
                         </div>
                     </div>
 
@@ -125,6 +126,7 @@ div.slider {
                             <select class="form-control" id="detail_coa" name="detail_coa" disabled="true">
                                 <option value="0" selected>Pilih detail COA</option>
                             </select>
+                            <small class="form-text" style="color:blue">Saldo COA : <span id="saldo_coa" style="font-weight:bold; float:right"></span></small>
                         </div>
                     </div>
 
@@ -284,6 +286,7 @@ $("body").on("click","#detail_nota",function(){
     let id_status=$(this).data("id_status");
     let nominal = $(this).data("nominal");
     let cara_bayar=$(this).data("cara_bayar");
+    console.log(id_akun);
 
     $("#id_nota").val(id_nota);
   
@@ -346,6 +349,9 @@ $("body").on("click","#detail_nota",function(){
         type:"GET",
         data:{id_akun:id_akun, id_coa:id_coa},
         success:function(data){
+            document.getElementById("saldo_akun").innerHTML = data.saldo_akun;
+            document.getElementById("saldo_coa").innerHTML = data.saldo_coa;
+
             $("#detail_coa").append("<option value='0'>Pilih detail COA</option>");
             for(let a=0; a<data.baris_coa; a++){
                 $("#detail_coa").append("<option value='"+data.detail_coa[a].id_coa+"'>"+data.detail_coa[a].keterangan+"</option>");
@@ -373,14 +379,13 @@ $("body").on("click","#detail_nota",function(){
 
 $("#akun").on("click",function(){
     let id_akun = $(this).val();
-    console.log(id_akun);
+    document.getElementById("saldo_coa").innerHTML = 0;
     document.getElementById("sub_coa").disabled=true;
 
     if(id_akun==0){ 
         document.getElementById("detail_coa").value=0;
         document.getElementById("detail_coa").disabled=true;
         document.getElementById("deskripsi").readOnly=true;
-        $("#deskripsi").val("");
     }else{
         let f = document.getElementById("detail_coa");
         //mengosongka list sebelumnya
@@ -395,6 +400,9 @@ $("#akun").on("click",function(){
             type:"GET",
             data:{id_akun:id_akun},
             success:function(data){
+                //Sisa pagu akun
+                document.getElementById("saldo_akun").innerHTML = data.saldo_akun;
+
                 if(data.baris>0){
                     $("#detail_coa").append("<option value='0'>Pilih detail COA</option>");
                     for(let a=0; a<data.baris; a++){
@@ -415,6 +423,7 @@ $("#akun").on("click",function(){
 
 $("#detail_coa").on("click",function(){
     let id_coa = $(this).val();
+    console.log(id_coa);
     $("#desc_coa").val(id_coa);
     if(id_coa==0){
         
@@ -436,7 +445,10 @@ $("#detail_coa").on("click",function(){
             type:"GET",
             data:{id_coa:id_coa},
             success:function(data){
+                document.getElementById("saldo_coa").innerHTML = data.saldo_coa;
+
                 if(data.baris>0){
+
                     $("#sub_coa").append("<option value='0'>Pilih sub COA</option>");
                     for(let a=0; a<data.baris; a++){
                         $('#sub_coa').append("<option value='"+data.table[a].id_subcoa+"'>"+data.table[a].nama_subcoa+"</option>")

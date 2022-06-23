@@ -16,7 +16,10 @@ class VerifikatorController extends Controller
     }
 
     public function verifikasi_nota(){
-        $table=DB::table("tb_akun")->select("id_akun","keterangan AS akun")->get();
+        $table=DB::table("tb_akun")
+        ->select("id_akun","keterangan AS akun")
+        ->get();
+
         $total=DB::table("tb_nota")
         ->whereNull("no_drpp")
         ->where("id_status",">",1)
@@ -57,16 +60,68 @@ class VerifikatorController extends Controller
         return back()->with('success','You have successfully upload file.')->with('file',$fileName);
     }
 
+    public function hitung_saldo_akun($id_akun){
+
+        if($id_akun <> 0){
+            $realisasi_akun=DB::table("tb_nota")
+            ->whereNotNull("tb_nota.no_drpp")
+            ->where("id_akun",$id_akun)
+            ->groupBy("tb_nota.id_akun")
+            ->sum("tb_nota.nominal");
+
+            $pagu_akun = DB::table("tb_akun")
+            ->select("pagu")
+            ->where("id_akun",$id_akun)
+            ->first();
+
+            $saldo = number_format($pagu_akun->pagu - $realisasi_akun, 2);
+
+            return $saldo;
+        }else{
+            return 0;
+        }
+
+    }
+
+    public function hitung_saldo_coa($id_coa){
+        if($id_coa <> 0){
+            $realisasi_coa=DB::table("tb_nota")
+            ->whereNotNull("tb_nota.no_drpp")
+            ->where("id_akun",$id_coa)
+            ->groupBy("tb_nota.id_coa")
+            ->sum("tb_nota.nominal");
+
+            $pagu_coa = DB::table("tb_coa")
+            ->select("pagu")
+            ->where("id_coa",$id_coa)
+            ->first();
+
+            $saldo = number_format($pagu_coa->pagu - $realisasi_coa, 2);
+
+            return $saldo;
+
+        }else{
+            return 0;
+        }
+
+    }
+
     public function getCOA($id_akun){
         $table=DB::table("tb_coa")
         ->select("id_akun","id_coa","keterangan AS detail_coa")
         ->where("id_akun",$id_akun)
         ->get();
+
+        $saldo_akun = self::hitung_saldo_akun($id_akun);
+
         $baris=$table->count();
-        return response()->json(["detail_coa"=>$table,"baris"=>$baris]);
+        return response()->json(["detail_coa"=>$table,"baris"=>$baris,"saldo_akun"=>$saldo_akun]);
     }
 
     public function getDetailCOA(Request $request){
+
+        $saldo_akun = self::hitung_saldo_akun($request["id_akun"]);
+        $saldo_coa = self::hitung_saldo_coa($request["id_coa"]);
 
         $detail_coa=DB::table("tb_coa")
         ->where("id_akun",$request["id_akun"])
@@ -80,7 +135,7 @@ class VerifikatorController extends Controller
 
         $baris_subcoa=$detail_subcoa->count();
 
-        return response()->json(["detail_coa"=>$detail_coa,"baris_coa"=>$baris_coa,"detail_subcoa"=>$detail_subcoa,"baris_subcoa"=>$baris_subcoa]);
+        return response()->json(["detail_coa"=>$detail_coa,"baris_coa"=>$baris_coa,"detail_subcoa"=>$detail_subcoa,"baris_subcoa"=>$baris_subcoa, "saldo_akun"=>$saldo_akun, "saldo_coa"=>$saldo_coa]);
     }
 
     public function update(Request $request){
@@ -99,13 +154,15 @@ class VerifikatorController extends Controller
     }
 
     public function getSubCOA($id_coa){
+        $saldo_coa = self::hitung_saldo_coa($id_coa);
+
         $table=DB::table("tb_sub_coa")
         ->select("id_coa","id_subcoa","keterangan AS nama_subcoa")
         ->where("id_coa",$id_coa)
         ->get();
         $baris=$table->count();
 
-        return response()->json(["table"=>$table, "baris"=>$baris]);
+        return response()->json(["table"=>$table, "baris"=>$baris,"saldo_coa"=>$saldo_coa]);
     }
 
 }

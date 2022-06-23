@@ -18,6 +18,7 @@
                             <th>jenis akun</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
+                            <th>Saldo</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -37,7 +38,8 @@
                                                 <?php $realisasi_ls+=$row_ls->jumlah; ?>
                                             @endif
                                         @endforeach
-                                        <b><?php echo number_format($realisasi_ls, 2); ?></b>
+                                        <?php $realisasi = $realisasi_ls; ?>
+                                        
                                     @else
                                     <?php $realisasi_nota = 0; ?>
                                         @foreach($tb_nota as $row_nota)
@@ -45,10 +47,15 @@
                                                 <?php $realisasi_nota+=$row_nota->nominal; ?>
                                             @endif
                                         @endforeach
-                                        <b><?php echo number_format($realisasi_nota, 2); ?></b>
+                                        <?php $realisasi = $realisasi_nota; ?>
+                                        
                                     @endif
+                                    <?php echo number_format($realisasi, 2); ?>
                                     </td>
-                                    <td>
+                                    <td style="text-align:right">
+                                        <b><?php echo number_format($row->pagu - $realisasi, 2); ?></b>
+                                    </td>
+                                    <td >
                                     @if($row->id_komponen == 1)
                                         <button class='btn btn-primary btn-sm' id='detail_akun' data-id_akun="{{$row->id_akun}}" disabled>Detail</button>
                                     @else
@@ -83,6 +90,7 @@
                             <th style="width:200px">Nama COA</th>
                             <th>Pagu</th>
                             <th>Realisasi</th>
+                            <th>Saldo</th>
                             <th width="20px">Action</th>  				
                         </thead>
                         <tbody></tbody>
@@ -94,13 +102,13 @@
                             <th>No. SPBy</th>
                             <th width="70px">Tanggal</th>
                             <th>Deskripsi</th>
-                            <th>Nominal</th>
+                            <th style="padding-right:10px">Nominal</th>
                         </thead>
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="3" style="text-align:right">Total:</th>
-                                <th style="text-align:right"></th>
+                                <th colspan="3" style="text-align:left">Realisasi : </th>
+                                <th style="text-align:left"></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -157,6 +165,12 @@ $("body").on("click","#detail_akun",function(){
                   {data:"keterangan"},
                   {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                   {data:"realisasi", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                  {data:"pagu", className: 'dt-body-right', 
+                    render:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
+                            let saldo = data - full["realisasi"];
+                            return '<b><span>'+saldo+'</span></b>';
+                        }
+                    },
                   {data:"id_akun", className: 'dt-body-right',
                       mRender:function(data,type,full){
                           return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
