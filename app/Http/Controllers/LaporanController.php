@@ -112,6 +112,7 @@ class LaporanController extends Controller
 
         $table=DB::table("tb_nota")
         ->whereNotNull("tb_nota.no_drpp")
+        ->where("tb_nota.id_status",3)
         ->where("tb_nota.id_akun",$id_akun)
         ->select("tb_coa.keterangan","tb_nota.id_akun","tb_nota.id_coa",DB::raw("SUM(tb_nota.nominal) AS realisasi"), "tb_coa.pagu")
         ->leftjoin("tb_coa","tb_nota.id_coa","=","tb_coa.id_coa")
