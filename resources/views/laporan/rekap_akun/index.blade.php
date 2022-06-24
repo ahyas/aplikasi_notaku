@@ -53,7 +53,8 @@
                                     @endif
                                     <?php $total_realisasi += $realisasi; ?>
                                     <?php $total_pagu += $row->pagu; ?>
-                                    <?php echo number_format($realisasi, 2); ?>
+                                    <?php echo number_format($realisasi, 2); ?><br>
+                                    <?php echo "(".number_format(($realisasi/$row->pagu)*100)." %)"; ?>
                                     </td>
                                     <td style="text-align:right">
                                         <b><?php echo number_format($row->pagu - $realisasi, 2); ?></b>
