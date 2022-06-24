@@ -22,7 +22,7 @@
                             <th>Action</th>
                         </thead>
                         <tbody>
-                        <?php $no = 0; ?>
+                        <?php $no = 0; $total_realisasi = 0; $total_pagu = 0;?>
                            @foreach($tb_akun as $row)
                                 <tr>
                                     <td><?php echo $no+=1; ?></td>
@@ -36,6 +36,7 @@
                                         @foreach($tb_ls as $row_ls)
                                             @if($row_ls->akun == $row->id_akun)
                                                 <?php $realisasi_ls+=$row_ls->jumlah; ?>
+
                                             @endif
                                         @endforeach
                                         <?php $realisasi = $realisasi_ls; ?>
@@ -50,6 +51,8 @@
                                         <?php $realisasi = $realisasi_nota; ?>
                                         
                                     @endif
+                                    <?php $total_realisasi += $realisasi; ?>
+                                    <?php $total_pagu += $row->pagu; ?>
                                     <?php echo number_format($realisasi, 2); ?>
                                     </td>
                                     <td style="text-align:right">
@@ -65,6 +68,13 @@
                                 </tr>
                            @endforeach
                         <?php $no++; ?>
+                        <tr>
+                            <td colspan="4" style="text-align:center; font-weight:bold"><b>Total</b></td>
+                            <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu, 2);  ?></td>
+                            <td style="text-align:right; font-weight:bold"><?php echo number_format($total_realisasi, 2); ?><br><?php echo "(".number_format(($total_realisasi/$total_pagu)*100, 2)." %)";  ?></td>
+                            <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu - $total_realisasi, 2); ?></td>
+                            <td></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -164,7 +174,12 @@ $("body").on("click","#detail_akun",function(){
               columns:[
                   {data:"keterangan"},
                   {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                  {data:"realisasi", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                  {data:"realisasi", className: 'dt-body-right', 
+                    mRender:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
+                            let prosentase_realisasi = (data / full["pagu"]) * 100;
+                            return'<span>'+data+" ("+prosentase_realisasi+' %)</span>';
+                        }
+                    },
                   {data:"pagu", className: 'dt-body-right', 
                     render:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
                             let saldo = data - full["realisasi"];
