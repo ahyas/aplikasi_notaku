@@ -121,6 +121,7 @@
                         </li>
                     @endif
                         <li class="nav-item dropdown">
+                        
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Transaksi
                             </a>
@@ -138,6 +139,7 @@
                             @endif
 
                             @if(Auth::user()->level==2)
+                            
                                 <a class="dropdown-item" href="{{route('verifikator.verifikasi_nota')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi nota pembelian</a>
 
                                 <a class="dropdown-item" href="{{route('verifikasi_ls.index')}}"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Verifikasi LS</a>

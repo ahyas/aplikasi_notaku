@@ -12,7 +12,12 @@ class VerifikatorController extends Controller
     //
 
     public function index(){
-        return view("dashboard/index");
+        $jumlah_nota_masuk = DB::table("tb_nota")
+        ->where("tb_nota.id_status",4)
+        ->whereNull("tb_nota.no_drpp")
+        ->count();
+
+        return view("dashboard/index", compact("jumlah_nota_masuk"));
     }
 
     public function verifikasi_nota(){

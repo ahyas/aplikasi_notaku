@@ -45,7 +45,9 @@ div.slider {
                             </ul>
                         </div>
                     @endif
-                    <div class="form-row">
+                    <a href="{{asset('public/rkk/rkk_dipa01.pdf')}}" target="_blank"><b>Rincian Kertas Kerja</b></a>
+                    <br>
+                    <div class="form-row" style="margin-top:20px">
                         <div class="form-group col-md-4">
                             <label for="name" class="col-sm-4 control-label"><b>UP</b></label>
                             <input type="text" class="form-control input-lg up" name="up" id="up" value=<?php echo number_format("30000000",2,",","."); ?> readOnly="true" style="text-align:right; font-weight:bold;">
