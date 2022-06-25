@@ -19,6 +19,25 @@
                                 </span> yang belum di verifikasi. <a href="{{route('verifikator.verifikasi_nota')}}" class="alert-link"> Verifikasi sekarang!</a> 
                             </div>
                             @endif
+
+                            @if($jumlah_sp2d_masuk > 0)
+                            <div class="alert alert-danger" role="alert">
+                                Anda memiliki <span class="badge rounded-pill bg-danger" style="color:white; font-size:15px;">
+                                    {{$jumlah_sp2d_masuk}}
+                                <span class="visually-hidden">SP2D</span>
+                                </span> yang belum di verifikasi. <a href="{{route('verifikasi_ls.index')}}" class="alert-link"> Verifikasi sekarang!</a> 
+                            </div>
+                            @endif
+
+                            @if($jumlah_drpp_masuk > 0)
+                            <div class="alert alert-danger" role="alert">
+                                Anda memiliki <span class="badge rounded-pill bg-danger" style="color:white; font-size:15px;">
+                                    {{$jumlah_drpp_masuk}}
+                                <span class="visually-hidden">DRPP</span>
+                                </span> yang belum di verifikasi. <a href="{{route('verifikasi_drpp.index')}}" class="alert-link"> Verifikasi sekarang!</a> 
+                            </div>
+                            @endif
+
                         @endif
                     </div>
                 </div>

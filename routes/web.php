@@ -80,6 +80,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("upload/list_nota", "UploadController@list_nota")->name("upload.list_nota");
     Route::post("upload/upload_spby","UploadController@upload_spby")->name("upload.upload_spby");
     Route::post("upload/upload_kwitansi","UploadController@upload_kwitansi")->name("upload.upload_kwitansi");
+    Route::post("upload/upload_drpp","UploadController@upload_drpp")->name("upload.upload_drpp");
 
     Route::get("mapping","MappingController@index")->name("mapping.index");
     Route::get("mapping/get_program","MappingController@getProgram")->name("mapping.get_daftar_program");

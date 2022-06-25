@@ -10,11 +10,11 @@
                 <div class="card-header">DRPP</div>
                 <div class="card-body">
                     
-                    <table id="tb_gup" class="table display tb_gup" style="width:100%; ">
+                    <table id="tb_gup" class="table display table-striped tb_gup" style="width:100%; ">
                         <thead>     						
                             <th>No. DRPP</th>
                             <th>Tgl. DRPP</th>
-                            <th>Total</th>
+                            <th style="text-align:right">Total</th>
                             <th>Action</th>
                         </thead>
 						<tbody></tbody>
@@ -30,16 +30,15 @@
                 <div class="card-header">Daftar nota</div>
                 <div class="card-body">
                 <div id="template"></div>
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
+                    <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%; ">
                         <thead>  
-                            <th style="width:100px">Tanggal</th>  
-                            <th style="width:100px">No. Kwitansi</th>
-                            <th style="width:100px">No. SPBy</th>                                                                                   
-                            <th style="width:50px">Akun</th>      
-                            <th style="width:250"></th>
-                            <th style="width:250">COA</th>                                                  				
-                            <th style="width:300px">Deskripsi</th>
-                            <th>Nilai</th>
+                            <th>Tanggal</th>  
+                            <th>No. Kwitansi</th>
+                            <th>No. SPBy</th>                                                                                   
+                            <th>Akun</th>      
+                            <th>COA</th>                                                  				
+                            <th>Deskripsi</th>
+                            <th style="text-align:right">Nilai</th>
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>
@@ -146,6 +145,7 @@ $(document).ready(function(){
         ajax        :"{{route('laporan_gup.list_gup')}}",
         searching   :false,
         serverside  :false,
+        select: true,
         scrollY:"200px",
         paging      :false,
         columns     :[
@@ -197,12 +197,15 @@ $(document).ready(function(){
                         }
                     }
                 },
-                {data:"id_akun"},
-                {data:"nama_akun"},
-                {data:"detail_coa"},
-                {data:"deskripsi"},
+                {data:"id_akun", width:"250px",
+                    render:function(data, type, full){
+                        return'<span>'+data+' - '+full['nama_akun']+'</span>';
+                    }
+                },
+                {data:"detail_coa", width:"250px"},
+                {data:"deskripsi", width:"300px"},
                 {data:"nominal", render: $.fn.DataTable.render.number(',', '.', 2, ''), className:"dt-body-right"},
-                {data:"id",
+                {data:"id", width:"50px",
                     mRender:function(data, type, full){
                         return"<button class='btn btn-primary btn-sm' id='nota_pembelian' data-id_nota='"+data+"' data-file='"+full["file"]+"'>Nota</button>";
                     }

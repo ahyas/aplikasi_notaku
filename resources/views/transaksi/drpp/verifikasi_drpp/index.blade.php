@@ -28,9 +28,9 @@
             <div class="card">
                 <div class="card-header">Daftar nota</div>
                 <div class="card-body">
-                <button class="btn btn-primary btn-sm" id="setuju_drpp" disabled="true" style="margin-bottom:20px">Setuju</button>
+                
                 <input type="hidden" class="no_drpp" />
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
+                    <table id="tb_nota" class="table display tb_nota" style="width:100%;">
                         <thead>  
                             <th style="width:100px">Tanggal</th>                                                                                 
                             <th style="width:50px">Akun</th>      
@@ -42,6 +42,7 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+                    <button class="btn btn-primary btn-sm btn-block" id="setuju_drpp" disabled="true" style="margin-top:20px">Setuju</button>
                 </div>
             </div>
         </div>
@@ -104,7 +105,6 @@ $(document).ready(function(){
         ajax        :"{{route('verifikasi_drpp.list_gup')}}",
         searching   :false,
         serverside  :false,
-        scrollY     :"200px",
         paging      :false,
         columns     :[
             {data:"no_drpp"},
@@ -128,7 +128,7 @@ $(document).ready(function(){
             ajax    :{url:"{{route('verifikasi_drpp.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
             serverside:false,
             paging:false,
-            scrollY:"400px",
+            scrollY:"250px",
             columns:[
                 {data:"tanggal", width: "80px"},
                 {data:"id_akun"},

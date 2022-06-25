@@ -15,7 +15,8 @@
 
     <!-- Styles -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
 
     <style type="text/css">
         table{
@@ -183,6 +184,18 @@
                             </div>
                             
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Referensi
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{asset('public/rkk/rkk_dipa01.pdf')}}" target="_blank"><img src="https://img.icons8.com/fluent/25/000000/new-product.png"/> Rincian Kertas Kerja</a>
+
+                            </div>
+                            
+                        </li>
                         
                     </ul>
 
@@ -226,9 +239,12 @@
             @yield('content')
         </main>
     </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <!-- DataTables -->
-        <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        
+        <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
         <!-- Bootstrap JavaScript -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 

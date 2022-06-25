@@ -21,18 +21,25 @@ div.slider {
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-10" style="margin-bottom:20px;">
-        <h5 style="font-weight:bold; margin-top:50px">Upload data dukung</h5>
+            <h5 style="font-weight:bold; margin-top:50px">Upload data dukung</h5>
             <div class="card">
                 <div class="card-header">Daftar DRPP</div>
                 <div class="card-body">
-                    <table id="tb_gup" class="table display tb_gup" style="width:100%; ">
-                        <thead>     						
+                    <table id="tb_gup" class="table display table-striped tb_gup" style="width:100%; ">
+                        <thead>
+                            <th>Tanggal</th>     						
                             <th>No. DRPP</th>
-                            <th>Tgl. DRPP</th>
-                            <th>Total</th>
+                            <th style="text-align:right">Total</th>
                             <th>Action</th>
                         </thead>
 						<tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="text-align:center" colspan="2">TOTAL : </th>
+                                <th style="text-align:right"></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
 				    </table>
                 </div>
             </div>
@@ -62,21 +69,29 @@ div.slider {
                         </ul>
                     </div>
                 @endif
-                <input type="hidden" id="no_drpp" disabled="true">
-                <br>
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%;">
+                <input type="hidden" id="id_drpp" disabled="true">
+                    <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%;">
                         <thead>
                             <th style="width:80px">Tanggal</th>
                             <th style="width:150px">No. Kwitansi</th>
                             <th style="width:150px">No. SPBy</th>
                             <th>Akun</th>
                             <th>Deskripsi</th>
-                            <th>Nominal</th>
+                            <th style="text-align: right">Nominal</th>
                             <th style="70px">Jenis</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th style="text-align: right">Action</th>
                         </thead>
                         <tbody class="our-table"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="text-align:center" colspan="5">TOTAL : </th>
+                                <th style="text-align:right"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -108,9 +123,9 @@ div.slider {
                     <div class="form-group">
                         <div class="col-sm-12">
                             @if(Auth::user()->level==3)
-                            <?php $value="true"; ?>
+                                <?php $value="true"; ?>
                             @else
-                            <?php $value="false"; ?>
+                                <?php $value="false"; ?>
                             @endif
                             <select class="form-control" id="akun" name="akun" disabled="{{$value}}">
                                 <option value="0">Pilih akun</option>
@@ -281,6 +296,42 @@ div.slider {
     </div>
 </div>
 
+<div class="modal fade" id="modalUploadDRPP" style="overflow: hidden;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+				<h5 class="modal-title" id="">Upload dokumen DRPP</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" action="{{route('upload.upload_drpp')}}" method="POST" enctype="multipart/form-data">
+					{{csrf_field()}}
+                    
+					<div class="form-group">
+                        <input type="text" name="id_drpp" id="id_drpp">
+                        <label for="name" class="col-sm-12 control-label"><b>No. DRPP</b></label>
+						<div class="col-sm-12">
+                            <input type="text" name="no_drpp" id="no_drpp" class="form-control">
+						</div>
+
+						<label for="name" class="col-sm-12 control-label"><b>File DRPP</b></label>
+						<div class="col-sm-12">
+                            <input type="file" name="file_drpp" class="form-control">
+						</div>
+					</div>
+
+					<div class="modal-footer">
+                        <button style="display: inline-block;" type="submit" class="btn btn-primary btn-sm" id="simpan_drpp" >Submit</button>
+						<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><span>Cancel</span></button>
+					</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade modalLihatSPBY" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -320,6 +371,26 @@ div.slider {
     </div>
   </div>
 </div>
+
+<div class="modal fade modalLihatDRPP" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal_title">Lihat dokumen DRPP</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col" style="height:800px">
+                    <embed src="" id="file_drpp" width= "100%" height= "100%" style="border:1px grey solid">
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 @endif
 @endsection
 
@@ -330,15 +401,45 @@ $(document).ready(function(){
         ajax        :"{{route('upload.list_gup')}}",
         searching   :false,
         serverside  :false,
-        scrollY:"180px",
+        select      :true,
+        scrollY     :"180px",
         paging      :false,
+        footerCallback: function (row, data, start, end, display) {
+            var api = this.api();
+            var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+
+            // Total over all pages
+            total = api.column(2).data().reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+            
+            // Update footer
+            $(api.column(2).footer()).html(numFormat(total));
+            
+        },
         columns     :[
-            {data:"no_drpp"},
-            {data:"tgl"},
+            {data:"tgl", width:"100px"},
+            {data:"no_drpp",
+                mRender:function(data, type, full){
+                    if(full["no_drpp"]=="" || full["no_drpp"]==null){
+                        return"<span class='badge bg-danger' style='color:white'>NULL</span>";
+                    }else{
+                        if(full["file_drpp"]=="" || full["file_drpp"]==null){
+                            return"<span>"+data+"</span>";    
+                        }else{
+                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_drpp' data-file_drpp='"+full["file_drpp"]+"'><b>"+data+"</b></button>";
+                        }
+                    }
+                }
+            },
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"no_drpp",
-                mRender:function(data){
-                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button>";
+                mRender:function(data, type, full){
+                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-warning btn-sm upload_drpp' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Upload DRPP</button>";
                 }
             }
         ]
@@ -351,13 +452,13 @@ $(document).ready(function(){
     $("body").on("click",".detail",function(){
         console.log("detail ")
         
-        let no_drpp = $(this).data("no_drpp");
-        $("#no_drpp").val(no_drpp);
+        let id_drpp = $(this).data("id_drpp");
+        $("#id_drpp").val(id_drpp);
 
         $(".tb_nota").DataTable().clear().destroy();
 
         var tb_nota = $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('upload.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
+            ajax    :{url:"{{route('upload.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
             serverside:false,
             ordering:false,
             scrollY:"250px",
@@ -366,6 +467,23 @@ $(document).ready(function(){
             lengthChange: false,
             oLanguage: {
                 sLoadingRecords: '<img src="{{asset('public/loading_animation/ajax-loader.gif')}}">'
+            },
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+                var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+    
+                // Total over all pages
+                total = api.column(5).data().reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                
+                // Update footer
+                $(api.column(5).footer()).html(numFormat(total));
+                
             },
             columns:[
                 {data:"tanggal", width:"100px"},
@@ -435,19 +553,35 @@ $(document).ready(function(){
 
 
         $("body").on("click","#lihat_spby",function(){
-            console.log($(this).data("file_spby"));
+            
             $(".modalLihatSPBY").modal("show");
             var file_spby = $(this).data("file_spby");
             document.getElementById("file_spby").src="public/uploads/spby/"+file_spby;
         });
 
         $("body").on("click","#lihat_kwitansi",function(){
-            console.log($(this).data("file_kwitansi"));
+            
             $(".modalLihatKwitansi").modal("show");
             var file_kwitansi = $(this).data("file_kwitansi");
             document.getElementById("file_kwitansi").src="public/uploads/kwitansi/"+file_kwitansi;
         });
 
+        $("body").on("click","#lihat_drpp",function(){
+            
+            $(".modalLihatDRPP").modal("show");
+            var file_drpp = $(this).data("file_drpp");
+            document.getElementById("file_drpp").src="public/uploads/drpp/"+file_drpp;
+        });
+
+});
+
+$("body").on("click", ".upload_drpp", function(){
+    let id_drpp = $(this).data("id_drpp");
+    let no_drpp = $(this).data("no_drpp");
+    $("#id_drpp").val(id_drpp);
+    $("#no_drpp").val(no_drpp);
+
+    $("#modalUploadDRPP").modal("show");
 });
 
 $("body").on("click", "#upload_spby", function(){

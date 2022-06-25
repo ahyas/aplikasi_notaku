@@ -45,8 +45,7 @@ div.slider {
                             </ul>
                         </div>
                     @endif
-                    <a href="{{asset('public/rkk/rkk_dipa01.pdf')}}" target="_blank"><b>Rincian Kertas Kerja</b></a>
-                    <br>
+                    
                     <div class="form-row" style="margin-top:20px">
                         <div class="form-group col-md-4">
                             <label for="name" class="col-sm-4 control-label"><b>UP</b></label>
@@ -69,14 +68,14 @@ div.slider {
                         </div>
                     </div>                          
                     
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%; ">
+                    <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%; ">
                         <thead>  				
                             <th style="width:80px">Tanggal</th>
                             <th>Akun</th>
                             <th></th>
                             <th>COA</th>
                             <th>Deskripsi</th>
-                            <th>Nominal</th>
+                            <th style="text-align:right">Nominal</th>
                             <th width="70px">Jenis</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -216,7 +215,7 @@ $(document).ready(function(){
                     }
                 }
             },
-            {data:"detail_akun",
+            {data:"detail_akun", width:"250px",
                 mRender:function(data){
                     if(data == 0 || data == null){
                         return'<span class="badge bg-danger" style="color:white">NULL</span>';
@@ -225,7 +224,7 @@ $(document).ready(function(){
                     }
                 }
             },
-            {data:"detail_coa",
+            {data:"detail_coa", width:"250px",
                 mRender:function(data){
                     if(data == 0 || data == null){
                         return'<span class="badge bg-danger" style="color:white">NULL</span>';
@@ -253,7 +252,7 @@ $(document).ready(function(){
                     }
                 }
             },
-            {data:"status",
+            {data:"status",width:"100px",
                 mRender:function(data, type, full){
                     if(full["id_status"]==1){
                         return"<span class='badge badge-danger'>"+data+"</span>";
@@ -266,7 +265,7 @@ $(document).ready(function(){
                     }
                 }
             },
-            {data:"id",
+            {data:"id", width:"50px",
                 mRender:function(data, type, full){
                     return "<button class='btn btn-success btn-sm' id='detail_nota' data-file='"+full['file']+"' data-id_akun='"+full["id_akun"]+"' data-id_coa='"+full["id_coa"]+"' data-id_nota='"+full["id"]+"' data-deskripsi='"+full["deskripsi"]+"' data-id_status='"+full["id_status"]+"' data-nominal='"+full["nominal"]+"' data-cara_bayar='"+full["cara_bayar"]+"' data-id_subcoa='"+full["id_subcoa"]+"'>Detail</button>";
                 }

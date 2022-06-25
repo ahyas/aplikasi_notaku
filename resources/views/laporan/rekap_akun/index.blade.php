@@ -10,7 +10,7 @@
                 <div class="card-header">Daftar Transaksi Akun</div>
                 <div class="card-body">
                     <button class="btn btn-primary btn-sm cetak_laporan" style="margin-bottom:20px">Print</button>
-                    <table id="tb_akun" class="table table-striped tb_akun" style="width:100%; ">
+                    <table id="tb_akun" class="table display table-striped tb_akun" style="width:100%; ">
                         <thead>
                             <th style="width:10px">No.</th>  				
                             <th style="width:60px">ID Akun</th>
@@ -95,54 +95,44 @@
         </div>
         <div class="modal-body">
             <div class="form-row">
-                <div class="col-md-6 mb-4">
-                    <table id="tb_daftar_coa" class="table display tb_daftar_coa" style="width:100%; ">
+                <div class="col-md-5 mb-4">
+                    <table id="tb_daftar_coa" class="table display table-striped tb_daftar_coa" style="width:100%; ">
                         <thead>
-                            <th style="width:200px">Nama COA</th>
-                            <th>Pagu</th>
-                            <th>Realisasi</th>
-                            <th>Saldo</th>
+                            <th>COA</th>
+                            <th style="text-align:right">Pagu</th>
+                            <th style="text-align:right">Realisasi</th>
+                            <th style="text-align:right">Saldo</th>
                             <th width="20px">Action</th>  				
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <table id="tb_daftar_subcoa" class="table display tb_daftar_subcoa" style="width:100%; ">
-                        <thead>
-                            <th>No. SPBy</th>
-                            <th width="70px">Tanggal</th>
-                            <th>Deskripsi</th>
-                            <th style="padding-right:10px">Nominal</th>
                         </thead>
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="3" style="text-align:left">Realisasi : </th>
-                                <th style="text-align:left"></th>
+                                <th style="text-align:center">TOTAL : </th>
+                                <th ></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade modalPreview" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal_title">Detail nota</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <embed src= "" id="data_dukung" width= "100%" style="border:1px grey solid; height:700px">
+                <div class="col-md-7 mb-3">
+                    <table id="tb_daftar_subcoa" class="table display table-striped tb_daftar_subcoa" style="width:100%; ">
+                        <thead>
+                            <th>Tanggal</th>
+                            <th>No. SPBy</th>
+                            <th>Kwitansi</th>
+                            <th>Deskripsi</th>
+                            <th style="text-align:right">Nominal</th>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4" style="text-align:center">TOTAL : </th>
+                                <th style="text-align:right"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
@@ -155,7 +145,7 @@
 @push('scripts')
 <script type="text/javascript">
 $("body").on("click",".cetak_laporan",function(){
-window.open("rekap_akun/print");
+    window.open("rekap_akun/print");
 });
 
 $("body").on("click","#detail_akun",function(){
@@ -170,19 +160,37 @@ $("body").on("click","#detail_akun",function(){
               ajax:"rekap_akun/"+id_akun+"/daftar_coa",
               paginate:false,
               searching:false,
+              select: true,
+              scrollY:"300px",
               serverside:false,
               processing:false,
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+        
+                    // Total over all pages
+                    realisasi_coa = api.column(2).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    
+                    // Update footer
+                    $(api.column(2).footer()).html(numFormat(realisasi_coa));
+                    
+                },
               columns:[
-                  {data:"keterangan"},
+                  {data:"keterangan", width:"200px"},
                   {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                   {data:"realisasi", className: 'dt-body-right', 
                     mRender:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
-                            let prosentase_realisasi = (data / full["pagu"]) * 100;
-                            return'<span>'+data+" ("+prosentase_realisasi+' %)</span>';
+                            return'<span>'+data+'</span>';
                         }
                     },
                   {data:"pagu", className: 'dt-body-right', 
-                    render:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
+                    mRender: function(data, type, full){
                             let saldo = data - full["realisasi"];
                             return '<b><span>'+saldo+'</span></b>';
                         }
@@ -205,6 +213,7 @@ $("body").on("click","#detail_akun",function(){
             var tb_subcoa =  $("#tb_daftar_subcoa").DataTable({
                 ajax:{url:"{{route('laporan.rekap_akun.detail_coa')}}", type:"GET", data:{id_akun:id_akun, id_coa:id_coa}},
                 ordering:false,
+                scrollY:"300px",
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
                     var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
@@ -214,21 +223,46 @@ $("body").on("click","#detail_akun",function(){
                     };
         
                     // Total over all pages
-                    total = api.column(3).data().reduce(function (a, b) {
+                    total = api.column(4).data().reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
                     
                     // Update footer
-                    $(api.column(3).footer()).html(numFormat(total));
+                    $(api.column(4).footer()).html(numFormat(total));
                 },
                 paging:false,
                 searching:false,
                 serverSide:false,
                 processing:false,
                 columns:[
-                    {data:"no_spby"},
-                    {data:"tanggal"},
-                    {data:"deskripsi"},
+                    {data:"tanggal", width:"100px"},
+                    {data:"no_spby", 
+                        render:function(data, type, full){
+                            if(full["no_spby"]=="0" || full["no_spby"]==null){
+                                return"<span class='badge bg-danger' style='color:white'>NULL</span>";
+                            }else{
+                                if(full["file_spby"]=="0" || full["file_spby"]==null){
+                                    return"<span>"+data+"</span>";    
+                                }else{
+                                    return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
+                                }
+                            }
+                        }
+                    },
+                    {data:"no_kwitansi",
+                        render:function(data, type, full){
+                            if(full["no_kwitansi"]=="0" || full["no_kwitansi"]==null){
+                                return"<span class='badge bg-danger' style='color:white'>NULL</span>";
+                            }else{
+                                if(full["file_kwitansi"]=="0" || full["file_kwitansi"]==null){
+                                    return"<span>"+data+"</span>";    
+                                }else{
+                                    return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
+                                }
+                            }
+                        }
+                    },
+                    {data:"deskripsi", width:"350px"},
                     {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 ],
             });

@@ -17,7 +17,16 @@ class VerifikatorController extends Controller
         ->whereNull("tb_nota.no_drpp")
         ->count();
 
-        return view("dashboard/index", compact("jumlah_nota_masuk"));
+        $jumlah_sp2d_masuk = DB::table("tb_test_transaksi")
+        ->where("status",9)
+        ->count();
+
+        $jumlah_drpp_masuk = DB::table("tb_drpp")
+        ->where("status",6)
+        ->select("no_drpp","tgl","jumlah AS total")
+        ->count();
+
+        return view("dashboard/index", compact("jumlah_nota_masuk","jumlah_sp2d_masuk","jumlah_drpp_masuk"));
     }
 
     public function verifikasi_nota(){

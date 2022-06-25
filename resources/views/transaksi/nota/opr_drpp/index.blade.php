@@ -64,14 +64,14 @@ div.slider {
                     </div>
                 </div>
                 
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%;">
+                    <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%;">
                         <thead>
                             <th style="width:80px">Tanggal</th>
                             <th>Akun</th>
                             <th></th>
                             <th>COA</th>
                             <th>Deskripsi</th>
-                            <th>Nominal</th>
+                            <th style="text-align:right">Nominal</th>
                             <th style="70px">Jenis</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -390,8 +390,6 @@ $("body").on("click","#detail_nota",function(){
     if(id_status==3){
         document.getElementById("tunai").disabled = true;
         document.getElementById("non_tunai").disabled = true;
-        
-        
         document.getElementById("nominal").readOnly = true;
     }else if(id_status==2){
         document.getElementById("tunai").disabled = true;

@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">Daftar belanja LS</div>
                 <div class="card-body">
-                    <table id="tb_daftar_sp2d" class="table display tb_daftar_sp2d" style="width:100%; ">
+                    <table id="tb_daftar_sp2d" class="table display table-striped tb_daftar_sp2d" style="width:100%; ">
                         <thead>    
                             <th>No.</th> 						
                             <th>No. SP2D</th>
@@ -33,7 +33,7 @@
                 <div class="card-header">Detail akun</div>
                 <div class="card-body">
                 <div id="template"></div>
-                    <table id="tb_daftar_akun" class="table display table-triped tb_daftar_akun" style="width:100%; ">
+                    <table id="tb_daftar_akun" class="table display table-striped table-triped tb_daftar_akun" style="width:100%; ">
                         <thead>  
                             <th>No.</th>
                             <th style="width:100px">Akun</th>      
@@ -84,6 +84,7 @@
             ajax:"{{route('laporan_sp2d.show_daftar_sp2d')}}",
             serverside:false,
             scrollY:"500px",
+            select: true,
             columns:[
                 {data:"no_sp2d",
                         render: function (data, type, row, meta) {
@@ -114,6 +115,7 @@
                     type: "GET",
                     data: {no_sp2d:no_sp2d}
                 },
+                scrollY:"500px",
                 searching:false,
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();

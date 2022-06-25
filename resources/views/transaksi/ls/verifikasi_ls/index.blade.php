@@ -29,7 +29,7 @@
                 <div class="card-header">Detail akun</div>
                 <div class="card-body">
                 <input type="hidden" class="form-control no_sp2d" name="no_sp2d" id="no_sp2d" readonly>
-                    <table class="table display table-striped tb_detail_sp2d" id="tb_detail_sp2d" style="width:100%;">
+                    <table class="table table-striped tb_detail_sp2d" id="tb_detail_sp2d" style="width:100%;">
                         <thead>  	
                             <th width="10px">No.</th>			
                             <th width="50px">Akun</th>
@@ -41,7 +41,7 @@
                         <tbody class="our-table"></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="4" style="text-align:right">Total:</th>
+                                <th colspan="4" style="text-align:center">TOTAL:</th>
                                 <th width="50px" style="text-align:right"></th>
                                 <th width="50px" style="text-align:right"></th>
                             </tr>
@@ -84,7 +84,7 @@
 
                         <label for="name" class="col-sm-3 control-label"><b>jumlah : </b></label>
 						<div class="col-sm-12">
-							<input type="text" class="form-control" id="jumlah" readonly>
+							<input type="text" class="form-control" id="jumlah" style="text-align:right" readonly>
 						</div>
 					</div>
 
@@ -109,6 +109,7 @@
             ajax:"{{route('verifikasi_ls.show_transaksi')}}",
             serverside:false,
             scrollY:"300px",
+            select: true,
             paging:false,
             oLanguage: {
                 sLoadingRecords: '<img src="{{asset('public/loading_animation/ajax-loader.gif')}}">'
@@ -121,7 +122,7 @@
                 },
                 {data:"no_sp2d"},
                 {data:"tanggal", width:"100px"},
-                {data:"jenis_spm"},
+                {data:"jenis_spm", width:"100px"},
                 {data:"deskripsi"},
                 {data:"nilai", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
                 {data:"no_sp2d", 
@@ -263,6 +264,7 @@
         });
         //menampilkan detail sp2d
         $("body").on("click",".detail_sp2d", function(){
+            
 
             let no_sp2d = $(this).data("no_sp2d");
 

@@ -124,7 +124,7 @@ class LaporanController extends Controller
 
     public function detail_coa(Request $request){
         $table=DB::table("tb_nota")
-        ->select(DB::raw("SUBSTR(tb_nota.created_at,1,10) as tanggal"), "tb_nota.nominal","tb_nota.deskripsi","tb_nota.no_spby","tb_nota.file")
+        ->select(DB::raw("SUBSTR(tb_nota.created_at,1,10) as tanggal"), "tb_nota.nominal","tb_nota.deskripsi","tb_nota.no_spby","tb_nota.file","tb_nota.no_kwitansi")
         ->whereNotNull("tb_nota.no_drpp")
         ->where("tb_nota.id_status",3)
         ->where("tb_nota.id_akun",$request["id_akun"])

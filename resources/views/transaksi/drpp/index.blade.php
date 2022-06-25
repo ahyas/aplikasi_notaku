@@ -20,17 +20,17 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-12 control-label"><b>Total</b></label>
                         <div class="col-sm-12">
-                            <input type="text" value=<?php echo number_format("$total",2,",","."); ?> class="form-control form-control-sm total" style="align:right; font-weight:bold" readonly>
+                            <input type="text" value=<?php echo number_format("$total",2,",","."); ?> class="form-control form-control total" style="text-align:right; font-weight:bold" readonly>
                         </div>
                     </div>
                     
-                    <table id="tb_keranjang_drpp" class="table display tb_keranjang_drpp">
+                    <table id="tb_keranjang_drpp" class="table display table-striped tb_keranjang_drpp">
                         <thead>  				
                             <th>Akun</th>
                             <th></th>
                             <th>COA</th>
                             <th>Deskripsi</th>
-                            <th>Nominal</th>
+                            <th style="text-align:right">Nominal</th>
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>

@@ -11,25 +11,25 @@ class drppController extends Controller
     //
 
     public function index(){
-        $max_no_drpp = DB::table("tb_drpp")->max("no_drpp");
+        $max_no_drpp = DB::table("tb_drpp")->max("id");
         if($max_no_drpp==0){
-            $no_drpp = 1;
+            $id_drpp = 1;
         }else{
-            $no_drpp = $max_no_drpp + 1;
+            $id_drpp = $max_no_drpp + 1;
         }
         $total = DB::table("tb_nota")
         ->where("no_drpp",$no_drpp)
         ->sum("nominal");
 
-        return view("transaksi/drpp/index", compact("no_drpp","total"));
+        return view("transaksi/drpp/index", compact("id_drpp","total"));
     }
 
     public function show_list(){
-        $max_no_drpp = DB::table("tb_drpp")->max("no_drpp");
+        $max_no_drpp = DB::table("tb_drpp")->max("id");
         if($max_no_drpp==0){
-            $no_drpp = 1;
+            $id_drpp = 1;
         }else{
-            $no_drpp = $max_no_drpp + 1;
+            $id_drpp = $max_no_drpp + 1;
         }
 
         $table=DB::table("tb_nota")
@@ -57,7 +57,7 @@ class drppController extends Controller
         return DB::table("tb_nota")
         ->where("id",$request["id_nota"])
         ->update([
-            "no_drpp"=>$request["no_drpp"]
+            "id"=>$request["no_drpp"]
         ]);
     }
 
@@ -108,7 +108,7 @@ class drppController extends Controller
         
         DB::table("tb_drpp")
         ->insert([
-            "no_drpp"=>$request["no_drpp"],
+            "id"=>$request["no_drpp"],
             "tgl"=>$timestamp,
             "jumlah"=>$total,
             "status"=>6
