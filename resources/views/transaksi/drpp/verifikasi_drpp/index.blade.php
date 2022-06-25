@@ -9,11 +9,11 @@
             <div class="card">
                 <div class="card-header">Daftar DRPP</div>
                 <div class="card-body">
-                    <table id="tb_gup" class="table display tb_gup" style="width:100%; ">
+                    <table id="tb_gup" class="table display table-striped tb_gup" style="width:100%; ">
                         <thead>     						
+                            <th>Tanggal</th>
                             <th>No. DRPP</th>
-                            <th>Tgl. DRPP</th>
-                            <th>Total</th>
+                            <th style="text-align:right">Total</th>
                             <th>Action</th>
                         </thead>
 						<tbody></tbody>
@@ -29,15 +29,15 @@
                 <div class="card-header">Daftar nota</div>
                 <div class="card-body">
                 
-                <input type="hidden" class="no_drpp" />
-                    <table id="tb_nota" class="table display tb_nota" style="width:100%;">
+                <input type="hidden" class="id_drpp" />
+                    <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%;">
                         <thead>  
-                            <th style="width:100px">Tanggal</th>                                                                                 
-                            <th style="width:50px">Akun</th>      
-                            <th style="width:250"></th>
-                            <th style="width:250">COA</th>                                                  				
-                            <th style="width:300px">Deskripsi</th>
-                            <th>Nilai</th>
+                            <th>Tanggal</th>                                                                                 
+                            <th>Akun</th>      
+                            <th></th>
+                            <th>COA</th>                                                  				
+                            <th>Deskripsi</th>
+                            <th style="text-align:right">Nilai</th>
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>
@@ -106,26 +106,35 @@ $(document).ready(function(){
         searching   :false,
         serverside  :false,
         paging      :false,
+        select:true,
         columns     :[
-            {data:"no_drpp"},
-            {data:"tgl"},
-            {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+            {data:"tgl", width:"80px"},
             {data:"no_drpp",
+                render:function(data, type, full){
+                    if(data == ""){
+                        return"<span class='badge bg-danger' style='color:white'>NULL</span>";
+                    }else{
+                        return"<span>"+data+"</span>";
+                    }
+                }
+            },
+            {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+            {data:"id",
                 mRender:function(data){
-                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button>";
+                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+data+"'>Detail</button>";
                 }
             }
         ]
     });
 
     $("body").on("click",".detail",function(){
-        let no_drpp = $(this).data("no_drpp");
-        $(".no_drpp").val(no_drpp);
+        let id_drpp = $(this).data("id_drpp");
+        $(".id_drpp").val(id_drpp);
 
         document.getElementById("setuju_drpp").disabled = false;
         $(".tb_nota").DataTable().clear().destroy();
         $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('verifikasi_drpp.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
+            ajax    :{url:"{{route('verifikasi_drpp.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
             serverside:false,
             paging:false,
             scrollY:"250px",
@@ -146,12 +155,13 @@ $(document).ready(function(){
     });
 
     $("body").on("click","#setuju_drpp", function(){
-        let no_drpp = $(".no_drpp").val();
+        let id_drpp = $(".id_drpp").val();
+        console.log(id_drpp);
         if(confirm("Anda yakin ingin menyetujui DRPP ini?")){
             $.ajax({
                 url:"{{route('verifikasi_drpp.setuju_drpp')}}",
                 type:"GET",
-                data:{no_drpp:no_drpp},
+                data:{id_drpp:id_drpp},
                 success:function(data){
                     document.getElementById("setuju_drpp").disabled = true;
                     $(".tb_nota").DataTable().clear().destroy();

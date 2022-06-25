@@ -11,9 +11,9 @@
                 <div class="card-body">
                     
                     <table id="tb_gup" class="table display table-striped tb_gup" style="width:100%; ">
-                        <thead>     						
+                        <thead>
+                            <th>Tanggal</th>     						
                             <th>No. DRPP</th>
-                            <th>Tgl. DRPP</th>
                             <th style="text-align:right">Total</th>
                             <th>Action</th>
                         </thead>
@@ -149,23 +149,31 @@ $(document).ready(function(){
         scrollY:"200px",
         paging      :false,
         columns     :[
-            {data:"no_drpp"},
-            {data:"tgl"},
+            {data:"tgl", width:"80px"},
+            {data:"no_drpp", 
+                render:function(data){
+                    if(data == ""){
+                        return"<span class='badge bg-danger' style='color:white'>NULL</span>";
+                    }else{
+                        return"<span>"+data+"</span>";
+                    }
+                }
+            },
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-            {data:"no_drpp",
+            {data:"id",
                 mRender:function(data){
-                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button>";
+                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+data+"'>Detail</button>";
                 }
             }
         ]
     });
 
     $("body").on("click",".detail",function(){
-        let no_drpp = $(this).data("no_drpp");
-        console.log(no_drpp);
+        let id_drpp = $(this).data("id_drpp");
+        console.log(id_drpp);
         $(".tb_nota").DataTable().clear().destroy();
         $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
+            ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
             serverside:false,
             paging:false,
             scrollY:"400px",

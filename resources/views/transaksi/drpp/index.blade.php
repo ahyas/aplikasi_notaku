@@ -10,7 +10,7 @@
 
                 <div class="card-body">
 
-                <input type="hidden" value="{{$no_drpp}}" class="form-control form-control-sm no_drpp">
+                <input type="hidden" value="{{$id_drpp}}" class="form-control form-control-sm id_drpp">
                     @if(Auth::user()->level == 4)
                     <button class="btn btn-primary btn-sm tambah_drpp " style="margin-bottom:20px">Tambah</button>
                     @else
@@ -56,7 +56,7 @@
         <div class="modal-body">
             <div class="form-row">
                 <div class="col-md-12 mb-3">
-                    <table id="tb_daftar_nota" class="table display tb_nota" width="100%">
+                    <table id="tb_daftar_nota" class="table display table-striped tb_nota" width="100%">
                         <thead>  				
                             <th>Akun</th>
                             <th></th>
@@ -134,12 +134,13 @@ $(document).ready(function(){
     });
 
     $("body").on("click","#pilih_nota",function(){
-        let no_drpp = $(".no_drpp").val();
+        let id_drpp = $(".id_drpp").val();
         let id_nota = $(this).data("id_nota");
+        console.log(id_drpp);
         $.ajax({
             url:"{{route('transaksi.drpp.input_nota')}}",
             type:"GET",
-            data:{id_nota:id_nota,no_drpp:no_drpp},
+            data:{id_nota:id_nota,id_drpp:id_drpp},
             success:function(data){
                 //$(".keranjangDRPP").modal("hide");
                 $(".total").val(Number(data.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
@@ -158,12 +159,12 @@ $(document).ready(function(){
 
     $("body").on("click",".hapus_nota",function(){
         let id_nota = $(this).data("id_nota");
-        let no_drpp = $(".no_drpp").val();
+        let id_drpp = $(".id_drpp").val();
         if(confirm("Anda yakin ingin menghapus nota?")){
             $.ajax({
                 url:"{{route('transaksi.drpp.hapus_nota')}}",
                 type:"GET",
-                data:{id_nota:id_nota,no_drpp:no_drpp},
+                data:{id_nota:id_nota,id_drpp:id_drpp},
                 success:function(data){
                     $(".total").val(Number(data.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
                     if(data.jml_nota == 0){
@@ -178,16 +179,16 @@ $(document).ready(function(){
     });
 
     $("body").on("click",".simpan_drpp",function(){
-        let no_drpp = $(".no_drpp").val();
+        let id_drpp = $(".id_drpp").val();
         let total = $(".total").val();
-        console.log(total);
+        console.log(id_drpp);
         if(confirm("Pastikan semua data telah benar sebelum anda menyimpan")){
             $.ajax({
                 url:"{{route('transaksi.drpp.simpan_drpp')}}",
                 type:"GET",
-                data:{no_drpp:no_drpp, total:total},
+                data:{id_drpp:id_drpp, total:total},
                 success:function(data){
-                    $(".no_drpp").val(data.total);
+                    $(".id_drpp").val(data);
                     $(".total").val("0,00");
                     $(".tb_keranjang_drpp").DataTable().ajax.reload(null, false);
                     document.getElementById("simpan_drpp").disabled = true;

@@ -18,7 +18,7 @@ class drppController extends Controller
             $id_drpp = $max_no_drpp + 1;
         }
         $total = DB::table("tb_nota")
-        ->where("no_drpp",$no_drpp)
+        ->where("no_drpp",$id_drpp)
         ->sum("nominal");
 
         return view("transaksi/drpp/index", compact("id_drpp","total"));
@@ -33,7 +33,7 @@ class drppController extends Controller
         }
 
         $table=DB::table("tb_nota")
-        ->where("no_drpp",$no_drpp)
+        ->where("no_drpp",$id_drpp)
         ->select("tb_nota.id","tb_nota.id_akun","tb_akun.keterangan AS nama_akun","tb_coa.keterangan AS coa","tb_nota.deskripsi","tb_nota.nominal")
         ->leftJoin("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
         ->leftJoin("tb_coa","tb_nota.id_coa","=","tb_coa.id_coa")
@@ -53,23 +53,15 @@ class drppController extends Controller
         return DataTables::of($table)->make(true);
     }
 
-    public function update_no_drpp(Request $request){
-        return DB::table("tb_nota")
-        ->where("id",$request["id_nota"])
-        ->update([
-            "id"=>$request["no_drpp"]
-        ]);
-    }
-
     public function input_nota(Request $request){
         DB::table("tb_nota")
         ->where("id",$request["id_nota"])
         ->update([
-            "no_drpp"=>$request["no_drpp"]
+            "no_drpp"=>$request["id_drpp"]
         ]);
 
         $total = DB::table("tb_nota")
-        ->where("no_drpp",$request["no_drpp"])
+        ->where("no_drpp",$request["id_drpp"])
         ->sum("nominal");
 
         $jml_nota = DB::table("tb_nota")
@@ -103,18 +95,18 @@ class drppController extends Controller
         $timestamp=date('Y-m-d H:i:s');
 
         $total = DB::table("tb_nota")
-        ->where("no_drpp",$request["no_drpp"])
+        ->where("no_drpp",$request["id_drpp"])
         ->sum("nominal");
         
         DB::table("tb_drpp")
         ->insert([
-            "id"=>$request["no_drpp"],
+            "id"=>$request["id_drpp"],
             "tgl"=>$timestamp,
             "jumlah"=>$total,
             "status"=>6
         ]);
 
-        $last_id=DB::table("tb_drpp")->max("no_drpp");
+        $last_id=DB::table("tb_drpp")->max("id");
         $new_id=$last_id+1;
         return response()->json($new_id);
     }

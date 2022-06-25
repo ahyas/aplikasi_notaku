@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-8">
         <h5 style="font-weight:bold; margin-top:50px">Daftar belanja per akun</h5>
             <div class="card">
                 <div class="card-header">Daftar Transaksi Akun</div>
@@ -16,9 +16,9 @@
                             <th style="width:60px">ID Akun</th>
                             <th>Akun</th>
                             <th>jenis akun</th>
-                            <th>Pagu</th>
-                            <th>Realisasi</th>
-                            <th>Saldo</th>
+                            <th style="text-align: right">Pagu</th>
+                            <th style="text-align: right">Realisasi</th>
+                            <th style="text-align: right">Saldo</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                            @endforeach
                         <?php $no++; ?>
                         <tr>
-                            <td colspan="4" style="text-align:center; font-weight:bold"><b>Total</b></td>
+                            <td colspan="4" style="text-align:center; font-weight:bold"><b>TOTAL :</b></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu, 2);  ?></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_realisasi, 2); ?><br><?php echo "(".number_format(($total_realisasi/$total_pagu)*100, 2)." %)";  ?></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu - $total_realisasi, 2); ?></td>
