@@ -136,6 +136,26 @@
   </div>
 </div>
 
+<div class="modal fade modalLihatDRPP" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal_title">Lihat dokumen DRPP</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col" style="height:800px">
+                    <embed src="" id="file_drpp2" width= "100%" height= "100%" style="border:1px grey solid">
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -145,17 +165,21 @@ $(document).ready(function(){
         ajax        :"{{route('laporan_gup.list_gup')}}",
         searching   :false,
         serverside  :false,
-        select: true,
-        scrollY:"200px",
+        select      : true,
+        scrollY     :"200px",
         paging      :false,
         columns     :[
             {data:"tgl", width:"80px"},
             {data:"no_drpp", 
-                render:function(data){
-                    if(data == ""){
+                mRender:function(data, type, full){
+                    if(full["no_drpp"]=="" || full["no_drpp"]==null){
                         return"<span class='badge bg-danger' style='color:white'>NULL</span>";
                     }else{
-                        return"<span>"+data+"</span>";
+                        if(full["file_drpp"]=="" || full["file_drpp"]==null){
+                            return"<span>"+data+"</span>";    
+                        }else{
+                            return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_drpp' data-file_drpp='"+full["file_drpp"]+"'><b>"+data+"</b></button>";
+                        }
                     }
                 }
             },
@@ -226,15 +250,25 @@ $(document).ready(function(){
         console.log($(this).data("file_spby"));
         $(".modalLihatSPBY").modal("show");
         var file_spby = $(this).data("file_spby");
-        document.getElementById("file_spby").src="public/uploads/spby/"+file_spby;
+        document.getElementById("file_spby").src="../public/uploads/spby/"+file_spby;
     });
 
     $("body").on("click","#lihat_kwitansi",function(){
         console.log($(this).data("file_kwitansi"));
         $(".modalLihatKwitansi").modal("show");
         var file_kwitansi = $(this).data("file_kwitansi");
-        document.getElementById("file_kwitansi").src="public/uploads/kwitansi/"+file_kwitansi;
+        document.getElementById("file_kwitansi").src="../public/uploads/kwitansi/"+file_kwitansi;
     });
+
+    $("body").on("click","#lihat_drpp",function(){
+        
+        $(".modalLihatDRPP").modal("show");
+        
+        var file_drpp = $(this).data("file_drpp");
+        console.log(file_drpp);
+        document.getElementById("file_drpp2").src="../public/uploads/drpp/"+file_drpp;
+    });
+
 
     $("body").on("click","#nota_pembelian",function(){
         let file = $(this).data("file");
