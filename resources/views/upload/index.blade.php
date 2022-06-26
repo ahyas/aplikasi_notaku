@@ -310,7 +310,7 @@ div.slider {
 					{{csrf_field()}}
                     
 					<div class="form-group">
-                        <input type="text" name="id_drpp" id="id_drpp">
+                        <input type="hidden" name="id_drpp2" id="id_drpp2">
                         <label for="name" class="col-sm-12 control-label"><b>No. DRPP</b></label>
 						<div class="col-sm-12">
                             <input type="text" name="no_drpp" id="no_drpp" class="form-control">
@@ -318,12 +318,12 @@ div.slider {
 
 						<label for="name" class="col-sm-12 control-label"><b>File DRPP</b></label>
 						<div class="col-sm-12">
-                            <input type="file" name="file_drpp" class="form-control">
+                            <input type="file" name="file_drpp" id="file_drpp" class="form-control">
 						</div>
 					</div>
 
 					<div class="modal-footer">
-                        <button style="display: inline-block;" type="submit" class="btn btn-primary btn-sm" id="simpan_drpp" >Submit</button>
+                        <button style="display: inline-block;" type="submit" class="btn btn-primary btn-sm" id="simpan_drpp" disabled="true">Submit</button>
 						<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><span>Cancel</span></button>
 					</div>
                 </form>
@@ -384,7 +384,7 @@ div.slider {
         <div class="modal-body">
             <div class="row">
                 <div class="col" style="height:800px">
-                    <embed src="" id="file_drpp" width= "100%" height= "100%" style="border:1px grey solid">
+                    <embed src="" id="file_drpp2" width= "100%" height= "100%" style="border:1px grey solid">
                 </div>
             </div>
         </div>
@@ -397,6 +397,10 @@ div.slider {
 @push('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
+    $("body").on("change","#file_drpp",function(){
+        document.getElementById("simpan_drpp").disabled=false;
+    });
+
     $(".tb_gup").DataTable({
         ajax        :"{{route('upload.list_gup')}}",
         searching   :false,
@@ -569,17 +573,22 @@ $(document).ready(function(){
         $("body").on("click","#lihat_drpp",function(){
             
             $(".modalLihatDRPP").modal("show");
+            
             var file_drpp = $(this).data("file_drpp");
-            document.getElementById("file_drpp").src="public/uploads/drpp/"+file_drpp;
+            console.log(file_drpp);
+            document.getElementById("file_drpp2").src="public/uploads/drpp/"+file_drpp;
         });
 
 });
 
 $("body").on("click", ".upload_drpp", function(){
     let id_drpp = $(this).data("id_drpp");
+    console.log(id_drpp);
     let no_drpp = $(this).data("no_drpp");
-    $("#id_drpp").val(id_drpp);
+    $("#id_drpp2").val(id_drpp);
     $("#no_drpp").val(no_drpp);
+    $("#file_drpp").val("");
+    document.getElementById("simpan_drpp").disabled = true;
 
     $("#modalUploadDRPP").modal("show");
 });

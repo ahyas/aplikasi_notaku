@@ -92,7 +92,7 @@ class UploadController extends Controller
         $timestamp=date('Y-m-d H:i:s');
 
         DB::table("tb_drpp")
-        ->where("id",$request["id_drpp"])
+        ->where("id",$request["id_drpp2"])
         ->update([
             "no_drpp"=>$request["no_drpp"],
             "file_drpp"=>$fileName,

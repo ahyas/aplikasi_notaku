@@ -12,7 +12,7 @@
 <h2 style="text-align:center">LAPORAN REALISASI PENYERAPAN ANGGARAN DIPA SATUAN KERJA</h2>
 <h2 style="text-align:center; line-height:0">TAHUN 2022</h2>
 
-<table border="0.5" style="border-collapse:collapse; border-color:#dedede; width:100%; table-layout:fixed;">
+<table border="0.4" style="border-collapse:collapse; border-color:#bdbdbd; width:100%; table-layout:fixed;">
 <tr>
     <th colspan="4" rowspan="2">Kode satker, Program, Keg. Output, Kode akun dan uraian</th>
     <th rowspan="2">DIPA Awal</th>
