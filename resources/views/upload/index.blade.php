@@ -86,7 +86,7 @@ div.slider {
                         <tbody class="our-table"></tbody>
                         <tfoot>
                             <tr>
-                                <th style="text-align:center" colspan="5">TOTAL : </th>
+                                <th style="text-align:center" colspan="6">TOTAL : </th>
                                 <th style="text-align:right"></th>
                                 <th></th>
                                 <th></th>
@@ -487,12 +487,12 @@ $(document).ready(function(){
                 };
     
                 // Total over all pages
-                total = api.column(5).data().reduce(function (a, b) {
+                total = api.column(6).data().reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
                 
                 // Update footer
-                $(api.column(5).footer()).html(numFormat(total));
+                $(api.column(6).footer()).html(numFormat(total));
                 
             },
             columns:[
