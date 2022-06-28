@@ -76,6 +76,7 @@ div.slider {
                             <th style="width:150px">No. Kwitansi</th>
                             <th style="width:150px">No. SPBy</th>
                             <th>Akun</th>
+                            <th>COA</th>
                             <th>Deskripsi</th>
                             <th style="text-align: right">Nominal</th>
                             <th style="70px">Jenis</th>
@@ -246,7 +247,7 @@ div.slider {
 
 						<label for="name" class="col-sm-3 control-label"><b>File SPBy</b></label>
 						<div class="col-sm-12">
-                            <input type="file" name="file_spby" class="form-control">
+                            <input type="file" name="file_spby" id="file_spby" class="form-control">
 						</div>
 					</div>
 
@@ -282,7 +283,7 @@ div.slider {
 
 						<label for="name" class="col-sm-12 control-label"><b>File Kwitansi</b></label>
 						<div class="col-sm-12">
-                            <input type="file" name="file_kwitansi" class="form-control">
+                            <input type="file" name="file_kwitansi" id="file_kwitansi" class="form-control">
 						</div>
 					</div>
 
@@ -344,7 +345,7 @@ div.slider {
         <div class="modal-body">
             <div class="row">
                 <div class="col" style="height:800px">
-                    <embed src= "" id="file_spby" width= "100%" height= "100%" style="border:1px grey solid">
+                    <embed src= "" id="file_spby2" width= "100%" height= "100%" style="border:1px grey solid">
                 </div>
             </div>
         </div>
@@ -364,7 +365,7 @@ div.slider {
         <div class="modal-body">
             <div class="row">
                 <div class="col" style="height:800px">
-                    <embed src= "" id="file_kwitansi" width= "100%" height= "100%" style="border:1px grey solid">
+                    <embed src= "" id="file_kwitansi2" width= "100%" height= "100%" style="border:1px grey solid">
                 </div>
             </div>
         </div>
@@ -399,6 +400,11 @@ div.slider {
 $(document).ready(function(){
     $("body").on("change","#file_drpp",function(){
         document.getElementById("simpan_drpp").disabled=false;
+    });
+
+    $("body").on("change","#file_spby",function(){
+        console.log("change");
+        document.getElementById("simpan_spby").disabled=false;
     });
 
     $(".tb_gup").DataTable({
@@ -491,34 +497,39 @@ $(document).ready(function(){
             },
             columns:[
                 {data:"tanggal", width:"100px"},
-                {data:"no_kwitansi",
+                {data:"no_kwitansi", width:"100px",
                     mRender:function(data, type, full){
                         if(full["no_kwitansi"]=="0" || full["no_kwitansi"]==null){
                             return"<span class='badge bg-danger' style='color:white'>NULL</span>";
                         }else{
                             if(full["file_kwitansi"]=="0" || full["file_kwitansi"]==null){
-                                return"<span>"+data+"</span>";    
+                                return"<span>"+data+"</span> <br><button class='btn btn-secondary btn-sm' id='upload_kwitansi' data-id_nota='"+full["id"]+"' data-nomer_kwitansi='"+full['no_kwitansi']+"'>Upload</button>";    
                             }else{
-                                return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button>";
+                                return"<button class='btn btn-secondary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_kwitansi' data-file_kwitansi='"+full["file_kwitansi"]+"'><b>"+data+"</b></button> <br><button class='btn btn-secondary btn-sm' id='upload_kwitansi' data-id_nota='"+full["id"]+"' data-nomer_kwitansi='"+full['no_kwitansi']+"'>Upload</button>";
                             }
                         }
                     }
                 },
-                {data:"no_spby",
+                {data:"no_spby", width:"100px",
                     mRender:function(data, type, full){
                         if(full["no_spby"]=="0" || full["no_spby"]==null){
                             return"<span class='badge bg-danger' style='color:white'>NULL</span>";
                         }else{
                             if(full["file_spby"]=="0" || full["file_spby"]==null){
-                                return"<span>"+data+"</span>";    
+                                return"<span>"+data+"</span> <br><button class='btn btn-secondary btn-sm' id='upload_spby' data-id_nota='"+full["id"]+"' data-no_spby='"+full["no_spby"]+"'>Upload</button>";    
                             }else{
-                                return"<button class='btn btn-primary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button>";
+                                return"<button class='btn btn-secondary btn-sm' style='background-color:transparent; padding:0; border:none; color:blue;' id='lihat_spby' data-file_spby='"+full["file_spby"]+"'><b>"+data+"</b></button> <br><button class='btn btn-secondary btn-sm' id='upload_spby' data-id_nota='"+full["id"]+"' data-no_spby='"+full["no_spby"]+"'>Upload</button>";
                             }
                         }
                     }
                 },
-                {data:"id_akun"},
-                {data:"deskripsi"},
+                {data:"id_akun", width:"250px",
+                    render:function(data, type, full){
+                        return'<span>'+data+'- '+ full["detail_akun"] +'</span>';
+                    }
+                },
+                {data:"detail_coa", width:"250px"},
+                {data:"deskripsi", width:"300px"},
                 {data:"nominal", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '') },
                 {data:"cara_bayar",
                     mRender:function(data){
@@ -546,8 +557,8 @@ $(document).ready(function(){
                 },
                 {data:"id",
                     mRender:function(data, type, full){
-
-                            return "<button class='btn btn-success btn-sm' id='detail_nota' data-no_kwitansi='"+full['no_kwitansi']+"' data-file='"+full['file']+"' data-id_akun='"+full["id_akun"]+"' data-id_coa='"+full["id_coa"]+"' data-id_nota='"+full["id"]+"' data-deskripsi='"+full["deskripsi"]+"' data-id_status='"+full["id_status"]+"' data-no_spby='"+full["no_spby"]+"' data-nominal='"+full["nominal"]+"' data-cara_bayar='"+full["cara_bayar"]+"' data-id_subcoa='"+full["id_subcoa"]+"'>Detail</button> <button class='btn btn-primary btn-sm' id='upload_spby' data-id_nota='"+data+"' data-no_spby='"+full["no_spby"]+"'>Upload SPBy</button> <button class='btn btn-primary btn-sm' id='upload_kwitansi' data-id_nota='"+data+"' data-nomer_kwitansi='"+full['no_kwitansi']+"'>Upload Kwitansi</button>";
+                        
+                        return "<button class='btn btn-success btn-sm' id='detail_nota' data-no_kwitansi='"+full['no_kwitansi']+"' data-file='"+full['file']+"' data-id_akun='"+full["id_akun"]+"' data-id_coa='"+full["id_coa"]+"' data-id_nota='"+full["id"]+"' data-deskripsi='"+full["deskripsi"]+"' data-id_status='"+full["id_status"]+"' data-no_spby='"+full["no_spby"]+"' data-nominal='"+full["nominal"]+"' data-cara_bayar='"+full["cara_bayar"]+"' data-id_subcoa='"+full["id_subcoa"]+"'>Detail</button>";
                     }
                 }
             ]
@@ -559,15 +570,18 @@ $(document).ready(function(){
         $("body").on("click","#lihat_spby",function(){
             
             $(".modalLihatSPBY").modal("show");
+            
             var file_spby = $(this).data("file_spby");
-            document.getElementById("file_spby").src="public/uploads/spby/"+file_spby;
+            
+            document.getElementById("file_spby2").src="public/uploads/spby/"+file_spby;
         });
 
         $("body").on("click","#lihat_kwitansi",function(){
             
             $(".modalLihatKwitansi").modal("show");
             var file_kwitansi = $(this).data("file_kwitansi");
-            document.getElementById("file_kwitansi").src="public/uploads/kwitansi/"+file_kwitansi;
+            console.log(file_kwitansi);
+            document.getElementById("file_kwitansi2").src="public/uploads/kwitansi/"+file_kwitansi;
         });
 
         $("body").on("click","#lihat_drpp",function(){
@@ -583,7 +597,7 @@ $(document).ready(function(){
 
 $("body").on("click", ".upload_drpp", function(){
     let id_drpp = $(this).data("id_drpp");
-    console.log(id_drpp);
+    
     let no_drpp = $(this).data("no_drpp");
     $("#id_drpp2").val(id_drpp);
     $("#no_drpp").val(no_drpp);
@@ -595,16 +609,19 @@ $("body").on("click", ".upload_drpp", function(){
 
 $("body").on("click", "#upload_spby", function(){
     var id_nota = $(this).data("id_nota");
-
+    
     var nomer_spby = $(this).data("no_spby");
 
     $("#nomer_spby").val(nomer_spby);
     if(nomer_spby == 0 || nomer_spby == null){
         document.getElementById("simpan_spby").disabled = true;
+        document.getElementById("file_spby").disabled = true;
     }else{
         document.getElementById("simpan_spby").disabled = false;
+        document.getElementById("file_spby").disabled = false;
     }
     $("#id_nota2").val(id_nota);
+    document.getElementById("simpan_spby").disabled = true;
     $("#modalUploadSPBY").modal("show");
 });
 
@@ -615,10 +632,13 @@ $("body").on("click","#upload_kwitansi",function(){
     $("#nomer_kwitansi").val(nomer_kwitansi);
     if(nomer_kwitansi == 0 || nomer_kwitansi == null){
         document.getElementById("simpan_kwitansi").disabled = true;
+        document.getElementById("file_kwitansi").disabled = true;
     }else{
         document.getElementById("simpan_kwitansi").disabled = false;
+        document.getElementById("file_kwitansi").disabled = false;
     }
     $("#id_nota3").val(id_nota);
+    document.getElementById("simpan_kwitansi").disabled = true;
     $("#modalUploadKwitansi").modal("show");
 });
 

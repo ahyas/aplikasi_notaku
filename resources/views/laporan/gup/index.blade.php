@@ -165,7 +165,7 @@ $(document).ready(function(){
         ajax        :"{{route('laporan_gup.list_gup')}}",
         searching   :false,
         serverside  :false,
-        select      : true,
+        select      :true,
         scrollY     :"200px",
         paging      :false,
         columns     :[
