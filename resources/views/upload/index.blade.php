@@ -407,6 +407,11 @@ $(document).ready(function(){
         document.getElementById("simpan_spby").disabled=false;
     });
 
+    $("body").on("change","#file_kwitansi",function(){
+        console.log("change");
+        document.getElementById("simpan_kwitansi").disabled=false;
+    });
+
     $(".tb_gup").DataTable({
         ajax        :"{{route('upload.list_gup')}}",
         searching   :false,
@@ -449,7 +454,7 @@ $(document).ready(function(){
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"no_drpp",
                 mRender:function(data, type, full){
-                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-warning btn-sm upload_drpp' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Upload DRPP</button>";
+                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-secondary btn-sm upload_drpp' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Upload</button>";
                 }
             }
         ]
