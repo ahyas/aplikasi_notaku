@@ -39,6 +39,9 @@
                             @endif
 
                         @endif
+                        <div style="width:400px">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,3 +49,42 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script type="text/JavaScript">
+$(document).ready(function(){
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    var sub_komponen = [];
+    $.ajax({
+        url:"{{route('dashboard.chart.laporan_1')}}",
+        type:"GET",
+        dataType:"JSON",
+        success:function(data){
+            console.log(data.tb_sp2d);
+            
+            for(let a = 0; a < data.baris; a++){
+                
+                sub_komponen.push(data.table[a].nama_komponen);
+            }
+
+            const myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [data.table],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                }
+            });
+        }
+    });
+
+});
+</script>
+@endpush

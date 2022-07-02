@@ -24,6 +24,8 @@ Route::get('/',function(){
 Route::group(['middleware'=>'auth'], function(){
     Route::get("home","DashboardController@index");
     Route::post('logout', 'AuthController@logout')->name('logout');    
+
+    Route::get("dashboard/chart/laporan_1","DashboardController@laporan_1")->name("dashboard.chart.laporan_1");
     
     Route::get("verifikator","VerifikatorController@index")->name("verifikator.dashboard");
     Route::get("verifikator/verifikasi_nota", "VerifikatorController@verifikasi_nota")->name("verifikator.verifikasi_nota");
@@ -108,6 +110,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get("laporan/rekap_akun/show_data","LaporanController@show_data")->name("laporan.rekap_akun.show_data");
     Route::get("laporan/rekap_akun/{id_akun}/daftar_coa","LaporanController@daftar_coa")->name("laporan.rekap_akun.daftar_coa");
     Route::get("laporan/rekap_akun/{id_akun}/transaksi_coa","LaporanController@transaksi_coa")->name("laporan.rekap_akun.transaksi_coa");
+    Route::get("laporan/rekap_akun/detail_akun","LaporanController@detail_akun")->name("laporan.rekap_akun.detail_akun");
     Route::get("laporan/rekap_akun/detail_coa","LaporanController@detail_coa")->name("laporan.rekap_akun.detail_coa");
     
     Route::get("laporan/gup","LaporanGUPController@index")->name("laporan_gup.index");

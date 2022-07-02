@@ -53,8 +53,12 @@
                                     @endif
                                     <?php $total_realisasi += $realisasi; ?>
                                     <?php $total_pagu += $row->pagu; ?>
-                                    <?php echo number_format($realisasi, 2); ?><br>
-                                    <?php echo "(".number_format(($realisasi/$row->pagu)*100)." %)"; ?>
+                                    <?php echo number_format($realisasi, 2); $prosentase_realisasi = number_format(($realisasi/$row->pagu)*100); ?><br>
+                                    <?php echo "<b>".$prosentase_realisasi." %</b>"; ?>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$prosentase_realisasi}}%" aria-valuenow="{{$prosentase_realisasi}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: <?php echo (100 - $prosentase_realisasi); ?>%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
                                     </td>
                                     <td style="text-align:right">
                                         <b><?php echo number_format($row->pagu - $realisasi, 2); ?></b>
@@ -70,7 +74,7 @@
                            @endforeach
                         <?php $no++; ?>
                         <tr>
-                            <td colspan="4" style="text-align:center; font-weight:bold"><b>TOTAL :</b></td>
+                            <td colspan="4" style="text-align:left; font-weight:bold"><b>TOTAL :</b></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu, 2);  ?></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_realisasi, 2); ?><br><?php echo "(".number_format(($total_realisasi/$total_pagu)*100, 2)." %)";  ?></td>
                             <td style="text-align:right; font-weight:bold"><?php echo number_format($total_pagu - $total_realisasi, 2); ?></td>
@@ -94,9 +98,12 @@
             </button>
         </div>
         <div class="modal-body">
+            
+                <div style="padding-bottom: 15px"><h6 id="id_akun" style="display: inline;"></h6> - <h6 id="nama_akun" style="display: inline;"></h6></div>
+                
             <div class="form-row">
                 <div class="col-md-5 mb-4">
-                    <table id="tb_daftar_coa" class="table display table-striped tb_daftar_coa" style="width:100%; ">
+                    <table id="tb_daftar_coa" class="table display table-striped tb_daftar_coa" style="width:100%">
                         <thead>
                             <th>COA</th>
                             <th style="text-align:right">Pagu</th>
@@ -107,8 +114,7 @@
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th style="text-align:center">TOTAL : </th>
-                                <th ></th>
+                                <th style="text-align:left">TOTAL : </th>
                                 <th style="text-align:right"></th>
                                 <th style="text-align:right"></th>
                                 <th style="text-align:right"></th>
@@ -117,7 +123,7 @@
                     </table>
                 </div>
                 <div class="col-md-7 mb-3">
-                    <table id="tb_daftar_subcoa" class="table display table-striped tb_daftar_subcoa" style="width:100%; ">
+                    <table id="tb_daftar_subcoa" class="table display table-striped tb_daftar_subcoa" style="width:100%">
                         <thead>
                             <th>Tanggal</th>
                             <th>No. SPBy</th>
@@ -128,7 +134,7 @@
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="4" style="text-align:center">TOTAL : </th>
+                                <th colspan="4" style="text-align:left">TOTAL : </th>
                                 <th style="text-align:right"></th>
                             </tr>
                         </tfoot>
@@ -149,21 +155,29 @@ $("body").on("click",".cetak_laporan",function(){
 });
 
 $("body").on("click","#detail_akun",function(){
-      
-      let id_akun = $(this).data("id_akun");
-      console.log(id_akun);
+    let id_akun = $(this).data("id_akun");
+    $.ajax({
+        url:"{{route('laporan.rekap_akun.detail_akun')}}",
+        type:"GET",
+        dataType:"JSON",
+        data:{id_akun:id_akun},
+        success:function(data){
+            let nama_akun = data.nama_akun;
+            let pagu = data.pagu;
 
-          $(".modalDetail").modal("show");
-          $("#tb_daftar_subcoa").DataTable().clear().destroy();
-          $("#tb_daftar_coa").DataTable().clear().destroy();
-          var table = $("#tb_daftar_coa").DataTable({
-              ajax:"rekap_akun/"+id_akun+"/daftar_coa",
-              paginate:false,
-              searching:false,
-              select: true,
-              scrollY:"300px",
-              serverside:false,
-              processing:false,
+            document.getElementById("id_akun").innerHTML = id_akun;
+            document.getElementById("nama_akun").innerHTML = nama_akun;
+
+            $(".modalDetail").modal("show");
+            $("#tb_daftar_subcoa").DataTable().clear().destroy();
+            $("#tb_daftar_coa").DataTable().clear().destroy();
+            var table = $("#tb_daftar_coa").DataTable({
+                ajax:"rekap_akun/"+id_akun+"/daftar_coa",
+                ordering:false,
+                searching:false,
+                select: true,
+                serverside:false,
+                processing:false,
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
                     var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
@@ -172,37 +186,52 @@ $("body").on("click","#detail_akun",function(){
                         return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
                     };
         
-                    // Total over all pages
+                    total_pagu = api.column(1).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                    }, 0);
+
                     realisasi_coa = api.column(2).data().reduce(function (a, b) {
                             return intVal(a) + intVal(b);
-                        }, 0);
+                    }, 0);
+
+                    total_saldo = api.column(3).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                    }, 0);
                     
                     // Update footer
+                    $(api.column(1).footer()).html(numFormat(total_pagu));
                     $(api.column(2).footer()).html(numFormat(realisasi_coa));
+                    $(api.column(3).footer()).html(numFormat(total_saldo));
                     
                 },
-              columns:[
-                  {data:"keterangan", width:"200px"},
-                  {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-                  {data:"realisasi", className: 'dt-body-right', 
-                    mRender:$.fn.DataTable.render.number(',', '.', 2, ''), function(data, type, full){
-                            return'<span>'+data+'</span>';
+                columns:[
+                    {data:"keterangan", width:"200px"},
+                    {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+                    {data:"realisasi", className: 'dt-body-right', 
+                        mRender: function(data, type, full){
+                                let prosentase_realisasi = (data/full["pagu"])*100;
+                                let remain = 100 -prosentase_realisasi;
+                                var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                                return'<span>'+numFormat(data)+'<br><b>'+numFormat(prosentase_realisasi)+' %</b></span></div><div class="progress"><div class="progress-bar bg-success" role="progressbar" style="width: '+prosentase_realisasi+'%" aria-valuemin="0" aria-valuemax="100"></div><div class="progress-bar bg-secondary" role="progressbar" style="width: '+remain+'%" aria-valuemin="0" aria-valuemax="100"></div></div>';
+                            }
+                        },
+                    {data:"pagu", className: 'dt-body-right', 
+                        mRender: function(data, type, full){
+                                var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                                let saldo = data - full["realisasi"];
+                                return '<b><span>'+numFormat(saldo)+'</span></b>';
+                            }
+                        },
+                    {data:"id_akun", className: 'dt-body-right',
+                        mRender:function(data,type,full){
+                            return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
                         }
                     },
-                  {data:"pagu", className: 'dt-body-right', 
-                    mRender: function(data, type, full){
-                            let saldo = data - full["realisasi"];
-                            return '<b><span>'+saldo+'</span></b>';
-                        }
-                    },
-                  {data:"id_akun", className: 'dt-body-right',
-                      mRender:function(data,type,full){
-                          return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
-                      }
-                  },
-              ]
-          });
-  });
+                ]
+            });     
+        }
+    });
+});
 
   $("body").on("click","#detail_coa",function(){
         let id_akun = $(this).data("id_akun");

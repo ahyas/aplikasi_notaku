@@ -133,5 +133,13 @@ class LaporanController extends Controller
 
         return DataTables::of($table)->make(true);
     }
+
+    public function detail_akun(Request $request){
+        $table=DB::table("tb_akun")
+        ->select("keterangan AS nama_akun", "pagu")
+        ->where("id_akun",$request->id_akun)
+        ->first();
+        return response()->json($table);
+    }
     
 }
