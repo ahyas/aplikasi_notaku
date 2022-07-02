@@ -178,32 +178,6 @@ $("body").on("click","#detail_akun",function(){
                 select: true,
                 serverside:false,
                 processing:false,
-                footerCallback: function (row, data, start, end, display) {
-                    var api = this.api();
-                    var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function (i) {
-                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
-                    };
-        
-                    total_pagu = api.column(1).data().reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                    }, 0);
-
-                    realisasi_coa = api.column(2).data().reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                    }, 0);
-
-                    total_saldo = api.column(3).data().reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                    }, 0);
-                    
-                    // Update footer
-                    $(api.column(1).footer()).html(numFormat(total_pagu));
-                    $(api.column(2).footer()).html(numFormat(realisasi_coa));
-                    $(api.column(3).footer()).html(numFormat(total_saldo));
-                    
-                },
                 columns:[
                     {data:"keterangan", width:"200px"},
                     {data:"pagu", className: 'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
@@ -227,7 +201,31 @@ $("body").on("click","#detail_akun",function(){
                             return"<button class='btn btn-primary btn-sm' id='detail_coa' data-id_akun='"+data+"' data-id_coa='"+full['id_coa']+"'>Detail</button>";
                         }
                     },
-                ]
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+        
+                    total_pagu = api.column(1).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                    }, 0);
+
+                    realisasi_coa = api.column(2).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                    }, 0);
+
+                    total_saldo = total_pagu - realisasi_coa;
+                    
+                    // Update footer
+                    $(api.column(1).footer()).html(numFormat(total_pagu));
+                    $(api.column(2).footer()).html(numFormat(realisasi_coa));
+                    $(api.column(3).footer()).html(numFormat(total_saldo));
+                    
+                },
             });     
         }
     });
