@@ -36,4 +36,13 @@ class DashboardController extends Controller
 
         return response()->json(["table_sub_komponen"=>$table_sub_komponen, "baris"=>$baris, "tb_nota"=>$tb_nota, "merge_table"=>$merge_table]);
     }
+
+    public function kondisi_kas(){
+        $last_drpp = DB::table("tb_drpp")->max("id");
+        $table = DB::table("tb_drpp")
+        ->where("id", $last_drpp)
+        ->first();
+        
+        return response()->json($table);
+    }
 }

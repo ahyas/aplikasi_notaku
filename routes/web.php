@@ -26,6 +26,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('logout', 'AuthController@logout')->name('logout');    
 
     Route::get("dashboard/chart/laporan_1","DashboardController@laporan_1")->name("dashboard.chart.laporan_1");
+    Route::get("dashboard/chart/kondisi_kas","DashboardController@kondisi_kas")->name("dashboard.chart.kondisi_kas");
     
     Route::get("verifikator","VerifikatorController@index")->name("verifikator.dashboard");
     Route::get("verifikator/verifikasi_nota", "VerifikatorController@verifikasi_nota")->name("verifikator.verifikasi_nota");
