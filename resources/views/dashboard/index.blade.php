@@ -61,27 +61,22 @@ $(document).ready(function(){
         type:"GET",
         dataType:"JSON",
         success:function(data){
-            console.log(data.tb_sp2d);
-            
-            for(let a = 0; a < data.baris; a++){
-                
-                sub_komponen.push(data.table[a].nama_komponen);
-            }
 
-            const myChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [data.table],
-                        backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 205, 86)'
-                        ],
-                        hoverOffset: 4
-                    }]
+            for(let c = 0; c < data.table_sub_komponen.length; c++){
+                //console.log(data.table_sub_komponen[c].id+" "+data.table_sub_komponen[c].nama_komponen);
+                
+                let sum_realisasi_akun = 0;
+                for(let a = 0; a < data.merge_table.length; a++){
+                    
+                    if(data.merge_table[a].id_sub_komponen == data.table_sub_komponen[c].id){
+                        console.log(data.merge_table[a].nama_komponen)
+                        sum_realisasi_akun+= Number(data.merge_table[a].realisasi_akun);
+                       
+                    }
                 }
-            });
+                  
+                console.log(sum_realisasi_akun);
+            }
         }
     });
 
