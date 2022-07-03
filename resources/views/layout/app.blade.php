@@ -217,6 +217,8 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 @if(Auth::user()->level==2)
                                 <img src="{{asset('public/image/eddyw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                @elseif(Auth::user()->level==3)
+                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==4)
                                 <img src="{{asset('public/image/myamin.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @endif
