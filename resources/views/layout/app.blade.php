@@ -215,7 +215,11 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="{{asset('public/image/eddyw.jpg')}}" width="40" height="40" class="rounded-circle"/>  {{ Auth::user()->name }}
+                                @if(Auth::user()->level==2)
+                                <img src="{{asset('public/image/eddyw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                @elseif(Auth::user()->level==4)
+                                <img src="{{asset('public/image/myamin.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                @endif
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
