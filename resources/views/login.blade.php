@@ -71,13 +71,13 @@
 <body style=" background-color: white;">
 
             <div class="login-form">  
-            <img src="{{asset('public/image/icons8-invoice-100.png')}}" style=" display: block;
-  margin-left: auto; margin-right: auto; margin-top:20px;"/>       
+            <img src="{{asset('public/image/logo_.png')}}" style=" display: block;
+  margin-left: auto; margin-right: auto; margin-top:20px; width:120px"/>       
                 <form action="{{ route('login') }}" method="post">
                 @csrf
-                <h4 class="text-center" style="line-height:15px">Login Dashboard</h4>
-                <h1 class="text-center" style="font-weight:bold; color:#fdce50">Notaku</h1>
-
+                <h1 class="text-center" style="font-weight:bold; color:#fdce50;">Buku Kas</h1>
+                <h6 class="text-center" style="line-height:15px; color:#fdce50; font-weight:bold; padding-bottom:20px">Budaya Akuntabel Kinerja Anggaran 
+       Satker</h6>
                     @if(session('errors'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             Something it's wrong:

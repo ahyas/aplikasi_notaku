@@ -86,7 +86,8 @@
     <div id="app">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-secondary">
                 <a class="navbar-brand" href="#">
-                    <b>Notaku</b>
+                <img src="{{asset('public/image/logo_.png')}}" width="35" height="35" class="d-inline-block align-top" alt="">
+                    <b>Buku Kas</b>
                 </a>                
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function laporan_1(){
         $table_sub_komponen = DB::table("tb_sub_komponen")
-        ->select("id","keterangan AS nama_komponen","pagu")
+        ->select("id","kode","keterangan AS nama_komponen","pagu")
         ->get();
 
         $tb_nota = DB::table("tb_nota")
@@ -47,7 +47,7 @@ class DashboardController extends Controller
             $table = DB::table("tb_drpp")
             ->where("id", $last_drpp)
             ->first();
-            
+
         }else{
             $table = DB::table("tb_nota")
             ->whereNull("no_drpp")
