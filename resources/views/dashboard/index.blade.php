@@ -77,14 +77,25 @@
                         
                             <div class="row">
                                 <div class="col-5">
-                                    <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:12px">
-                                        <thead>    						
-                                            <th>Sub komponen</th>
-                                            <th style="text-align:right">Pagu</th>
-                                            <th style="text-align:right">Realisasi</th>
-                                            <th style="text-align:right">Saldo</th>
-                                        </thead>
-                                        <tbody></tbody>
+                                    <div style="height:500px; overflow:auto;">
+                                        <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:12px; color:#575656;">
+                                            <thead>    						
+                                                <th>Sub komponen</th>
+                                                <th style="text-align:right">Pagu</th>
+                                                <th style="text-align:right">Realisasi</th>
+                                                <th style="text-align:right">Saldo</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <h5 style="font-weight:bold">Daftar revolving GUP</h5>
+                                    <table id="tb_gup" class="table table-striped tb_gup" style="width:70%; color:#575656;">
+                                    <thead>    						
+                                        <th>No DRPP</th>
+                                        <th style="text-align:right">Total</th>
+                                    </thead>
+                                    <tbody></tbody>
                                     </table>
                                 </div>
                                 <div class="col-7">
@@ -92,20 +103,11 @@
                                     <canvas id="myChart"></canvas>
                                     <br>
                                     <p>Realisasi DIPA</p>
-                                    <div style="width:60%;" >
+                                    <div style="width:50%;" >
                                         <canvas id="myChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
-
-                        <h5 style="font-weight:bold">Daftar revolving GUP</h5>
-                        <table id="tb_gup" class="table display table-striped tb_gup" style="width:70%">
-                        <thead>    						
-                            <th>No DRPP</th>
-                            <th style="text-align:right">Total</th>
-                        </thead>
-						<tbody></tbody>
-				        </table>
 
                     </div>
                 </div>
@@ -160,7 +162,7 @@ $(document).ready(function(){
                 var rows = "<tr>"  
                             + "<td class='yourTableTh'>" + data.table_sub_komponen[c].kode+" - "+data.table_sub_komponen[c].nama_komponen + "</td>"  
                             + "<td class='yourTableTh' align='right'>" + numFormat(data.table_sub_komponen[c].pagu) + "</td>"
-                            + "<td class='yourTableTh' align='right' width='150px'>" + numFormat(sub_komponen[c]) +"<br><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width: "+prosentase_realisasi+"%' aria-valuemin='0' aria-valuemax='100'></div><div class='progress-bar bg-secondary' role='progressbar' style='width: '"+Number(100-prosentase_realisasi)+"'% aria-valuemin='0' aria-valuemax='100'></div></div> <b><span>("+ prosentase_realisasi + " %)</span></b></td>"
+                            + "<td class='yourTableTh' align='right' width='170px'><span>" + numFormat(sub_komponen[c]) +"<b> ("+ prosentase_realisasi + " %)</b></span><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width: "+prosentase_realisasi+"%' aria-valuemin='0' aria-valuemax='100'></div><div class='progress-bar bg-secondary' role='progressbar' style='width: '"+Number(100-prosentase_realisasi)+"'% aria-valuemin='0' aria-valuemax='100'></div></div></td>"
                             + "<td class='yourTableTh' align='right'>" + numFormat(total_saldo) + "</td>"    
                             + "</tr>";  
 
