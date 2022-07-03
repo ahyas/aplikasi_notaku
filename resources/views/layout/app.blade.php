@@ -86,7 +86,7 @@
     <div id="app">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-secondary">
                 <a class="navbar-brand" href="#">
-                <img src="{{asset('public/image/logo_.png')}}" width="35" height="35" class="d-inline-block align-top" alt="">
+                <img src="{{asset('public/image/logo_.png')}}" width="35" height="35" style="margin:0" alt="">
                     <b>Buku Kas</b>
                 </a>                
 
@@ -218,7 +218,7 @@
                                 @if(Auth::user()->level==2)
                                 <img src="{{asset('public/image/eddyw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==3)
-                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="40" height="40" class="rounded-circle" style="margin:0"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==4)
                                 <img src="{{asset('public/image/myamin.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @endif

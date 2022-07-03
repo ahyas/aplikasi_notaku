@@ -30,16 +30,33 @@ class VerifikatorController extends Controller
     }
 
     public function verifikasi_nota(){
+        $nota_belum_drpp = DB::table("tb_nota")
+        ->whereNull("no_drpp")
+        ->count();
+
+        if($nota_belum_drpp==0){
+            $last_drpp = DB::table("tb_drpp")->max("id");
+            $sum = DB::table("tb_drpp")
+            ->where("id", $last_drpp)
+            ->first();
+
+            $total = $sum->jumlah;
+            $total_saldo = 30000000-$total;
+
+        }else{
+            $sum = DB::table("tb_nota")
+            ->whereNull("no_drpp")
+            ->sum("nominal");
+
+            $total = $sum;
+            $total_saldo = 30000000-$total;
+
+        }
+
+
         $table=DB::table("tb_akun")
         ->select("id_akun","keterangan AS akun")
         ->get();
-
-        $total=DB::table("tb_nota")
-        ->whereNull("no_drpp")
-        ->where("id_status",">",1)
-        ->sum("nominal");
-
-        $total_saldo = 30000000-$total;
 
         $prosentase_capaian_gup=number_format(($total/30000000)*100, 2, '.', '');
         return view("transaksi/nota/verifikator/index", compact("table","total","prosentase_capaian_gup","total_saldo"));

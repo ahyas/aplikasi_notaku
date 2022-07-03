@@ -15,12 +15,8 @@ class NotaController extends Controller
 
     public function catat_nota(){
         $table=DB::table("tb_akun")->select("id_akun","keterangan AS akun")->get();
-        $total=DB::table("tb_nota")
-        ->where("id_status",">",1)
-        ->whereNull("no_drpp")
-        ->sum("nominal");
 
-        return view("transaksi/nota/opr_drpp/index", compact("table","total"));
+        return view("transaksi/nota/opr_drpp/index", compact("table"));
     }
 
     public function ShowData(){

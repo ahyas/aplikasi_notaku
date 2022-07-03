@@ -92,7 +92,7 @@
                                     <canvas id="myChart"></canvas>
                                     <br>
                                     <p>Realisasi DIPA</p>
-                                    <div style="width:60%">
+                                    <div style="width:60%;" >
                                         <canvas id="myChart2"></canvas>
                                     </div>
                                 </div>

@@ -58,10 +58,6 @@ div.slider {
                             </div>
                         </form>
                     </div>
-                    <div class="col">
-                        <label for="name" class="control-label"><b>Total pengeluaran</b></label>
-                        <input type="text" class="form-control input-lg total" name="total" id="total" value=<?php echo number_format("$total",2,",","."); ?> readOnly="true" style="text-align:right; font-weight:bold;">
-                    </div>
                 </div>
                 
                     <table id="tb_nota" class="table display table-striped tb_nota" style="width:100%;">
@@ -77,6 +73,14 @@ div.slider {
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="text-align:left" colspan="5">TOTAL : </th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -314,7 +318,23 @@ $(document).ready(function(){
                     }
                 }
             }
-        ]
+        ],
+        footerCallback: function (row, data, start, end, display) {
+            var api = this.api();
+            var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+
+            total = api.column(5).data().reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+            }, 0);
+
+            // Update footer
+            $(api.column(5).footer()).html(numFormat(total));
+            
+        },
     });
 
     $("body").on("click","#lihat_spby",function(){

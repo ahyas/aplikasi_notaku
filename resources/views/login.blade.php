@@ -72,11 +72,11 @@
 
             <div class="login-form">  
             <img src="{{asset('public/image/logo_.png')}}" style=" display: block;
-  margin-left: auto; margin-right: auto; margin-top:20px; width:120px"/>       
+  margin-left: auto; margin-right: auto; margin-top:20px; margin-bottom:0; width:120px"/>       
                 <form action="{{ route('login') }}" method="post">
                 @csrf
-                <h1 class="text-center" style="font-weight:bold; color:#fdce50;">Buku Kas</h1>
-                <h6 class="text-center" style="line-height:15px; color:#fdce50; font-weight:bold; padding-bottom:20px">Budaya Akuntabel Kinerja Anggaran 
+                <h1 class="text-center" style="font-weight:bold; color:#fdce50; line-height:0">Buku Kas</h1>
+                <h6 class="text-center" style="line-height:15px; line-height:25px;  padding-top:20px; color:#fdce50; font-weight:bold; padding-bottom:20px">Budaya Akuntabel Kinerja Anggaran 
        Satker</h6>
                     @if(session('errors'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
