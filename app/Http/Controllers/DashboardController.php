@@ -37,6 +37,25 @@ class DashboardController extends Controller
         return response()->json(["table_sub_komponen"=>$table_sub_komponen, "baris"=>$baris, "tb_nota"=>$tb_nota, "merge_table"=>$merge_table]);
     }
 
+    public function laporan_2(){
+        $tb_nota = DB::table("tb_nota")
+        ->where("tb_nota.id_status",3)
+        ->whereNotNull("tb_nota.no_drpp")
+	    
+        ->sum("tb_nota.nominal");
+
+        $merge_table = DB::table("tb_test_detail_transaksi")
+        ->where("tb_test_detail_transaksi.jumlah",">",0)
+        ->where("tb_test_transaksi.status",10)
+        ->join("tb_test_transaksi","tb_test_detail_transaksi.no_sp2d","=","tb_test_transaksi.no_sp2d")
+	    
+	    ->sum("tb_test_detail_transaksi.jumlah");
+
+        $total_realisasi = $tb_nota + $merge_table;
+        
+        return response()->json($total_realisasi);
+    }
+
     public function kondisi_kas(){
         $nota_belum_drpp = DB::table("tb_nota")
         ->whereNull("no_drpp")

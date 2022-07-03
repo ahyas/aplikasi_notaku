@@ -219,7 +219,17 @@ $(document).ready(function(){
                 document.getElementById("saldo").innerHTML = numFormat(saldo);
             }
         }
-    })
+    });
+
+    $.ajax({
+        url:"{{route('dashboard.chart.laporan_2')}}",
+        type:"GET",
+        dataType:"JSON",
+        success:function(data){
+            
+            console.log(data);
+        }
+    });
 
 });
 </script>
