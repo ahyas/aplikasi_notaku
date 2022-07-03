@@ -132,6 +132,9 @@ $(document).ready(function(){
         type:"GET",
         dataType:"JSON",
         success:function(data){
+            var grand_total = 0;
+            var grand_total_realisasi = 0;
+            var grand_total_saldo = 0;
 
             for(let c = 0; c < data.table_sub_komponen.length; c++){
                 //console.log(data.table_sub_komponen[c].id+" "+data.table_sub_komponen[c].nama_komponen);
@@ -152,18 +155,32 @@ $(document).ready(function(){
                 newObj[data.table_sub_komponen[c].nama_komponen] = sub_komponen[c];
                 tb_sub_komponen[c] = {sub_komponen: data.table_sub_komponen[c].nama_komponen, realisasi_sub_komponen :  sub_komponen[c]}
                 var prosentase_realisasi = numFormat((sub_komponen[c]/data.table_sub_komponen[c].pagu)*100);
+                var total_saldo = Number(data.table_sub_komponen[c].pagu - sub_komponen[c]);
                 console.log(prosentase_realisasi)
                 var rows = "<tr>"  
                             + "<td class='yourTableTh'>" + data.table_sub_komponen[c].kode+" - "+data.table_sub_komponen[c].nama_komponen + "</td>"  
                             + "<td class='yourTableTh' align='right'>" + numFormat(data.table_sub_komponen[c].pagu) + "</td>"
                             + "<td class='yourTableTh' align='right' width='150px'>" + numFormat(sub_komponen[c]) +"<br><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width: "+prosentase_realisasi+"%' aria-valuemin='0' aria-valuemax='100'></div><div class='progress-bar bg-secondary' role='progressbar' style='width: '"+Number(100-prosentase_realisasi)+"'% aria-valuemin='0' aria-valuemax='100'></div></div> <b><span>("+ prosentase_realisasi + " %)</span></b></td>"
-                            + "<td class='yourTableTh' align='right'>" + numFormat(Number(data.table_sub_komponen[c].pagu - sub_komponen[c])) + "</td>"    
+                            + "<td class='yourTableTh' align='right'>" + numFormat(total_saldo) + "</td>"    
                             + "</tr>";  
 
                 $('#tb_sub_komponen tbody').append(rows);  
+
+                grand_total+=Number(data.table_sub_komponen[c].pagu);
+                grand_total_realisasi+=sub_komponen[c];
+                grand_total_saldo+=total_saldo;
             }
 
-            console.log(tb_sub_komponen)   
+            var end_row = "<tr style='font-weight:bold'>"
+                            + "<td align='left'>TOTAL:</td>"  
+                            + "<td align='right'>" + numFormat(grand_total) + "</td>"
+                            + "<td align='right'>" + numFormat(grand_total_realisasi) + "</td>"
+                            + "<td align='right'>" + numFormat(grand_total_saldo) + "</td>"      
+                            + "</tr>";  
+
+                $('#tb_sub_komponen tbody').append(end_row);  
+
+            console.log("v "+grand_total)   
 
             const myChart = new Chart(ctx, {
                 type: 'bar',
