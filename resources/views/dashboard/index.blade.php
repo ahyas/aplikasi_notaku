@@ -88,7 +88,13 @@
                                     </table>
                                 </div>
                                 <div class="col-7">
+                                    <p>Realisasi sub komponen</p>
                                     <canvas id="myChart"></canvas>
+                                    <br>
+                                    <p>Realisasi DIPA</p>
+                                    <div style="width:60%">
+                                        <canvas id="myChart2"></canvas>
+                                    </div>
                                 </div>
                             </div>
 
@@ -114,6 +120,8 @@
 $(document).ready(function(){
 
     const ctx = document.getElementById('myChart').getContext('2d');
+    const chart2 = document.getElementById('myChart2').getContext('2d');
+
     var sub_komponen = [];
     var newObj = {};
     var tb_sub_komponen = [];
@@ -164,7 +172,7 @@ $(document).ready(function(){
                             barThickness: 20,
                             maxBarThickness: 20,
                             minBarLength: 10,
-                            label: 'Realisasi anggaran',
+                            label: 'Realisasi Sub Komponen',
                             data: newObj,
                             backgroundColor: [
                           
@@ -173,7 +181,6 @@ $(document).ready(function(){
                             ]
                         }]
                     },
-                    
                     
             });
 
@@ -227,7 +234,27 @@ $(document).ready(function(){
         dataType:"JSON",
         success:function(data){
             
-            console.log(data);
+            console.log(data.total_realisasi);
+
+            const myChart2 = new Chart(chart2, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                    'Saldo',
+                    'Realisasi',
+                ],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [data.saldo, data.total_realisasi],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                    ],
+                    hoverOffset: 4
+                }]
+                },
+                    
+            });
         }
     });
 

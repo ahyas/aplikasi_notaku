@@ -38,6 +38,8 @@ class DashboardController extends Controller
     }
 
     public function laporan_2(){
+        $total_pagu = DB::table("tb_program")->select("pagu")->first();
+
         $tb_nota = DB::table("tb_nota")
         ->where("tb_nota.id_status",3)
         ->whereNotNull("tb_nota.no_drpp")
@@ -52,8 +54,10 @@ class DashboardController extends Controller
 	    ->sum("tb_test_detail_transaksi.jumlah");
 
         $total_realisasi = $tb_nota + $merge_table;
+
+        $saldo = $total_pagu->pagu - $total_realisasi;
         
-        return response()->json($total_realisasi);
+        return response()->json(["total_realisasi"=>$total_realisasi,"saldo"=>$saldo]);
     }
 
     public function kondisi_kas(){
