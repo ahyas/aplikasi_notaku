@@ -171,11 +171,17 @@ $(document).ready(function(){
         dataType:"JSON",
         success:function(data){
             var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
-            console.log(data.jumlah);
-            let jumlah_pengeluaran_terakhir = data.jumlah;
-            document.getElementById("pengeluaran").innerHTML = numFormat(jumlah_pengeluaran_terakhir);
-            let saldo = Number(30000000 - jumlah_pengeluaran_terakhir);
-            document.getElementById("saldo").innerHTML = numFormat(saldo);
+            if(data.nota_belum_drpp == 0){
+                let jumlah_pengeluaran_terakhir = data.table.jumlah;
+                document.getElementById("pengeluaran").innerHTML = numFormat(jumlah_pengeluaran_terakhir);
+                let saldo = Number(30000000 - jumlah_pengeluaran_terakhir);
+                document.getElementById("saldo").innerHTML = numFormat(saldo);
+            }else{
+                let total_pengeluaran = data.table;
+                document.getElementById("pengeluaran").innerHTML = numFormat(total_pengeluaran);
+                let saldo = Number(30000000 - total_pengeluaran);
+                document.getElementById("saldo").innerHTML = numFormat(saldo);
+            }
         }
     })
 

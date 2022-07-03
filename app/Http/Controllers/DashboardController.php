@@ -38,11 +38,22 @@ class DashboardController extends Controller
     }
 
     public function kondisi_kas(){
-        $last_drpp = DB::table("tb_drpp")->max("id");
-        $table = DB::table("tb_drpp")
-        ->where("id", $last_drpp)
-        ->first();
-        
-        return response()->json($table);
+        $nota_belum_drpp = DB::table("tb_nota")
+        ->whereNull("no_drpp")
+        ->count();
+
+        if($nota_belum_drpp==0){
+            $last_drpp = DB::table("tb_drpp")->max("id");
+            $table = DB::table("tb_drpp")
+            ->where("id", $last_drpp)
+            ->first();
+            
+        }else{
+            $table = DB::table("tb_nota")
+            ->whereNull("no_drpp")
+            ->sum("nominal");
+        }
+
+        return response()->json(["table"=>$table, "nota_belum_drpp"=>$nota_belum_drpp]);
     }
 }
