@@ -30,29 +30,12 @@ class VerifikatorController extends Controller
     }
 
     public function verifikasi_nota(){
-        $nota_belum_drpp = DB::table("tb_nota")
+        
+        $total = DB::table("tb_nota")
         ->whereNull("no_drpp")
-        ->count();
+        ->sum("nominal");
 
-        if($nota_belum_drpp==0){
-            $last_drpp = DB::table("tb_drpp")->max("id");
-            $sum = DB::table("tb_drpp")
-            ->where("id", $last_drpp)
-            ->first();
-
-            $total = $sum->jumlah;
-            $total_saldo = 30000000-$total;
-
-        }else{
-            $sum = DB::table("tb_nota")
-            ->whereNull("no_drpp")
-            ->sum("nominal");
-
-            $total = $sum;
-            $total_saldo = 30000000-$total;
-
-        }
-
+        $total_saldo = 30000000-$total;
 
         $table=DB::table("tb_akun")
         ->select("id_akun","keterangan AS akun")
