@@ -44,30 +44,30 @@
                             <div class="col-sm-4">
                                 <div class="card text-white bg-primary">
                                 <div class="card-body">
-                                <div style="float:left"><img src="{{asset('public/image/up.png')}}" style=" display: block;
+                                <div style="float:left"><img src="{{asset('public/image/wallet.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>  
-                                    <h5 class="card-title">Uang Persediaan</h5>
-                                    <p class="card-text"><div style="font-weight:bold; font-size:20px">30,000,000.00</div></p>
+                                    <h5 class="card-title" style="padding-bottom:10px">Uang Persediaan</h5>
+                                    <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0">30,000,000.00</div></p>
                                 </div>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="card text-white bg-success">
                                 <div class="card-body">
-                                <div style="float:left"><img src="{{asset('public/image/pengeluaran.png')}}" style=" display: block;
+                                <div style="float:left"><img src="{{asset('public/image/logo3.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>
-                                    <h5 class="card-title">Pengeluaran</h5>
-                                    <p class="card-text"><div style="font-weight:bold; font-size:20px" id="pengeluaran"></div></p>
+                                    <h5 class="card-title" style="padding-bottom:10px">Pengeluaran</h5>
+                                    <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0" id="pengeluaran"></div></p>
                                 </div>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="card text-white bg-danger">
                                 <div class="card-body">
-                                <div style="float:left"><img src="{{asset('public/image/saldo.png')}}" style=" display: block;
+                                <div style="float:left"><img src="{{asset('public/image/logo4.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>
-                                    <h5 class="card-title">Saldo</h5>
-                                    <p class="card-text"><div style="font-weight:bold; font-size:20px" id="saldo"></div></p>
+                                    <h5 class="card-title" style="padding-bottom:10px">Saldo</h5>
+                                    <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0" id="saldo"></div></p>
                                 </div>
                                 </div>
                             </div>
