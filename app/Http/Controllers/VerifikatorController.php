@@ -77,18 +77,28 @@ class VerifikatorController extends Controller
     public function hitung_saldo_akun($id_akun){
 
         if($id_akun <> 0){
-            $realisasi_akun=DB::table("tb_nota")
-            ->whereNotNull("tb_nota.no_drpp")
-            ->where("id_akun",$id_akun)
-            ->groupBy("tb_nota.id_akun")
-            ->sum("tb_nota.nominal");
 
             $pagu_akun = DB::table("tb_akun")
             ->select("pagu")
             ->where("id_akun",$id_akun)
             ->first();
 
-            $saldo = number_format($pagu_akun->pagu - $realisasi_akun, 2);
+            $tb_nota = DB::table("tb_nota")
+            ->where("tb_nota.id_akun",$id_akun)
+            ->where("tb_nota.id_status",3)
+            ->whereNotNull("tb_nota.no_drpp")
+            ->sum("tb_nota.nominal");
+
+            $tb_ls = DB::table("tb_test_detail_transaksi")
+            ->where("tb_test_detail_transaksi.akun",$id_akun)
+            ->where("tb_test_detail_transaksi.jumlah",">",0)
+            ->where("tb_test_transaksi.status",10)
+            ->join("tb_test_transaksi","tb_test_detail_transaksi.no_sp2d","=","tb_test_transaksi.no_sp2d")
+            ->sum("tb_test_detail_transaksi.jumlah");
+
+            $realisasi = $tb_nota + $tb_ls;
+
+            $saldo = number_format($pagu_akun->pagu - $realisasi, 2);
 
             return $saldo;
         }else{
