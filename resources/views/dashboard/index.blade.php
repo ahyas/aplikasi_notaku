@@ -126,6 +126,8 @@ $(document).ready(function(){
 
     var sub_komponen = [];
     var newObj = {};
+    var pagu = {};
+    var saldo = {};
     var tb_sub_komponen = [];
     var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
 
@@ -155,6 +157,9 @@ $(document).ready(function(){
                 sub_komponen.push(sum_realisasi_akun);                
                
                 newObj[data.table_sub_komponen[c].nama_komponen] = sub_komponen[c];
+                pagu[data.table_sub_komponen[c].nama_komponen] = data.table_sub_komponen[c].pagu;
+                saldo[data.table_sub_komponen[c].nama_komponen] = Number(data.table_sub_komponen[c].pagu - sub_komponen[c]);
+
                 tb_sub_komponen[c] = {sub_komponen: data.table_sub_komponen[c].nama_komponen, realisasi_sub_komponen :  sub_komponen[c]}
                 var prosentase_realisasi = numFormat((sub_komponen[c]/data.table_sub_komponen[c].pagu)*100);
                 var total_saldo = Number(data.table_sub_komponen[c].pagu - sub_komponen[c]);
@@ -182,23 +187,43 @@ $(document).ready(function(){
 
                 $('#tb_sub_komponen tbody').append(end_row);  
 
-            console.log("v "+grand_total)   
-
             const myChart = new Chart(ctx, {
                 type: 'bar',
                     data: {
-                        datasets: [{
-                            barThickness: 20,
-                            maxBarThickness: 20,
-                            minBarLength: 10,
-                            label: 'Realisasi Sub Komponen',
-                            data: newObj,
-                            backgroundColor: [
-                          
-                            'rgb(54, 162, 235)',
-                            
-                            ]
-                        }]
+                        datasets: 
+                        [
+                            {
+                                barThickness: 10,
+                                maxBarThickness: 20,
+                                minBarLength: 10,
+                                label: 'Realisasi',
+                                data: newObj,
+                                backgroundColor: [ 
+                                    'rgb(67, 184, 31)',
+                                ]
+                            },
+                            {
+                                barThickness: 10,
+                                maxBarThickness: 20,
+                                minBarLength: 10,
+                                label: 'Pagu ',
+                                data: pagu,
+                                backgroundColor: [ 
+                                    'rgb(54, 162, 235)',
+                                ]
+                            },
+                            {
+                                barThickness: 10,
+                                maxBarThickness: 20,
+                                minBarLength: 10,
+                                label: 'Saldo ',
+                                data: saldo,
+                                backgroundColor: [ 
+                                    'rgb(255, 99, 132)',
+                                ]
+                            },
+
+                        ]
                     },
                     
             });
