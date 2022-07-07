@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel = "icon" href ="{{asset('public/image/lontar.png')}}" type = "image/x-icon">
+    <link rel = "icon" href ="{{asset('public/image/logo_.png')}}" type = "image/x-icon">
 </head>
 <style type="text/css">
 

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Buku Kas</title>
 
     <!-- Fonts -->
     <link rel='icon' href="{{asset('public/image/logo_.png')}}" type='image/x-icon' sizes="16x16" />
