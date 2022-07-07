@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
+    <link rel='icon' href="{{asset('public/image/logo_.png')}}" type='image/x-icon' sizes="16x16" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
@@ -216,11 +217,11 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 @if(Auth::user()->level==2)
-                                <img src="{{asset('public/image/eddyw.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/eddyw.jpg')}}" width="30" height="30" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==3)
-                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="40" height="40" class="rounded-circle" style="margin:0"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="30" height="30" class="rounded-circle" style="margin:0"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==4)
-                                <img src="{{asset('public/image/myamin.jpg')}}" width="40" height="40" class="rounded-circle"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/myamin.jpg')}}" width="30" height="30" class="rounded-circle"/> {{ Auth::user()->name }}
                                 @endif
                                 </a>
 

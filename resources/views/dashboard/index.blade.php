@@ -78,7 +78,7 @@
                             <div class="row">
                                 <div class="col-5">
                                     <div style="height:500px; overflow:auto;">
-                                        <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:12px; color:#575656;">
+                                        <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:13px; color:#575656;">
                                             <thead>    						
                                                 <th>Sub komponen</th>
                                                 <th style="text-align:right">Pagu</th>
@@ -90,7 +90,7 @@
                                     </div>
                                     <br>
                                     <h5 style="font-weight:bold">Daftar revolving GUP</h5>
-                                    <table id="tb_gup" class="table table-striped tb_gup" style="width:70%; color:#575656;">
+                                    <table id="tb_gup" class="table table-striped tb_gup" style="width:70%; color:#575656; font-size:13px">
                                     <thead>    						
                                         <th>No DRPP</th>
                                         <th style="text-align:right">Total</th>
@@ -99,10 +99,11 @@
                                     </table>
                                 </div>
                                 <div class="col-7">
-                                    <p>Realisasi sub komponen</p>
-                                    <canvas id="myChart"></canvas>
+                                    
+                                        <canvas id="myChart"></canvas>
+                                    
                                     <br>
-                                    <p>Realisasi DIPA</p>
+                                    
                                     <div style="width:50%;" >
                                         <canvas id="myChart2"></canvas>
                                     </div>
@@ -225,6 +226,22 @@ $(document).ready(function(){
 
                         ]
                     },
+                    options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Realisasi sub komponen'
+                        }
+                        },
+                        scales: {
+                        y: {
+                            min: 100000,
+                            max: 3000000000,
+                            
+                        }
+                    }
+                },
                     
             });
 
@@ -278,18 +295,31 @@ $(document).ready(function(){
                 type: 'doughnut',
                 data: {
                     labels: [
-                    'Saldo',
-                    'Realisasi',
-                ],
-                datasets: [{
-                    label: 'My First Dataset',
-                    data: [data.saldo, data.total_realisasi],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
+                        'Saldo', 'Realisasi'
                     ],
-                    hoverOffset: 4
-                }]
+                    datasets: [
+                    {
+                        label: 'Pagu2',
+                        data: [data.saldo, data.total_realisasi],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(67, 184, 31)',
+                        ],
+                        hoverOffset: 4
+                    }
+                ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Realisasi DIPA'
+                        },
+                    legend: {
+                        position: 'top',
+                        }
+                    }
                 },
                     
             });

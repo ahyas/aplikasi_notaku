@@ -57,7 +57,7 @@ class DashboardController extends Controller
 
         $saldo = $total_pagu->pagu - $total_realisasi;
         
-        return response()->json(["total_realisasi"=>$total_realisasi,"saldo"=>$saldo]);
+        return response()->json(["total_realisasi"=>$total_realisasi,"saldo"=>$saldo,"pagu"=>$total_pagu->pagu]);
     }
 
     public function kondisi_kas(){
