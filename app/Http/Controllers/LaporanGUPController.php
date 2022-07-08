@@ -16,6 +16,7 @@ class LaporanGUPController extends Controller
         $table=DB::table("tb_drpp")
         ->where("status",7)
         ->select("id", "no_drpp",DB::raw("DATE_FORMAT(tgl, '%d-%m-%Y') as tgl"),"jumlah AS total","file_drpp")
+        ->orderBy("id","ASC")
         ->get();
         
         return DataTables::of($table)->make(true);

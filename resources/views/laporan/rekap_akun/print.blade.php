@@ -289,7 +289,7 @@
     
 @endforeach
 <?php $num++; ?>
-<tr>
+<tr style="font-size:9px">
     <td height="30px" colspan="4" style="text-align: center; background-color:#fff1b0">
         <?php $jml_isi = count($total_transaksi_akun)-12; ?>
         <b>Realisasi per bulan</b>

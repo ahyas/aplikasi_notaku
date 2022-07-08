@@ -18,6 +18,7 @@
                             <th>Action</th>
                         </thead>
 						<tbody></tbody>
+                        
 				    </table>
                 </div>
             </div>
@@ -42,6 +43,13 @@
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="text-align:left" colspan="6">TOTAL : </th>
+                                <th style="text-align:right"></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -192,10 +200,7 @@ $(document).ready(function(){
         ]
     });
 
-    $("body").on("click",".detail",function(){
-        let id_drpp = $(this).data("id_drpp");
-        console.log(id_drpp);
-        $(".tb_nota").DataTable().clear().destroy();
+    function getDaftarNota(id_drpp){
         $(".tb_nota").DataTable({
             ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
             serverside:false,
@@ -242,8 +247,35 @@ $(document).ready(function(){
                         return"<button class='btn btn-primary btn-sm' id='nota_pembelian' data-id_nota='"+data+"' data-file='"+full["file"]+"'>Nota</button>";
                     }
                 }
-            ]            
+            ],
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+                var numFormat = $.fn.DataTable.render.number( '\,', '.', 2, '' ).display;
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+
+                // Total over all pages
+                total = api.column(6).data().reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                
+                // Update footer
+                $(api.column(6).footer()).html(numFormat(total));
+                
+            },            
         });
+    }
+
+    getDaftarNota("initial value");
+
+    $("body").on("click",".detail",function(){
+        let id_drpp = $(this).data("id_drpp");
+        console.log(id_drpp);
+        $(".tb_nota").DataTable().clear().destroy();
+        getDaftarNota(id_drpp);
+        
     });
 
     $("body").on("click","#lihat_spby",function(){

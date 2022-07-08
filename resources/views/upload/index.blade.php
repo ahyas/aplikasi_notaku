@@ -17,7 +17,7 @@ div.slider {
     display: none;
 }
 </style>
-@if(Auth::user()->level==3)
+@if(Auth::user()->level==4)
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-10" style="margin-bottom:20px;">
@@ -35,7 +35,7 @@ div.slider {
 						<tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th style="text-align:center" colspan="2">TOTAL : </th>
+                                <th style="text-align:left" colspan="2">TOTAL : </th>
                                 <th style="text-align:right"></th>
                                 <th></th>
                             </tr>
@@ -86,7 +86,7 @@ div.slider {
                         <tbody class="our-table"></tbody>
                         <tfoot>
                             <tr>
-                                <th style="text-align:center" colspan="6">TOTAL : </th>
+                                <th style="text-align:left" colspan="6">TOTAL : </th>
                                 <th style="text-align:right"></th>
                                 <th></th>
                                 <th></th>
@@ -464,14 +464,7 @@ $(document).ready(function(){
         document.getElementById("btnUploadSubmit").disabled=false;
     });
 
-    $("body").on("click",".detail",function(){
-        console.log("detail ")
-        
-        let id_drpp = $(this).data("id_drpp");
-        $("#id_drpp").val(id_drpp);
-
-        $(".tb_nota").DataTable().clear().destroy();
-
+    function getDaftarNota(id_drpp){
         var tb_nota = $(".tb_nota").DataTable({
             ajax    :{url:"{{route('upload.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
             serverside:false,
@@ -568,6 +561,19 @@ $(document).ready(function(){
                 }
             ]
         });
+    }
+
+    getDaftarNota("initialValue");
+
+    $("body").on("click",".detail",function(){
+        console.log("detail ")
+        
+        let id_drpp = $(this).data("id_drpp");
+        $("#id_drpp").val(id_drpp);
+
+        $(".tb_nota").DataTable().clear().destroy();
+
+        getDaftarNota(id_drpp);
 
         });
 

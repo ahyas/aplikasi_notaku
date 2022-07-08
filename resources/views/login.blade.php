@@ -68,7 +68,7 @@
 
 </style>
 
-<body style=" background-color: white;">
+<body style=" background-color: #f4f5f8;">
 
             <div class="login-form">  
             <img src="{{asset('public/image/logo_.png')}}" style=" display: block;

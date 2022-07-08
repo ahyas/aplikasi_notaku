@@ -82,7 +82,7 @@
 
 	</style>
 </head>
-<body>
+<body style="background-color:#f4f5f8">
 
     <div id="app">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-secondary">
@@ -154,7 +154,7 @@
                             
                         </li>
                         
-                        @if(Auth::user()->level==3)
+                        @if(Auth::user()->level==4)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Upload
@@ -217,11 +217,11 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 @if(Auth::user()->level==2)
-                                <img src="{{asset('public/image/eddyw.jpg')}}" width="30" height="30" class="rounded-circle"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/eddyw.jpg')}}" width="30" height="30" class="rounded-circle" style="border:1px solid white"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==3)
-                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="30" height="30" class="rounded-circle" style="margin:0"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/ahyasw.jpg')}}" width="30" height="30" class="rounded-circle" style="border:1px solid white"/> {{ Auth::user()->name }}
                                 @elseif(Auth::user()->level==4)
-                                <img src="{{asset('public/image/myamin.jpg')}}" width="30" height="30" class="rounded-circle"/> {{ Auth::user()->name }}
+                                <img src="{{asset('public/image/myamin.jpg')}}" width="30" height="30" class="rounded-circle" style="border:1px solid white"/> {{ Auth::user()->name }}
                                 @endif
                                 </a>
 

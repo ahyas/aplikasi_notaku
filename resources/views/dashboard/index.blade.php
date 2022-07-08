@@ -46,7 +46,7 @@
                                 <div class="card-body">
                                 <div style="float:left"><img src="{{asset('public/image/wallet.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>  
-                                    <h5 class="card-title" style="padding-bottom:10px">Uang Persediaan</h5>
+                                    <h5 class="card-title" style="padding-bottom:10px">Pagu Uang Persediaan</h5>
                                     <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0">30,000,000.00</div></p>
                                 </div>
                                 </div>
@@ -56,7 +56,7 @@
                                 <div class="card-body">
                                 <div style="float:left"><img src="{{asset('public/image/logo3.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>
-                                    <h5 class="card-title" style="padding-bottom:10px">Pengeluaran</h5>
+                                    <h5 class="card-title" style="padding-bottom:10px">Total pengeluaran berjalan</h5>
                                     <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0" id="pengeluaran"></div></p>
                                 </div>
                                 </div>
@@ -66,36 +66,39 @@
                                 <div class="card-body">
                                 <div style="float:left"><img src="{{asset('public/image/logo4.png')}}" style=" display: block;
    margin-right: 20px; width:80px"/></div>
-                                    <h5 class="card-title" style="padding-bottom:10px">Saldo</h5>
+                                    <h5 class="card-title" style="padding-bottom:10px">Saldo Uang Persediaan</h5>
                                     <p class="card-text"><div style="font-weight:bold; font-size:30px; line-height:0" id="saldo"></div></p>
                                 </div>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <h5 style="font-weight:bold">Realisasi anggaran</h5>
+                        <h5 style="font-weight:bold">Realisasi anggaran <span class="badge rounded-pill bg-primary" style="color:white; font-size:15px;"><a href="{{route('laporan.rekap_akun')}}" target="_blank" role="button" style="color:white; text-decoration:none">Detail</a></span></h5>
                         
                             <div class="row">
                                 <div class="col-5">
                                     <div style="height:500px; overflow:auto;">
-                                        <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:13px; color:#575656;">
+                                        <table id="tb_sub_komponen" class="table table-striped tb_sub_komponen" style="font-size:13px; color:#575656; width:100%">
                                             <thead>    						
                                                 <th>Sub komponen</th>
                                                 <th style="text-align:right">Pagu</th>
                                                 <th style="text-align:right">Realisasi</th>
+                                                <th style="text-align:right;">Prosentase</th>
                                                 <th style="text-align:right">Saldo</th>
                                             </thead>
                                             <tbody></tbody>
                                         </table>
                                     </div>
                                     <br>
-                                    <h5 style="font-weight:bold">Daftar revolving GUP</h5>
+                                    <h5 style="font-weight:bold">Daftar revolving GUP <span class="badge rounded-pill bg-primary" style="color:white; font-size:15px;"><a href="{{route('laporan_gup.index')}}" target="_blank" role="button" style="color:white; text-decoration:none">Detail</a></span></h5>
                                     <table id="tb_gup" class="table table-striped tb_gup" style="width:70%; color:#575656; font-size:13px">
-                                    <thead>    						
-                                        <th>No DRPP</th>
-                                        <th style="text-align:right">Total</th>
-                                        <th style="text-align:right">Prosentase</th>
-                                    </thead>
+                                        <thead>    						
+                                            <th>No DRPP</th>
+                                            <th style="text-align:right">Pagu UP</th>
+                                            <th style="text-align:right">Pengeluaran</th>
+                                            <th style="text-align:right">Saldo UP</th>
+                                            <th style="text-align:right">Prosentase</th>
+                                        </thead>
                                     <tbody></tbody>
                                     </table>
                                 </div>
@@ -167,10 +170,11 @@ $(document).ready(function(){
                 var total_saldo = Number(data.table_sub_komponen[c].pagu - sub_komponen[c]);
                 console.log(prosentase_realisasi)
                 var rows = "<tr>"  
-                            + "<td class='yourTableTh'>" + data.table_sub_komponen[c].kode+" - "+data.table_sub_komponen[c].nama_komponen + "</td>"  
-                            + "<td class='yourTableTh' align='right'>" + numFormat(data.table_sub_komponen[c].pagu) + "</td>"
-                            + "<td class='yourTableTh' align='right' width='170px'><span>" + numFormat(sub_komponen[c]) +"<b> ("+ prosentase_realisasi + " %)</b></span><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width: "+prosentase_realisasi+"%' aria-valuemin='0' aria-valuemax='100'></div><div class='progress-bar bg-secondary' role='progressbar' style='width: '"+Number(100-prosentase_realisasi)+"'% aria-valuemin='0' aria-valuemax='100'></div></div></td>"
-                            + "<td class='yourTableTh' align='right'>" + numFormat(total_saldo) + "</td>"    
+                            + "<td>" + data.table_sub_komponen[c].kode+" - "+data.table_sub_komponen[c].nama_komponen + "</td>"  
+                            + "<td align='right'>" + numFormat(data.table_sub_komponen[c].pagu) + "</td>"
+                            + "<td align='right'><span>" + numFormat(sub_komponen[c]) + "</span><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width: "+prosentase_realisasi+"%' aria-valuemin='0' aria-valuemax='100'></div><div class='progress-bar bg-primary' role='progressbar' style='width: '"+Number(100-prosentase_realisasi)+"'% aria-valuemin='0' aria-valuemax='100'></div></div></td>"
+                            + "<td align='right'><b> ("+ prosentase_realisasi + " %)</b> </td>"
+                            + "<td align='right'>" + numFormat(total_saldo) + "</td>"    
                             + "</tr>";  
 
                 $('#tb_sub_komponen tbody').append(rows);  
@@ -184,6 +188,7 @@ $(document).ready(function(){
                             + "<td align='left'>TOTAL:</td>"  
                             + "<td align='right'>" + numFormat(grand_total) + "</td>"
                             + "<td align='right'>" + numFormat(grand_total_realisasi) + "</td>"
+                            + "<td align='right'></td>"
                             + "<td align='right'>" + numFormat(grand_total_saldo) + "</td>"      
                             + "</tr>";  
 
@@ -237,8 +242,8 @@ $(document).ready(function(){
                         },
                         scales: {
                         y: {
-                            min: 100000,
-                            max: 3000000000,
+                            min: 1000000,
+                            
                             
                         }
                     }
@@ -253,6 +258,7 @@ $(document).ready(function(){
         ajax:"{{route('laporan_gup.list_gup')}}",
         processing:false,
         searching:false,
+        ordering:false,
         serverside:false,
         scrollY:"300px",
         paging:false,
@@ -266,8 +272,18 @@ $(document).ready(function(){
                     }
                 }
             },
+            {data:"total",className:'dt-body-right',
+                render:function(data, type, full){
+                    return numFormat(30000000);
+                }
+            },
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
-            {data:"total", 
+            {data:"total", className:'dt-body-right',
+                render:function(data){
+                    return numFormat(Number(30000000 - data));
+                }
+            },
+            {data:"total", className:'dt-body-right',
                 render:function(data, type, full){
                     let prosentase_revolving = Number((data / 30000000)*100);
                     return numFormat(prosentase_revolving)+" %";
