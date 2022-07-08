@@ -94,6 +94,7 @@
                                     <thead>    						
                                         <th>No DRPP</th>
                                         <th style="text-align:right">Total</th>
+                                        <th style="text-align:right">Prosentase</th>
                                     </thead>
                                     <tbody></tbody>
                                     </table>
@@ -266,6 +267,12 @@ $(document).ready(function(){
                 }
             },
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
+            {data:"total", 
+                render:function(data, type, full){
+                    let prosentase_revolving = Number((data / 30000000)*100);
+                    return numFormat(prosentase_revolving)+" %";
+                }
+            }
         ]
     });
 
@@ -274,9 +281,10 @@ $(document).ready(function(){
         type:"GET",
         dataType:"JSON",
         success:function(data){
-            
+                
                 let total_pengeluaran = data.table;
-                document.getElementById("pengeluaran").innerHTML = numFormat(total_pengeluaran);
+                let prosentase_pengeluaran = Number(total_pengeluaran / 30000000)*100;
+                document.getElementById("pengeluaran").innerHTML = numFormat(total_pengeluaran)+" <span style='font-size:25px'>("+numFormat(prosentase_pengeluaran)+" %)</span>";
                 let saldo = Number(30000000 - total_pengeluaran);
                 document.getElementById("saldo").innerHTML = numFormat(saldo);
             
