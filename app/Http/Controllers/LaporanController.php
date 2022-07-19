@@ -87,7 +87,7 @@ class LaporanController extends Controller
 
         //mengambil transaksi nota
         $tb_transaksi_akun=DB::table("tb_nota")
-        ->select(DB::raw('SUBSTR(tb_nota.updated_at, 7,1) as num_bulan'),"tb_komponen.keterangan as keterangan_akun","tb_komponen.id as id_jenis_akun", "tb_akun.id_komponen","tb_akun.id_akun AS id_akun", "tb_nota.nominal as total_nominal","tb_nota.id_coa")
+        ->select(DB::raw('SUBSTR(tb_nota.created_at, 7,1) as num_bulan'),"tb_komponen.keterangan as keterangan_akun","tb_komponen.id as id_jenis_akun", "tb_akun.id_komponen","tb_akun.id_akun AS id_akun", "tb_nota.nominal as total_nominal","tb_nota.id_coa")
         ->whereNotNull("tb_nota.no_drpp")
         ->where("tb_nota.id_status",3)
         ->join("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
