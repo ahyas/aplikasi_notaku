@@ -63,7 +63,7 @@ class LSController extends Controller
         Excel::import(new DetailAkunImport($request["no_sp2d"]), $file);
 
         $result = DB::table("tb_test_detail_transaksi")->where("no_sp2d", $request["no_sp2d"])->get();
-        DB::table("tb_test_detail_transaksi")->whereNull("akun")->delete();
+        DB::table("tb_test_detail_transaksi")->whereNull("akun")->orWhere("jumlah",0)->delete();
       
         return redirect()->back();
     

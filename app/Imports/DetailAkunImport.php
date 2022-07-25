@@ -31,7 +31,7 @@ class DetailAkunImport implements ToModel, WithHeadingRow
 
     public function headingRow(): int
     {
-        return 4;
+        return 8;
     }
 
 }
