@@ -26,7 +26,7 @@ class LaporanGUPController extends Controller
 
         $table = DB::table("tb_nota")
         ->select(DB::raw("DATE_FORMAT(tb_nota.created_at, '%d-%m-%Y') as tanggal"),"tb_nota.id_subcoa","tb_nota.deskripsi","tb_nota.id","tb_nota.file","tb_nota.file_spby","tb_nota.file_kwitansi","tb_nota.id_akun","tb_nota.id_coa","tb_coa.keterangan AS detail_coa","tb_akun.keterangan AS nama_akun","tb_status.status","tb_nota.id_status","tb_nota.no_spby","tb_nota.no_kwitansi","tb_nota.nominal","tb_nota.cara_bayar")
-        ->where("tb_nota.no_drpp",$request['id_drpp'])
+        ->where("tb_nota.no_drpp",$request['no_drpp'])
         ->leftjoin("tb_coa", "tb_nota.id_coa","=","tb_coa.id_coa")
         ->leftjoin("tb_akun","tb_nota.id_akun","=","tb_akun.id_akun")
         ->leftJoin("tb_status","tb_nota.id_status","=","tb_status.id")

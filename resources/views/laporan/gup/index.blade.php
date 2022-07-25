@@ -193,16 +193,16 @@ $(document).ready(function(){
             },
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"id",
-                mRender:function(data){
-                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+data+"'>Detail</button>";
+                mRender:function(data, type, full){
+                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+full["no_drpp"]+"' >Detail</button>";
                 }
             }
         ]
     });
 
-    function getDaftarNota(id_drpp){
+    function getDaftarNota(no_drpp){
         $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
+            ajax    :{url:"{{route('laporan_gup.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
             serverside:false,
             paging:false,
             scrollY:"400px",
@@ -271,10 +271,9 @@ $(document).ready(function(){
     getDaftarNota("initial value");
 
     $("body").on("click",".detail",function(){
-        let id_drpp = $(this).data("id_drpp");
-        console.log(id_drpp);
+        let no_drpp = $(this).data("no_drpp");
         $(".tb_nota").DataTable().clear().destroy();
-        getDaftarNota(id_drpp);
+        getDaftarNota(no_drpp);
         
     });
 
