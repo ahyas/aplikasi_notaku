@@ -454,7 +454,7 @@ $(document).ready(function(){
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"no_drpp",
                 mRender:function(data, type, full){
-                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-secondary btn-sm upload_drpp' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Upload</button>";
+                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-secondary btn-sm upload_drpp' data-no_drpp='"+data+"'>Upload</button>";
                 }
             }
         ]
@@ -464,9 +464,9 @@ $(document).ready(function(){
         document.getElementById("btnUploadSubmit").disabled=false;
     });
 
-    function getDaftarNota(id_drpp){
+    function getDaftarNota(no_drpp){
         var tb_nota = $(".tb_nota").DataTable({
-            ajax    :{url:"{{route('upload.list_nota')}}", type:"GET", data:{id_drpp:id_drpp}},
+            ajax    :{url:"{{route('upload.list_nota')}}", type:"GET", data:{no_drpp:no_drpp}},
             serverside:false,
             ordering:false,
             scrollY:"250px",
@@ -566,14 +566,15 @@ $(document).ready(function(){
     getDaftarNota("initialValue");
 
     $("body").on("click",".detail",function(){
+
         console.log("detail ")
         
-        let id_drpp = $(this).data("id_drpp");
-        $("#id_drpp").val(id_drpp);
+        let no_drpp = $(this).data("no_drpp");
+        $("#id_drpp").val(no_drpp);
 
         $(".tb_nota").DataTable().clear().destroy();
 
-        getDaftarNota(id_drpp);
+        getDaftarNota(no_drpp);
 
         });
 
@@ -607,10 +608,8 @@ $(document).ready(function(){
 });
 
 $("body").on("click", ".upload_drpp", function(){
-    let id_drpp = $(this).data("id_drpp");
-    
     let no_drpp = $(this).data("no_drpp");
-    $("#id_drpp2").val(id_drpp);
+    
     $("#no_drpp").val(no_drpp);
     $("#file_drpp").val("");
     document.getElementById("simpan_drpp").disabled = true;
