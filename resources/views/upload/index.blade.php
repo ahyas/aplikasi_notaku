@@ -454,7 +454,7 @@ $(document).ready(function(){
             {data:"total", className:'dt-body-right', render: $.fn.DataTable.render.number(',', '.', 2, '')},
             {data:"no_drpp",
                 mRender:function(data, type, full){
-                    return"<button class='btn btn-primary btn-sm detail' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-secondary btn-sm upload_drpp' data-no_drpp='"+data+"'>Upload</button>";
+                    return"<button class='btn btn-primary btn-sm detail' data-id_drpp='"+full["id_drpp"]+"' data-no_drpp='"+data+"'>Detail</button> <button class='btn btn-secondary btn-sm upload_drpp' data-no_drpp='"+data+"'>Upload</button>";
                 }
             }
         ]
@@ -565,18 +565,18 @@ $(document).ready(function(){
 
     getDaftarNota("initialValue");
 
-    $("body").on("click",".detail",function(){
-
-        console.log("detail ")
-        
+    $("body").on("click",".detail",function(){        
         let no_drpp = $(this).data("no_drpp");
-        $("#id_drpp").val(no_drpp);
+        let id_drpp2 = $(this).data("id_drpp");
+        console.log(no_drpp);
 
+        $("#id_drpp2").val(id_drpp2);
+        $("#no_drpp").val(no_drpp);
         $(".tb_nota").DataTable().clear().destroy();
 
         getDaftarNota(no_drpp);
 
-        });
+    });
 
 
         $("body").on("click","#lihat_spby",function(){

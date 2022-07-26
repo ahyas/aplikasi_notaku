@@ -10,7 +10,7 @@
 
                 <div class="card-body">
 
-                <input type="hidden" value="{{$id_drpp}}" class="form-control form-control-sm id_drpp">
+                <input type="text" value="{{$id_drpp}}" class="form-control form-control-sm id_drpp">
                     @if(Auth::user()->level == 4)
                     <button class="btn btn-primary btn-sm tambah_drpp " style="margin-bottom:20px">Tambah</button>
                     @else

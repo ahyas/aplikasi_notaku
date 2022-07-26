@@ -98,6 +98,12 @@ class UploadController extends Controller
             "file_drpp"=>$fileName,
         ]);
 
+        DB::table("tb_nota")
+        ->where("no_drpp",0)
+        ->update([
+            "no_drpp"=>$request["no_drpp"]
+        ]);
+
         return back()->with('success','File DRPP '.$fileName.' berhasil diupload.')->with('file',$fileName);
     }
     

@@ -101,6 +101,7 @@ class drppController extends Controller
         DB::table("tb_drpp")
         ->insert([
             "id"=>$request["id_drpp"],
+            "no_drpp"=>$request["id_drpp"],
             "tgl"=>$timestamp,
             "jumlah"=>$total,
             "status"=>6
