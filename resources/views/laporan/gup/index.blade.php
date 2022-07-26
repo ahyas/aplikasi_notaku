@@ -274,6 +274,7 @@ $(document).ready(function(){
         let no_drpp = $(this).data("no_drpp");
         $(".tb_nota").DataTable().clear().destroy();
         getDaftarNota(no_drpp);
+        console.log(no_drpp)
         
     });
 
