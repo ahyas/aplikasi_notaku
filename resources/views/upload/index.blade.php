@@ -311,7 +311,7 @@ div.slider {
 					{{csrf_field()}}
                     
 					<div class="form-group">
-                        <input type="hidden" name="id_drpp2" id="id_drpp2">
+                        <input type="text" name="id_drpp2" id="id_drpp2">
                         <label for="name" class="col-sm-12 control-label"><b>No. DRPP</b></label>
 						<div class="col-sm-12">
                             <input type="text" name="no_drpp" id="no_drpp" class="form-control">

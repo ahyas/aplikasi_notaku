@@ -99,7 +99,7 @@ class UploadController extends Controller
         ]);
 
         DB::table("tb_nota")
-        ->where("no_drpp",0)
+        ->where("no_drpp",$request["id_drpp2"])
         ->update([
             "no_drpp"=>$request["no_drpp"]
         ]);
